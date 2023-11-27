@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "FinancesDB",
-    platforms: [.iOS(.v16), .macOS("14.2")],
+    platforms: [.iOS("17.2"), .macOS("14.2")],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
