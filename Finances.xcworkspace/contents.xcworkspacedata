@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:packages/FinancesCore">
+   </FileRef>
+   <FileRef
+      location = "group:apps/FinancesMac/FinancesMac.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:packages/FinancesApp">
    </FileRef>
 </Workspace>
