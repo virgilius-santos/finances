@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "FinancesApp",
-    platforms: [.iOS(.v16), .macOS("14.2")],
+    platforms: [.iOS("17.2"), .macOS("14.2")],
     products: [
         .library(
             name: "FinancesApp",
