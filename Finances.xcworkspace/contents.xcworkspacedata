@@ -13,4 +13,10 @@
    <FileRef
       location = "group:packages/FinancesDB">
    </FileRef>
+   <FileRef
+      location = "group:packages/FinancesCore/Tests/FinancesCore.xctestplan">
+   </FileRef>
+   <FileRef
+      location = "group:packages/FinancesApp/FinancesApp.xctestplan">
+   </FileRef>
 </Workspace>

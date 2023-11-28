@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "E998CB0F-B21D-40B0-90D2-610C1D206CBC",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "FinancesAppTests",
+        "name" : "FinancesAppTests"
+      }
+    }
+  ],
+  "version" : 1
+}
