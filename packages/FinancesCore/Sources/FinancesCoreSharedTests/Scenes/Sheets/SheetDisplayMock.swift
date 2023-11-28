@@ -30,6 +30,28 @@ public class SheetDisplayMock: SheetDisplay {
     public func showError() {
         showErrorImpl()
     }
+    
+    public func configureDisplayEmptyData(sendMessage: @escaping (String) -> Void) {
+        showEmptyDataImpl = {
+            sendMessage("display emptyData")
+        }
+    }
+    
+    public func configureDisplaySheets(
+        toReceive sheets: SheetsViewModel,
+        sendMessage: @escaping (String) -> Void
+    ) {
+        showSheetsImpl = { [file, line] sheetsReceived in
+            XCTAssertEqual(sheetsReceived, sheets, "invalid sheets received", file: file, line: line)
+            sendMessage("display sheets")
+        }
+    }
+    
+    public func configureDisplayError(sendMessage: @escaping (String) -> Void) {
+        showErrorImpl = {
+            sendMessage("display error")
+        }
+    }
 }
 
 public extension SheetsViewModel {

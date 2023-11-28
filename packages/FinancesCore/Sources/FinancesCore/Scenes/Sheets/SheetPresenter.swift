@@ -10,7 +10,8 @@ public class SheetPresenter {
     }
     
     public func load() {
-        store.getSheets { result in
+        store.getSheets { [weak self] result in
+            guard let self else { return }
             switch result {
             case let .success(sheets) where sheets.isEmpty:
                 self.display.showEmptyData()

@@ -17,6 +17,17 @@ public class SheetStoreMock: SheetStore {
     public func getSheets(completion: @escaping (SheetsResult) -> Void) {
         getSheetsImpl(completion)
     }
+    
+    public var getSheetsCompletion: (() -> Void)?
+    public func configureGetSheets(
+        toCompleteWith result: SheetStore.SheetsResult = .success([]),
+        sendMessage: @escaping (String) -> Void
+    ) {
+        getSheetsImpl = { [weak self] completion in
+            self?.getSheetsCompletion = { completion(result) }
+            sendMessage("store data request")
+        }
+    }
 }
 
 public extension SheetDTO {

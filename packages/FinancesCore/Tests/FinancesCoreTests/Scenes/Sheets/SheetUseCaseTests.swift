@@ -24,13 +24,14 @@ final class SheetUseCaseTests: XCTestCase {
             sut: sut,
             using: doubles,
             given: { doubles in
-                doubles.configureGetSheets(toCompleteWith: .success([]))
+                doubles.getSheetsResult = .success([])
+                doubles.configureGetSheets()
                 doubles.configureDisplayEmptyData()
             },
             when: { sut, _ in sut.load() },
             expect: ["store data request"],
             and: (
-                when: { _, doubles in doubles.receiveSheetResult() },
+                when: { _, doubles in doubles.receiveAsyncSheetResult() },
                 expect: ["display emptyData"]
             )
         )
@@ -43,13 +44,14 @@ final class SheetUseCaseTests: XCTestCase {
             sut: sut,
             using: doubles,
             given: { doubles in
-                doubles.configureGetSheets(toCompleteWith: .failure(.generic))
+                doubles.getSheetsResult = .failure(.generic)
+                doubles.configureGetSheets()
                 doubles.configureDisplayError()
             },
             when: { sut, _ in sut.load() },
             expect: ["store data request"],
             and: (
-                when: { _, doubles in doubles.receiveSheetResult() },
+                when: { _, doubles in doubles.receiveAsyncSheetResult() },
                 expect: ["display error"]
             )
         )
@@ -63,14 +65,16 @@ final class SheetUseCaseTests: XCTestCase {
             using: doubles,
             given: { doubles in
                 let dto = SheetDTO.fixture(id: UUID())
+                doubles.getSheetsResult = .success([dto])
                 let viewModel = SheetsViewModel.fixture(items: [.fixture(id: dto.id)])
-                doubles.configureGetSheets(toCompleteWith: .success([dto]))
-                doubles.configureDisplaySheets(toReceive: viewModel)
+                doubles.sheetsToTeceive = viewModel
+                doubles.configureGetSheets()
+                doubles.configureDisplaySheets()
             },
             when: { sut, _ in sut.load() },
             expect: ["store data request"],
             and: (
-                when: { _, doubles in doubles.receiveSheetResult() },
+                when: { _, doubles in doubles.receiveAsyncSheetResult() },
                 expect: ["display sheets"]
             )
         )
@@ -97,37 +101,37 @@ private extension SheetUseCaseTests {
         
         lazy var store = SheetStoreMock(file: file, line: line)
         
-        private var getSheetsCompletion: (() -> Void)?
-        func configureGetSheets(toCompleteWith result: SheetStore.SheetsResult = .success([])) {
-            store.getSheetsImpl = { [weak self] completion in
-                self?.getSheetsCompletion = { completion(result) }
-                self?.events.append("store data request")
-            }
+        var getSheetsResult = SheetStore.SheetsResult.success([])
+        func configureGetSheets() {
+            store.configureGetSheets(
+                toCompleteWith: getSheetsResult,
+                sendMessage: { [weak self] in self?.events.append($0) }
+            )
         }
         
-        func receiveSheetResult() {
+        func receiveAsyncSheetResult() {
             events = []
-            getSheetsCompletion?()
+            store.getSheetsCompletion?()
         }
         
         lazy var display = SheetDisplayMock(file: file, line: line)
         
         func configureDisplayEmptyData() {
-            display.showEmptyDataImpl = { [weak self] in
-                self?.events.append("display emptyData")
+            display.configureDisplayEmptyData { [weak self] in
+                self?.events.append($0)
             }
         }
         
-        func configureDisplaySheets(toReceive sheets: SheetsViewModel) {
-            display.showSheetsImpl = { [file, line, weak self] sheetsReceived in
-                XCTAssertEqual(sheetsReceived, sheets, "invalid sheets received", file: file, line: line)
-                self?.events.append("display sheets")
+        var sheetsToTeceive = SheetsViewModel.fixture()
+        func configureDisplaySheets() {
+            display.configureDisplaySheets(toReceive: sheetsToTeceive) { [weak self] in
+                self?.events.append($0)
             }
         }
         
         func configureDisplayError() {
-            display.showErrorImpl = { [weak self] in
-                self?.events.append("display error")
+            display.configureDisplayError { [weak self] in
+                self?.events.append($0)
             }
         }
     }
