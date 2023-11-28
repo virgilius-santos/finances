@@ -1,5 +1,6 @@
 import XCTest
 import FinancesCore
+import FinancesCoreSharedTests
 
 final class SheetUseCaseTests: XCTestCase {
     func testLoad_ShouldGetDataFromStore() throws {

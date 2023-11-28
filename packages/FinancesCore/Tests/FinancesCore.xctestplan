@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "AE1BAE1A-36D9-47FC-AFB4-FDBE2E9D7B28",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "FinancesCoreTests",
+        "name" : "FinancesCoreTests"
+      }
+    }
+  ],
+  "version" : 1
+}
