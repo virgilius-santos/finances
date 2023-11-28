@@ -84,21 +84,7 @@ final class SheetUseCaseTests: XCTestCase {
 private extension SheetUseCaseTests {
     typealias SUT = SheetPresenter
     
-    final class Doubles: EventsReceiver {
-        let file: StaticString
-        let line: UInt
-        
-        init(file: StaticString = #filePath, line: UInt = #line) {
-            self.file = file
-            self.line = line
-        }
-        
-        var events = [String]()
-        
-        func expectEvents(_ eventsReceived: [String], file: StaticString = #filePath, line: UInt = #line) {
-            XCTAssertEqual(events, eventsReceived, "invalid events received", file: file, line: line)
-        }
-        
+    final class Doubles: AbstractDouble {
         lazy var store = SheetStoreMock(file: file, line: line)
         
         var getSheetsResult = SheetStore.SheetsResult.success([])

@@ -16,20 +16,7 @@ final class SheetsViewTests: XCTestCase {
 private extension SheetsViewTests {
     typealias SUT = SheetsView
     
-    final class Doubles: EventsReceiver {
-        let file: StaticString
-        let line: UInt
-        
-        init(file: StaticString = #filePath, line: UInt = #line) {
-            self.file = file
-            self.line = line
-        }
-        
-        var events = [String]()
-        
-        func expectEvents(_ eventsReceived: [String], file: StaticString = #filePath, line: UInt = #line) {
-            XCTAssertEqual(events, eventsReceived, "invalid events received", file: file, line: line)
-        }
+    final class Doubles: AbstractDouble {
     }
     
     func makeSut(file: StaticString = #filePath, line: UInt = #line) -> (SUT, Doubles) {
