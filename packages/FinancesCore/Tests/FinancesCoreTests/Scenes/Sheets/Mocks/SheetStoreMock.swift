@@ -5,7 +5,7 @@ public class SheetStoreMock: SheetStore {
     let file: StaticString
     let line: UInt
     
-    init(file: StaticString = #filePath, line: UInt = #line) {
+    public init(file: StaticString = #filePath, line: UInt = #line) {
         self.file = file
         self.line = line
     }
@@ -19,7 +19,7 @@ public class SheetStoreMock: SheetStore {
     }
 }
 
-extension SheetDTO {
+public extension SheetDTO {
     static func fixture(id: UUID = .fixture()) -> Self {
         .init(id: id)
     }

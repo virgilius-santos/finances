@@ -16,7 +16,7 @@ public struct SheetsViewModel: Equatable {
     }
 }
 
-public protocol SheetDisplay {
+public protocol SheetDisplay: AnyObject {
     func showEmptyData()
     func show(sheets: SheetsViewModel)
     func showError()

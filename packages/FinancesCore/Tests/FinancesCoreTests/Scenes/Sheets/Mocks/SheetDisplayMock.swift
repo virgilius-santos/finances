@@ -5,7 +5,7 @@ public class SheetDisplayMock: SheetDisplay {
     let file: StaticString
     let line: UInt
     
-    init(file: StaticString = #filePath, line: UInt = #line) {
+    public init(file: StaticString = #filePath, line: UInt = #line) {
         self.file = file
         self.line = line
     }
@@ -32,13 +32,13 @@ public class SheetDisplayMock: SheetDisplay {
     }
 }
 
-extension SheetsViewModel {
+public extension SheetsViewModel {
     static func fixture(items: [SheetsViewModel.Item] = []) -> Self {
         .init(items: items)
     }
 }
 
-extension SheetsViewModel.Item {
+public extension SheetsViewModel.Item {
     static func fixture(id: UUID = .fixture()) -> Self {
         .init(id: id)
     }

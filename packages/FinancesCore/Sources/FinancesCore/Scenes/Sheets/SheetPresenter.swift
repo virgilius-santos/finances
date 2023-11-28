@@ -4,12 +4,12 @@ public class SheetPresenter {
     let store: SheetStore
     let display: SheetDisplay
     
-    init(store: SheetStore, display: SheetDisplay) {
+    public init(store: SheetStore, display: SheetDisplay) {
         self.store = store
         self.display = display
     }
     
-    func load() {
+    public func load() {
         store.getSheets { result in
             switch result {
             case let .success(sheets) where sheets.isEmpty:
