@@ -2,12 +2,13 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello World")
+        EmptyView()
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+#if DEBUG
+#Preview {
+    ContentView()
+        .configPreview()
 }
+#endif
