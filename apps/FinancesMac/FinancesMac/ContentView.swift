@@ -41,7 +41,7 @@ protocol AddStore {
     func delete()
 }
 
-final class StoreImpl: GetSheetsStore, AddStore {
+final class StoreImpl: SheetStore, AddStore {
     var modelContext: ModelContext
     var completion: (SheetsResult) -> Void = { _ in }
     

@@ -308,7 +308,7 @@ private extension SheetsViewTests.Doubles {
     
     func configureGetSheetsToCompleteWithEmptyState() {
         store.configureGetSheets(
-            toCompleteWith: SheetStoreMock.SheetsResult.success([]),
+            toCompleteWith: SheetStore.SheetsResult.success([]),
             sendMessage: { [weak self] in self?.events.append($0) }
         )
     }
