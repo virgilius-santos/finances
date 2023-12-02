@@ -7,7 +7,7 @@ public protocol SheetCoordinator {
 }
 
 public struct SheetsView: View {
-    @EnvironmentObject var viewModel: ViewModel
+    @ObservedObject var viewModel: ViewModel
     
     public var body: some View {
         Group {
@@ -21,7 +21,9 @@ public struct SheetsView: View {
         }
     }
     
-    public init() {}
+    public init(viewModel: ViewModel) {
+        self.viewModel = viewModel
+    }
     
     @ViewBuilder
     func containedView() -> some View {

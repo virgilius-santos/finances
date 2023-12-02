@@ -1,0 +1,43 @@
+{
+  "configurations" : [
+    {
+      "id" : "EA9DEC13-BDF1-4EF5-9DFA-6C8BE7695A6C",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:FinancesMac.xcodeproj",
+      "identifier" : "3B75D2062B1435A1004BCF64",
+      "name" : "FinancesMac"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:..\/..\/packages\/FinancesApp",
+        "identifier" : "FinancesAppTests",
+        "name" : "FinancesAppTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/..\/packages\/FinancesCore",
+        "identifier" : "FinancesCoreTests",
+        "name" : "FinancesCoreTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/..\/packages\/FinancesDB",
+        "identifier" : "FinancesDBTests",
+        "name" : "FinancesDBTests"
+      }
+    }
+  ],
+  "version" : 1
+}

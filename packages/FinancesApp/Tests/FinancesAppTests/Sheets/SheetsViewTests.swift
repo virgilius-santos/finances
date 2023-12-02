@@ -289,9 +289,9 @@ private extension SheetsViewTests {
         }(self)
     }
     
-    func makeSut(file: StaticString = #filePath, line: UInt = #line) -> (some View, Doubles) {
+    func makeSut(file: StaticString = #filePath, line: UInt = #line) -> (SUT, Doubles) {
         let doubles = Doubles(file: file, line: line)
-        let sut = SUT().environmentObject(doubles.viewModel)
+        let sut = SUT(viewModel: doubles.viewModel)
         verifyMemoryLeak(for: doubles.coordinator, file: file, line: line)
         verifyMemoryLeak(for: doubles.store, file: file, line: line)
         verifyMemoryLeak(for: doubles.viewModel, file: file, line: line)

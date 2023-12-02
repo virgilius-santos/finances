@@ -19,4 +19,7 @@
    <FileRef
       location = "group:packages/FinancesApp/FinancesApp.xctestplan">
    </FileRef>
+   <FileRef
+      location = "group:apps/FinancesMac.xctestplan">
+   </FileRef>
 </Workspace>
