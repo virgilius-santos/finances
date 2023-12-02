@@ -5,107 +5,107 @@ import FinancesCoreSharedTests
 import ViewInspector
 import SwiftUI
 
-final class SheetDisplayObject: SheetDisplay {
-    weak var viewModel: SheetsView.ViewModel?
-    
-    func showEmptyData() {
-        viewModel?.setEmptyState()
-    }
-    
-    func show(sheets: SheetsViewModel) {
-        viewModel?.set(viewModel: sheets)
-    }
-    
-    func showError() {}
-}
-
-public protocol SheetCoordinator {
-    func addNewSheet()
-    func goTo(item: SheetsViewModel.Item)
-}
-
-extension SheetsView.ViewModel {
-    enum State {
-        case emptyState(title: String)
-        case list(items: [SheetsViewModel.Item])
-    }
-}
-
-extension SheetsView {
-    final class ViewModel: ObservableObject {
-        @Published var state: State = .emptyState(title: "Crie sua primeira Planilha de Gastos")
-        
-        let presenter: SheetPresenter
-        let coordinator: SheetCoordinator
-        
-        init(presenter: SheetPresenter, coordinator: SheetCoordinator) {
-            self.presenter = presenter
-            self.coordinator = coordinator
-        }
-        
-        func setEmptyState() {
-            state = .emptyState(title: "Crie sua primeira Planilha de Gastos")
-        }
-        
-        func set(viewModel: SheetsViewModel) {
-            state = .list(items: viewModel.items)
-        }
-        
-        func load() {
-            presenter.load()
-        }
-        
-        func addNewSheet() {
-            coordinator.addNewSheet()
-        }
-        
-        func show(item: SheetsViewModel.Item) {
-            coordinator.goTo(item: item)
-        }
-    }
-}
-
-struct SheetsView: View {
-    @EnvironmentObject var viewModel: ViewModel
-    
-    var body: some View {
-        Group {
-            Button("Add Sheet") {
-                viewModel.addNewSheet()
-            }
-            containedView()
-        }
-        .onAppear {
-            viewModel.load()
-        }
-    }
-    
-    @ViewBuilder
-    func containedView() -> some View {
-        switch viewModel.state {
-        case let .emptyState(title):
-            EmptyTextView(title: title)
-        case let .list(items):
-            List(items) { item in
-                Text(item.id.uuidString)
-                    .accessibilityIdentifier(item.id.uuidString)
-                    .onTapGesture {
-                        viewModel.show(item: item)
-                    }
-            }
-            .accessibilityIdentifier("List.full")
-        }
-    }
-}
-
-struct EmptyTextView: View {
-    let title: String
-    
-    var body: some View {
-        Text(title)
-            .accessibilityIdentifier("EmptyState.Text")
-    }
-}
+//final class SheetDisplayObject: SheetDisplay {
+//    weak var viewModel: SheetsView.ViewModel?
+//    
+//    func showEmptyData() {
+//        viewModel?.setEmptyState()
+//    }
+//    
+//    func show(sheets: SheetsViewModel) {
+//        viewModel?.set(viewModel: sheets)
+//    }
+//    
+//    func showError() {}
+//}
+//
+//public protocol SheetCoordinator {
+//    func addNewSheet()
+//    func goTo(item: SheetsViewModel.Item)
+//}
+//
+//extension SheetsView.ViewModel {
+//    enum State {
+//        case emptyState(title: String)
+//        case list(items: [SheetsViewModel.Item])
+//    }
+//}
+//
+//extension SheetsView {
+//    final class ViewModel: ObservableObject {
+//        @Published var state: State = .emptyState(title: "Crie sua primeira Planilha de Gastos")
+//        
+//        let presenter: SheetPresenter
+//        let coordinator: SheetCoordinator
+//        
+//        init(presenter: SheetPresenter, coordinator: SheetCoordinator) {
+//            self.presenter = presenter
+//            self.coordinator = coordinator
+//        }
+//        
+//        func setEmptyState() {
+//            state = .emptyState(title: "Crie sua primeira Planilha de Gastos")
+//        }
+//        
+//        func set(viewModel: SheetsViewModel) {
+//            state = .list(items: viewModel.items)
+//        }
+//        
+//        func load() {
+//            presenter.load()
+//        }
+//        
+//        func addNewSheet() {
+//            coordinator.addNewSheet()
+//        }
+//        
+//        func show(item: SheetsViewModel.Item) {
+//            coordinator.goTo(item: item)
+//        }
+//    }
+//}
+//
+//struct SheetsView: View {
+//    @EnvironmentObject var viewModel: ViewModel
+//    
+//    var body: some View {
+//        Group {
+//            Button("Add Sheet") {
+//                viewModel.addNewSheet()
+//            }
+//            containedView()
+//        }
+//        .onAppear {
+//            viewModel.load()
+//        }
+//    }
+//    
+//    @ViewBuilder
+//    func containedView() -> some View {
+//        switch viewModel.state {
+//        case let .emptyState(title):
+//            EmptyTextView(title: title)
+//        case let .list(items):
+//            List(items) { item in
+//                Text(item.id.uuidString)
+//                    .accessibilityIdentifier(item.id.uuidString)
+//                    .onTapGesture {
+//                        viewModel.show(item: item)
+//                    }
+//            }
+//            .accessibilityIdentifier("List.full")
+//        }
+//    }
+//}
+//
+//struct EmptyTextView: View {
+//    let title: String
+//    
+//    var body: some View {
+//        Text(title)
+//            .accessibilityIdentifier("EmptyState.Text")
+//    }
+//}
 
 final class SheetsViewTests: XCTestCase {
     func testInit_ShouldShowEmptyState() throws {
