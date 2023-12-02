@@ -19,27 +19,21 @@ final class SheetDisplayObject: SheetDisplay {
     func showError() {}
 }
 
-public final class SheetCoordinator: AbstractDouble {
-    
-    public lazy var addNewSheetImpl: () -> Void = { [file, line] in
-        XCTFail("\(Self.self).addNewSheet not implemented", file: file, line: line)
-    }
-    public func addNewSheet() {
-        addNewSheetImpl()
-    }
-    
-    public lazy var goToSheetImpl: (_ item: SheetsViewModel.Item) -> Void = { [file, line] _ in
-        XCTFail("\(Self.self).goToSheet not implemented", file: file, line: line)
-    }
-    public func goTo(item: SheetsViewModel.Item) {
-        goToSheetImpl(item)
+public protocol SheetCoordinator {
+    func addNewSheet()
+    func goTo(item: SheetsViewModel.Item)
+}
+
+extension SheetsView.ViewModel {
+    enum State {
+        case emptyState(title: String)
+        case list(items: [SheetsViewModel.Item])
     }
 }
 
 extension SheetsView {
     final class ViewModel: ObservableObject {
-        @Published var title: String? = "Crie sua primeira Planilha de Gastos"
-        @Published var items: [SheetsViewModel.Item] = []
+        @Published var state: State = .emptyState(title: "Crie sua primeira Planilha de Gastos")
         
         let presenter: SheetPresenter
         let coordinator: SheetCoordinator
@@ -50,12 +44,11 @@ extension SheetsView {
         }
         
         func setEmptyState() {
-            title = "Crie sua primeira Planilha de Gastos"
+            state = .emptyState(title: "Crie sua primeira Planilha de Gastos")
         }
         
         func set(viewModel: SheetsViewModel) {
-            title = nil
-            items = viewModel.items
+            state = .list(items: viewModel.items)
         }
         
         func load() {
@@ -80,22 +73,27 @@ struct SheetsView: View {
             Button("Add Sheet") {
                 viewModel.addNewSheet()
             }
-            if let title = viewModel.title {
-                EmptyTextView(title: title)
-            }
-            else {
-                List(viewModel.items) { item in
-                    Text(item.id.uuidString)
-                        .accessibilityIdentifier(item.id.uuidString)
-                        .onTapGesture {
-                            viewModel.show(item: item)
-                        }
-                }
-                .accessibilityIdentifier("List.full")
-            }
+            containedView()
         }
         .onAppear {
             viewModel.load()
+        }
+    }
+    
+    @ViewBuilder
+    func containedView() -> some View {
+        switch viewModel.state {
+        case let .emptyState(title):
+            EmptyTextView(title: title)
+        case let .list(items):
+            List(items) { item in
+                Text(item.id.uuidString)
+                    .accessibilityIdentifier(item.id.uuidString)
+                    .onTapGesture {
+                        viewModel.show(item: item)
+                    }
+            }
+            .accessibilityIdentifier("List.full")
         }
     }
 }
@@ -279,7 +277,7 @@ private extension SheetsViewTests {
     
     final class Doubles: AbstractDouble {
         lazy var store = SheetStoreMock(file: file, line: line)
-        lazy var coordinator = SheetCoordinator(file: file, line: line)
+        lazy var coordinator = SheetsCoordinatorMock(file: file, line: line)
         
         lazy var viewModel: SheetsView.ViewModel = { doubles in
             let object = SheetDisplayObject()
