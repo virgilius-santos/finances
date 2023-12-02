@@ -6,21 +6,21 @@ final class SheetUseCaseTests: XCTestCase {
     func testLoad_ShouldGetDataFromStore() throws {
         let (sut, doubles) = makeSut()
 
-        expect(
+        try expect(
             sut: sut,
             using: doubles,
             given: { doubles in
                 doubles.configureGetSheets()
             },
             when: { sut, _ in sut.load() },
-            expect: ["store data request"]
+            expectEvents: ["store data request"]
         )
     }
     
     func testLoad_WhenEmpty_ShouldDisplayEmptyState() throws {
         let (sut, doubles) = makeSut()
 
-        expect(
+        try expect(
             sut: sut,
             using: doubles,
             given: { doubles in
@@ -29,10 +29,10 @@ final class SheetUseCaseTests: XCTestCase {
                 doubles.configureDisplayEmptyData()
             },
             when: { sut, _ in sut.load() },
-            expect: ["store data request"],
+            expectEvents: ["store data request"],
             and: (
                 when: { _, doubles in doubles.receiveAsyncSheetResult() },
-                expect: ["display emptyData"]
+                expectEvents: ["getSheets sent", "display emptyData"]
             )
         )
     }
@@ -40,7 +40,7 @@ final class SheetUseCaseTests: XCTestCase {
     func testLoad_WhenError_ShouldDisplayError() throws {
         let (sut, doubles) = makeSut()
         
-        expect(
+        try expect(
             sut: sut,
             using: doubles,
             given: { doubles in
@@ -49,18 +49,18 @@ final class SheetUseCaseTests: XCTestCase {
                 doubles.configureDisplayError()
             },
             when: { sut, _ in sut.load() },
-            expect: ["store data request"],
+            expectEvents: ["store data request"],
             and: (
                 when: { _, doubles in doubles.receiveAsyncSheetResult() },
-                expect: ["display error"]
+                expectEvents: ["getSheets sent", "display error"]
             )
         )
     }
     
-    func testLoad_WhenHasSheets_ShouldDisplaySheets() {
+    func testLoad_WhenHasSheets_ShouldDisplaySheets() throws {
         let (sut, doubles) = makeSut()
         
-        expect(
+        try expect(
             sut: sut,
             using: doubles,
             given: { doubles in
@@ -72,10 +72,10 @@ final class SheetUseCaseTests: XCTestCase {
                 doubles.configureDisplaySheets()
             },
             when: { sut, _ in sut.load() },
-            expect: ["store data request"],
+            expectEvents: ["store data request"],
             and: (
                 when: { _, doubles in doubles.receiveAsyncSheetResult() },
-                expect: ["display sheets"]
+                expectEvents: ["getSheets sent", "display sheets"]
             )
         )
     }

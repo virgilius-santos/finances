@@ -11,6 +11,10 @@ open class AbstractDouble: EventsReceiver {
     
     public var events = [String]()
     
+    public func cleanEvents() {
+        events = []
+    }
+    
     public func expectEvents(_ eventsReceived: [String], file: StaticString = #filePath, line: UInt = #line) {
         XCTAssertEqual(events, eventsReceived, "invalid events received", file: file, line: line)
     }

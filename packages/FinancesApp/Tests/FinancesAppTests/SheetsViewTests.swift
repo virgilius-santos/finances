@@ -12,7 +12,9 @@ final class SheetDisplayObject: SheetDisplay {
         viewModel?.setEmptyState()
     }
     
-    func show(sheets: SheetsViewModel) {}
+    func show(sheets: SheetsViewModel) {
+        viewModel?.set(viewModel: sheets)
+    }
     
     func showError() {}
 }
@@ -30,6 +32,7 @@ final class SheetCoordinator: AbstractDouble {
 extension SheetsView {
     final class ViewModel: ObservableObject {
         @Published var title: String? = "Crie sua primeira Planilha de Gastos"
+        @Published var items: [SheetsViewModel.Item] = []
         
         let presenter: SheetPresenter
         let coordinator: SheetCoordinator
@@ -41,6 +44,11 @@ extension SheetsView {
         
         func setEmptyState() {
             title = "Crie sua primeira Planilha de Gastos"
+        }
+        
+        func set(viewModel: SheetsViewModel) {
+            title = nil
+            items = viewModel.items
         }
         
         func load() {
@@ -65,7 +73,10 @@ struct SheetsView: View {
                 EmptyTextView(title: title)
             }
             else {
-                EmptyView()
+                List(viewModel.items) { item in
+                    Text(item.id.uuidString)
+                }
+                .accessibilityIdentifier("List.full")
             }
         }
         .onAppear {
@@ -87,40 +98,128 @@ final class SheetsViewTests: XCTestCase {
     func testInit_ShouldShowEmptyState() throws {
         let (sut, doubles) = makeSut()
         
-        let text = try sut.environmentObject(doubles.viewModel)
-            .inspect()
-            .find(viewWithAccessibilityIdentifier: "EmptyState.Text")
-            .text()
-            .string()
-        
-        XCTAssertEqual(text, "Crie sua primeira Planilha de Gastos")
+        try expect(
+            sut: sut,
+            using: doubles,
+            step: .init(
+                when: { sut, doubles in
+                    try sut.findValue(for: "EmptyState.Text")
+                },
+                then: { text in
+                    XCTAssertEqual(text, "Crie sua primeira Planilha de Gastos")
+                }
+            )
+        )
     }
     
     func testClickOnAddButton_ShouldShowAddSheet() throws {
         let (sut, doubles) = makeSut()
-        doubles.configureShowNewSheetScene()
         
-        try sut.environmentObject(doubles.viewModel)
-            .inspect()
-            .find(button: "Add Sheet")
-            .tap()
-            
-        doubles.expectEvents(["ShowAddSheet"])
+        try expect(
+            sut: sut,
+            using: doubles,
+            given: { doubles in
+                doubles.configureShowNewSheetScene()
+            },
+            step: .init(
+                when: { sut, doubles in
+                    try sut.tap(on: "Add Sheet")
+                },
+                eventsExpected: ["ShowAddSheet"]
+            )
+        )
     }
     
     func testOnAppear_WhenLoadEmptyList_ShouldShowEmptyState() throws {
         let (sut, doubles) = makeSut()
-        doubles.configureGetSheetsToCompleteWithEmptyState()
-        try sut.inspect().group().callOnAppear()
-        doubles.receiveAsyncSheetResult()
         
-        let text = try sut
-            .inspect()
-            .find(viewWithAccessibilityIdentifier: "EmptyState.Text")
-            .text()
-            .string()
+        try expect(
+            sut: sut,
+            using: doubles,
+            given: { doubles in
+                doubles.configureGetSheetsToCompleteWithEmptyState()
+            },
+            step: .init(
+                when: { sut, doubles in
+                    try sut.callOnAppear()
+                },
+                eventsExpected: ["store data request"]
+            ),
+            .init(
+                when: { sut, doubles in
+                    doubles.receiveAsyncSheetResult()
+                },
+                eventsExpected: ["getSheets sent"]
+            ),
+            .init(
+                when: { sut, doubles in
+                    doubles.cleanEvents()
+                    return try sut.findValue(for: "EmptyState.Text")
+                },
+                then: { text in
+                    XCTAssertEqual(text, "Crie sua primeira Planilha de Gastos")
+                },
+                eventsExpected: []
+            )
+        )
+    }
+    
+    func testOnAppear_WhenLoadList_ShouldShowItems() throws {
+        let (sut, doubles) = makeSut()
+        let listMock1 = [
+            SheetDTO.fixture(id: .init()),
+            .fixture(id: .init())
+        ]
+        let listMock2 = [
+            SheetDTO.fixture(id: .init()),
+            .fixture(id: .init()),
+            .fixture(id: .init()),
+            .fixture(id: .init())
+        ]
         
-        XCTAssertEqual(text, "Crie sua primeira Planilha de Gastos")
+        try expect(
+            sut: sut,
+            using: doubles,
+            given: { doubles in
+                doubles.configureGetSheetsUpdatableWith(list: listMock1, listMock2)
+            },
+            step: .init(
+                when: { sut, doubles in
+                    try sut.callOnAppear()
+                },
+                eventsExpected: ["store data request"]
+            ),
+            .init(
+                when: { sut, doubles in
+                    doubles.receiveAsyncSheetResult()
+                },
+                eventsExpected: ["getSheets sent"]
+            ),
+            .init(
+                when: { sut, doubles in
+                    doubles.cleanEvents()
+                    return try sut.getListRowsIds(numberOfRows: listMock1.count)
+                },
+                then: { rows in
+                    XCTAssertEqual(rows, listMock1.map(\.id.uuidString))
+                }
+            ),
+            .init(
+                when: { sut, doubles in
+                    doubles.receiveAsyncSheetResult()
+                },
+                eventsExpected: ["getSheets sent"]
+            ),
+            .init(
+                when: { sut, doubles in
+                    doubles.cleanEvents()
+                    return try sut.getListRowsIds(numberOfRows: listMock2.count)
+                },
+                then: { rows in
+                    XCTAssertEqual(rows, listMock2.map(\.id.uuidString))
+                }
+            )
+        )
     }
 }
 
@@ -136,6 +235,7 @@ private extension SheetsViewTests {
             let presenter = SheetPresenter(store: doubles.store, display: object)
             let viewModel = SUT.ViewModel(presenter: presenter, coordinator: doubles.coordinator)
             object.viewModel = viewModel
+            doubles.expectEvents([])
             return viewModel
         }(self)
     }
@@ -162,8 +262,45 @@ private extension SheetsViewTests.Doubles {
         )
     }
     
+    func configureGetSheetsUpdatableWith(list: [SheetDTO]...) {
+        store.configureGetSheets(
+            toCompleteWith: list.map({ .success($0) }),
+            sendMessage: { [weak self] in self?.events.append($0) }
+        )
+    }
+    
     func receiveAsyncSheetResult() {
         events = []
         store.getSheetsCompletion?()
+    }
+}
+
+extension View {
+    func tap(on value: String) throws {
+        try inspect()
+            .find(button: "Add Sheet")
+            .tap()
+    }
+    
+    func findValue(for id: String) throws -> String {
+        try inspect()
+        .find(viewWithAccessibilityIdentifier: "EmptyState.Text")
+        .text()
+        .string()
+    }
+    
+    func getListRowsIds(numberOfRows: Int) throws -> [String] {
+        var rowsIds = [String]()
+        let list = try inspect()
+            .find(viewWithAccessibilityIdentifier: "List.full")
+            .list()
+        for i in 0..<numberOfRows {
+            try rowsIds.append(list.forEach(0).text(i).string())
+        }
+        return rowsIds
+    }
+    
+    func callOnAppear() throws {
+        try inspect().group().callOnAppear()
     }
 }

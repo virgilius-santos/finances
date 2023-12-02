@@ -19,6 +19,13 @@
         "identifier" : "FinancesAppTests",
         "name" : "FinancesAppTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/FinancesCore",
+        "identifier" : "FinancesCoreTests",
+        "name" : "FinancesCoreTests"
+      }
     }
   ],
   "version" : 1

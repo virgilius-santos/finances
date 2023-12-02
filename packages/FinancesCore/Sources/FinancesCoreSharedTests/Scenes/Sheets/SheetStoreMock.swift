@@ -11,13 +11,25 @@ public class SheetStoreMock: AbstractDouble, SheetStore {
     
     public var getSheetsCompletion: (() -> Void)?
     public func configureGetSheets(
-        toCompleteWith result: SheetStore.SheetsResult = .success([]),
+        toCompleteWith resultList: [SheetStore.SheetsResult],
         sendMessage: @escaping (String) -> Void
     ) {
+        var resultList = resultList
         getSheetsImpl = { [weak self] completion in
-            self?.getSheetsCompletion = { completion(result) }
+            self?.getSheetsCompletion = {
+                sendMessage("getSheets sent")
+                completion(resultList.removeFirst())
+            }
             sendMessage("store data request")
         }
+    }
+    
+    
+    public func configureGetSheets(
+        toCompleteWith resultList: SheetStore.SheetsResult...,
+        sendMessage: @escaping (String) -> Void
+    ) {
+        configureGetSheets(toCompleteWith: resultList, sendMessage: sendMessage)
     }
 }
 
