@@ -12,7 +12,7 @@ public enum SheetError: Error, Equatable {
     case generic
 }
 
-public protocol SheetStore: AnyObject {
+public protocol GetSheetsStore: AnyObject {
     typealias SheetsResult = Result<[SheetDTO], SheetError>
     func getSheets(completion: @escaping (SheetsResult) -> Void)
 }

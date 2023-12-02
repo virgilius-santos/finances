@@ -1,7 +1,7 @@
 import XCTest
 import FinancesCore
 
-public class SheetStoreMock: AbstractDouble, SheetStore {
+public class SheetStoreMock: AbstractDouble, GetSheetsStore {
     public lazy var getSheetsImpl: (_ completion: @escaping (SheetsResult) -> Void) -> Void = { [file, line] _ in
             XCTFail("\(Self.self).getSheets not implemented", file: file, line: line)
         }
@@ -11,7 +11,7 @@ public class SheetStoreMock: AbstractDouble, SheetStore {
     
     public var getSheetsCompletion: (() -> Void)?
     public func configureGetSheets(
-        toCompleteWith resultList: [SheetStore.SheetsResult],
+        toCompleteWith resultList: [SheetsResult],
         sendMessage: @escaping (String) -> Void
     ) {
         var resultList = resultList
@@ -26,7 +26,7 @@ public class SheetStoreMock: AbstractDouble, SheetStore {
     
     
     public func configureGetSheets(
-        toCompleteWith resultList: SheetStore.SheetsResult...,
+        toCompleteWith resultList: SheetsResult...,
         sendMessage: @escaping (String) -> Void
     ) {
         configureGetSheets(toCompleteWith: resultList, sendMessage: sendMessage)
