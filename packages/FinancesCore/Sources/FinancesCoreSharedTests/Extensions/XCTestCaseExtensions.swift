@@ -16,18 +16,18 @@ public extension XCTestCase {
     func expect<SUT, Doubles: EventsReceiver>(
         sut: SUT,
         using doubles: Doubles,
-        given: (Doubles) -> Void,
-        when: (SUT, Doubles) -> Void,
+        given: (Doubles) -> Void = { _ in },
+        when: (SUT, Doubles) throws -> Void,
         expect: [String],
         and actions: (
             when: (SUT, Doubles) -> Void,
             expect: [String]
         )...,
         file: StaticString = #filePath, line: UInt = #line
-    ) {
+    ) rethrows {
         given(doubles)
         
-        when(sut, doubles)
+        try when(sut, doubles)
         
         doubles.expectEvents(expect, file: file, line: line)
         

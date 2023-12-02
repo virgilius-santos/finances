@@ -3,22 +3,22 @@ import FinancesCore
 
 public class SheetDisplayMock: AbstractDouble, SheetDisplay {
     public lazy var showEmptyDataImpl: () -> Void = { [file, line] in
-            XCTFail("\(Self.self).showEmptyData not implemented", file: file, line: line)
-        }
+        XCTFail("\(Self.self).showEmptyData not implemented", file: file, line: line)
+    }
     public func showEmptyData() {
         showEmptyDataImpl()
     }
     
     public lazy var showSheetsImpl: (_ sheets: SheetsViewModel) -> Void = { [file, line] _ in
-            XCTFail("\(Self.self).getSheets not implemented", file: file, line: line)
-        }
+        XCTFail("\(Self.self).getSheets not implemented", file: file, line: line)
+    }
     public func show(sheets: SheetsViewModel) {
         showSheetsImpl(sheets)
     }
     
     public lazy var showErrorImpl: () -> Void = { [file, line] in
-            XCTFail("\(Self.self).showError not implemented", file: file, line: line)
-        }
+        XCTFail("\(Self.self).showError not implemented", file: file, line: line)
+    }
     public func showError() {
         showErrorImpl()
     }
