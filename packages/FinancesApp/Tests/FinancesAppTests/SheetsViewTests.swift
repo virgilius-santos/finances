@@ -19,13 +19,20 @@ final class SheetDisplayObject: SheetDisplay {
     func showError() {}
 }
 
-final class SheetCoordinator: AbstractDouble {
+public final class SheetCoordinator: AbstractDouble {
     
     public lazy var addNewSheetImpl: () -> Void = { [file, line] in
         XCTFail("\(Self.self).addNewSheet not implemented", file: file, line: line)
     }
-    func addNewSheet() {
+    public func addNewSheet() {
         addNewSheetImpl()
+    }
+    
+    public lazy var goToSheetImpl: (_ item: SheetsViewModel.Item) -> Void = { [file, line] _ in
+        XCTFail("\(Self.self).goToSheet not implemented", file: file, line: line)
+    }
+    public func goTo(item: SheetsViewModel.Item) {
+        goToSheetImpl(item)
     }
 }
 
@@ -58,6 +65,10 @@ extension SheetsView {
         func addNewSheet() {
             coordinator.addNewSheet()
         }
+        
+        func show(item: SheetsViewModel.Item) {
+            coordinator.goTo(item: item)
+        }
     }
 }
 
@@ -75,6 +86,10 @@ struct SheetsView: View {
             else {
                 List(viewModel.items) { item in
                     Text(item.id.uuidString)
+                        .accessibilityIdentifier(item.id.uuidString)
+                        .onTapGesture {
+                            viewModel.show(item: item)
+                        }
                 }
                 .accessibilityIdentifier("List.full")
             }
@@ -123,7 +138,7 @@ final class SheetsViewTests: XCTestCase {
             },
             step: .init(
                 when: { sut, doubles in
-                    try sut.tap(on: "Add Sheet")
+                    try sut.tap(onLabel: "Add Sheet")
                 },
                 eventsExpected: ["ShowAddSheet"]
             )
@@ -221,6 +236,42 @@ final class SheetsViewTests: XCTestCase {
             )
         )
     }
+    
+    func testOnItemClick_ShouldShowDetails() throws {
+        let (sut, doubles) = makeSut()
+        let listMock1 = [
+            SheetDTO.fixture(id: .init()),
+            .fixture(id: .init())
+        ]
+        
+        try expect(
+            sut: sut,
+            using: doubles,
+            given: { doubles in
+                doubles.configureGetSheetsUpdatableWith(list: listMock1)
+                doubles.configureShowSheetScene(expecting: .fixture(id: listMock1[0].id))
+            },
+            step: .init(
+                when: { sut, doubles in
+                    try sut.callOnAppear()
+                },
+                eventsExpected: ["store data request"]
+            ),
+            .init(
+                when: { sut, doubles in
+                    doubles.receiveAsyncSheetResult()
+                },
+                eventsExpected: ["getSheets sent"]
+            ),
+            .init(
+                when: { sut, doubles in
+                    doubles.cleanEvents()
+                    return try sut.tap(onID: listMock1[0].id.uuidString)
+                },
+                eventsExpected: ["GoToSheet"]
+            )
+        )
+    }
 }
 
 private extension SheetsViewTests {
@@ -243,7 +294,9 @@ private extension SheetsViewTests {
     func makeSut(file: StaticString = #filePath, line: UInt = #line) -> (some View, Doubles) {
         let doubles = Doubles(file: file, line: line)
         let sut = SUT().environmentObject(doubles.viewModel)
-        verifyMemoryLeak(for: doubles, file: file, line: line)
+        verifyMemoryLeak(for: doubles.coordinator, file: file, line: line)
+        verifyMemoryLeak(for: doubles.store, file: file, line: line)
+        verifyMemoryLeak(for: doubles.viewModel, file: file, line: line)
         return (sut, doubles)
     }
 }
@@ -272,5 +325,12 @@ private extension SheetsViewTests.Doubles {
     func receiveAsyncSheetResult() {
         events = []
         store.getSheetsCompletion?()
+    }
+    
+    func configureShowSheetScene(expecting itemExpected: SheetsViewModel.Item, file: StaticString = #filePath, line: UInt = #line) {
+        coordinator.goToSheetImpl = { [weak self] item in
+            XCTAssertEqual(item , itemExpected, "invalid item received", file: file, line: line)
+            self?.events.append("GoToSheet")
+        }
     }
 }

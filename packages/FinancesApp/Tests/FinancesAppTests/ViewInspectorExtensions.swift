@@ -3,10 +3,16 @@ import ViewInspector
 import XCTest
 
 extension View {
-    func tap(on value: String) throws {
+    func tap(onLabel value: String) throws {
         try inspect()
             .find(button: "Add Sheet")
             .tap()
+    }
+    
+    func tap(onID id: String) throws {
+        try inspect()
+            .find(viewWithAccessibilityIdentifier: id)
+            .callOnTapGesture()
     }
     
     func findValue(for id: String) throws -> String {
