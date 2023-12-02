@@ -1,4 +1,4 @@
-import FinancesCore
+import Foundation
 
 public final class SheetDisplayObject: SheetDisplay {
     public weak var viewModel: SheetDisplay?
