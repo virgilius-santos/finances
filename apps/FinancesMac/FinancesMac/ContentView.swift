@@ -102,7 +102,6 @@ final class AppCoordinator: SheetCoordinator {
     }
     
     func goTo(item: SheetsViewModel.Item) {
-        store.delete()
     }
 }
 

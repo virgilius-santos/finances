@@ -21,7 +21,7 @@ public struct SheetsView: View {
         .onAppear {
             viewModel.load()
         }
-    }
+            }
     
     public init(viewModel: ViewModel) {
         self.viewModel = viewModel
@@ -33,9 +33,15 @@ public struct SheetsView: View {
         case let .emptyState(title):
             EmptyTextView(title: title)
         case let .list(items):
-            SheetsListView(items: items, selected: { item in
-                viewModel.show(item: item)
-            })
+            SheetsListView(
+                items: items,
+                selected: { item in
+                    viewModel.show(item: item)
+                },
+                deleted: { item in
+                    viewModel.delete(item: item)
+                }
+            )
         }
     }
 }
@@ -43,6 +49,7 @@ public struct SheetsView: View {
 struct SheetsListView: View {
     let items: [SheetsViewModel.Item]
     let selected: (SheetsViewModel.Item) -> Void
+    let deleted: (SheetsViewModel.Item) -> Void
     
     var body: some View {
         List(items) { item in
@@ -50,6 +57,11 @@ struct SheetsListView: View {
                 .accessibilityIdentifier("\(item.id)")
                 .onTapGesture {
                     selected(item)
+                }
+                .swipeActions {
+                    Button("Delete", systemImage: "trash", role: .destructive) {
+                        deleted(item)
+                    }
                 }
         }
         .accessibilityIdentifier("List.full")
@@ -98,6 +110,10 @@ public extension SheetsView {
         
         func show(item: SheetsViewModel.Item) {
             coordinator.goTo(item: item)
+        }
+        
+        func delete(item: SheetsViewModel.Item) {
+            presenter.delete(item: item)
         }
     }
 }
