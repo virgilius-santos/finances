@@ -1,7 +1,9 @@
 
 import Foundation
 
-public struct EntityID<T>: Codable, Hashable {
+public struct EntityID<T>: Codable, Hashable, CustomStringConvertible {
+    public var description: String { value.uuidString }
+    
     public let value: UUID
     
     public init(_ value: UUID = .init()) {
