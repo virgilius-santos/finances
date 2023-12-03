@@ -17,16 +17,21 @@ public extension XCTestCase {
         fileprivate let when: (SUT, Doubles) throws -> Void
         fileprivate let then: () throws -> Void
         fileprivate let eventsExpected: [String]
+        fileprivate let file: StaticString
+        fileprivate let line: UInt
         
         public init<Result>(
             when: @escaping (SUT, Doubles) throws -> Result,
             then: @escaping (Result) throws -> Void = { _ in },
-            eventsExpected: [String] = []
+            eventsExpected: [String] = [],
+            file: StaticString = #filePath, line: UInt = #line
         ) {
             var result: Result!
             self.when = { result = try when($0, $1) }
             self.then = { try then(result) }
             self.eventsExpected = eventsExpected
+            self.file = file
+            self.line = line
         }
     }
     
@@ -49,10 +54,14 @@ public extension XCTestCase {
             step: .init(
                 when: { try when($0, $1) },
                 then: { _ in },
-                eventsExpected: expectEvents
+                eventsExpected: expectEvents,
+                file: file, line: line
             ),
-            and: actions.map { step in .init(when: { step.when($0, $1) }, eventsExpected: step.expectEvents) },
-            file: file, line: line
+            and: actions.map { step in .init(
+                when: { step.when($0, $1) },
+                eventsExpected: step.expectEvents,
+                file: file, line: line
+            )}
         )
     }
     
@@ -61,15 +70,14 @@ public extension XCTestCase {
         using doubles: Doubles,
         given: (Doubles) -> Void = { _ in },
         step firstStep: Step<SUT, Doubles>,
-        and moreSteps: [Step<SUT, Doubles>],
-        file: StaticString = #filePath, line: UInt = #line
+        and moreSteps: [Step<SUT, Doubles>]
     ) throws {
         given(doubles)
         
         for step in ([firstStep] + moreSteps) {
             try step.when(sut, doubles)
             try step.then()
-            doubles.expectEvents(step.eventsExpected, file: file, line: line)
+            doubles.expectEvents(step.eventsExpected, file: step.file, line: step.line)
         }
     }
     
@@ -78,9 +86,8 @@ public extension XCTestCase {
         using doubles: Doubles,
         given: (Doubles) -> Void = { _ in },
         step firstStep: Step<SUT, Doubles>,
-        _ moreSteps: Step<SUT, Doubles>...,
-        file: StaticString = #filePath, line: UInt = #line
+        _ moreSteps: Step<SUT, Doubles>...
     ) throws {
-       try expect(sut: sut, using: doubles, given: given, step: firstStep, and: moreSteps, file: file, line: line)
+       try expect(sut: sut, using: doubles, given: given, step: firstStep, and: moreSteps)
     }
 }

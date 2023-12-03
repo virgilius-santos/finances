@@ -2,7 +2,9 @@ import FinancesCore
 import SwiftUI
 
 public protocol SheetCoordinator {
-    func addNewSheet()
+    typealias NewSheetResult = Bool
+    func addNewSheet(completion: @escaping (NewSheetResult) -> Void)
+    
     func goTo(item: SheetsViewModel.Item)
 }
 
@@ -85,7 +87,11 @@ public extension SheetsView {
         }
         
         func addNewSheet() {
-            coordinator.addNewSheet()
+            coordinator.addNewSheet { [weak self] result in
+                if result {
+                    self?.load()
+                }
+            }
         }
         
         func show(item: SheetsViewModel.Item) {

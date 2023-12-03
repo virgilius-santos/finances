@@ -78,14 +78,15 @@ final class StoreImpl: SheetStore, AddStore {
 }
 
 final class AppCoordinator: SheetCoordinator {
+    func addNewSheet(completion: (NewSheetResult) -> Void) {
+        store.addNewSheet()
+        completion(true)
+    }
+    
     let store: AddStore
     
     init(store: AddStore) {
         self.store = store
-    }
-    
-    func addNewSheet() {
-        store.addNewSheet()
     }
     
     func goTo(item: SheetsViewModel.Item) {
