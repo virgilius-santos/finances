@@ -64,7 +64,7 @@ final class StoreImpl: SheetStore, AddStore {
     func sendList() {
         let descriptor = FetchDescriptor<FinancesDB>()
         let list: [FinancesDB] = (try? modelContext.fetch(descriptor)) ?? []
-        completion(.success(list.map({ _ in .init(id: .init() )})))
+        completion(.success(list.map(\.dto)))
     }
     
     func delete() {
@@ -91,5 +91,14 @@ final class AppCoordinator: SheetCoordinator {
     
     func goTo(item: SheetsViewModel.Item) {
         store.delete()
+    }
+}
+
+extension FinancesDB {
+    var dto: SheetDTO {
+        .init(
+            id: .init(id),
+            createdAt: creationDate
+        )
     }
 }
