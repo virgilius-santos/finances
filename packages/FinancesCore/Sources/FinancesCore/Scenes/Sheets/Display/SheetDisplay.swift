@@ -1,9 +1,13 @@
 import Foundation
 
+public protocol SheetDisplay: AnyObject {
+    func showEmptyData()
+    func show(sheets: SheetsViewModel)
+    func showError()
+}
+
 public struct SheetsViewModel: Equatable {
     public struct Item: Identifiable, Equatable {
-        public typealias ID = EntityID<Self>
-        
         public var id: ID
         
         public init(id: ID) {
@@ -18,8 +22,6 @@ public struct SheetsViewModel: Equatable {
     }
 }
 
-public protocol SheetDisplay: AnyObject {
-    func showEmptyData()
-    func show(sheets: SheetsViewModel)
-    func showError()
+public extension SheetsViewModel.Item {
+    typealias ID = EntityID<Self>
 }
