@@ -2,16 +2,16 @@ import XCTest
 import FinancesCore
 
 public class SheetStoreMock: AbstractDouble, SheetStore {
-    public lazy var getSheetsImpl: (_ completion: @escaping (SheetsResult) -> Void) -> Void = { [file, line] _ in
+    public lazy var getSheetsImpl: (_ completion: @escaping (GetSheetsResult) -> Void) -> Void = { [file, line] _ in
             XCTFail("\(Self.self).getSheets not implemented", file: file, line: line)
         }
-    public func getSheets(completion: @escaping (SheetsResult) -> Void) {
+    public func getSheets(completion: @escaping (GetSheetsResult) -> Void) {
         getSheetsImpl(completion)
     }
     
     public var getSheetsCompletion: (() -> Void)?
     public func configureGetSheets(
-        toCompleteWith resultList: SheetStore.SheetsResult,
+        toCompleteWith resultList: GetSheetsResult,
         sendMessage: @escaping (String) -> Void
     ) {
         getSheetsImpl = { [weak self] completion in

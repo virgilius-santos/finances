@@ -87,7 +87,7 @@ private extension SheetUseCaseTests {
     final class Doubles: AbstractDouble {
         lazy var store = SheetStoreMock(file: file, line: line)
         
-        var getSheetsResult = SheetStore.SheetsResult.success([])
+        var getSheetsResult = SheetStoreMock.GetSheetsResult.success([])
         func configureGetSheets() {
             store.configureGetSheets(
                 toCompleteWith: getSheetsResult,

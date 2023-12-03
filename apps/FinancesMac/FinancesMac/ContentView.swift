@@ -43,14 +43,14 @@ protocol AddStore {
 
 final class StoreImpl: SheetStore, AddStore {
     var modelContext: ModelContext
-    var completion: (SheetsResult) -> Void = { _ in }
+    var completion: (GetSheetsResult) -> Void = { _ in }
     
     init(modelContext: ModelContext) {
         
         self.modelContext = modelContext
     }
     
-    func getSheets(completion: @escaping (SheetsResult) -> Void) {
+    func getSheets(completion: @escaping (GetSheetsResult) -> Void) {
         self.completion = completion
         sendList()
     }

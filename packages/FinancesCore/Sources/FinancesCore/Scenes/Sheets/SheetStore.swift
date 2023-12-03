@@ -1,8 +1,8 @@
 import Foundation
 
 public protocol SheetStore: AnyObject {
-    typealias SheetsResult = Result<[SheetDTO], SheetError>
-    func getSheets(completion: @escaping (SheetsResult) -> Void)
+    typealias GetSheetsResult = Result<[SheetDTO], SheetError>
+    func getSheets(completion: @escaping (GetSheetsResult) -> Void)
 }
 
 public enum SheetError: Error, Equatable {
