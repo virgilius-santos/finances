@@ -24,6 +24,20 @@ public class SheetPresenter {
             }
         }
     }
+    
+    public func delete(item: SheetsViewModel.Item) {
+        store.remove(sheetID: .init(item.id.value)) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success(true):
+                self.load()
+            case .success:
+                break
+            case .failure:
+                self.display.showError()
+            }
+        }
+    }
 }
 
 public extension SheetDTO {

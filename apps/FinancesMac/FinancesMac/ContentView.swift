@@ -75,6 +75,18 @@ final class StoreImpl: SheetStore, AddStore {
         }
         sendList()
     }
+    
+    func remove(sheetID: SheetDTO.ID, completion: @escaping (RemoveSheetResult) -> Void) {
+        do {
+            try modelContext.delete(model: FinancesDB.self, where: #Predicate { sheets in
+                sheets.id == sheetID.value
+            })
+            try modelContext.save()
+            completion(.success(true))
+        } catch {
+            completion(.failure(.generic))
+        }
+    }
 }
 
 final class AppCoordinator: SheetCoordinator {

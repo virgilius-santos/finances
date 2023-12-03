@@ -3,6 +3,9 @@ import Foundation
 public protocol SheetStore: AnyObject {
     typealias GetSheetsResult = Result<[SheetDTO], SheetError>
     func getSheets(completion: @escaping (GetSheetsResult) -> Void)
+
+    typealias RemoveSheetResult = Result<Bool, SheetError>
+    func remove(sheetID: SheetDTO.ID, completion: @escaping (RemoveSheetResult) -> Void)
 }
 
 public enum SheetError: Error, Equatable {
