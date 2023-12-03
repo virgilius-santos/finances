@@ -23,7 +23,7 @@ final class SheetsViewTests: XCTestCase {
         )
     }
     
-    func testClickOnAddButton_ShouldShowAddSheet() throws {
+    func testClickOnAddButton_ShouldShowLoadSheet() throws {
         let (sut, doubles) = makeSut()
         let listMock = [
             SheetDTO.fixture(id: .init()),
@@ -48,6 +48,30 @@ final class SheetsViewTests: XCTestCase {
                     doubles.receiveAsyncAddNewSheetResult()
                 },
                 eventsExpected: ["addNewSheet sent", "store data request"]
+            )
+        )
+    }
+    
+    func testClickOnAddButton_WhenFail_ShouldShowNotLoadSheets() throws {
+        let (sut, doubles) = makeSut()
+        
+        try expect(
+            sut: sut,
+            using: doubles,
+            given: { doubles in
+                doubles.configureShowNewSheetScene(completeWith: false)
+            },
+            step: .init(
+                when: { sut, doubles in
+                    try sut.tap(onLabel: "Add Sheet")
+                },
+                eventsExpected: ["add new sheet request"]
+            ),
+            .init(
+                when: { sut, doubles in
+                    doubles.receiveAsyncAddNewSheetResult()
+                },
+                eventsExpected: ["addNewSheet sent"]
             )
         )
     }
