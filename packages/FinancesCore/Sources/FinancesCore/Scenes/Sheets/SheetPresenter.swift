@@ -17,13 +17,25 @@ public class SheetPresenter {
                 self.display.showEmptyData()
             case let .success(sheets):
                 self.display.show(sheets: .init(
-                    items: sheets.map {
-                        SheetsViewModel.Item(id: $0.id)
-                    }
+                    items: sheets.map(\.viewModel)
                 ))
             case .failure:
                 self.display.showError()
             }
         }
+    }
+}
+
+public extension SheetDTO {
+    var viewModel: SheetsViewModel.Item {
+        SheetsViewModel.Item(
+            id: id.viewModel
+        )
+    }
+}
+
+public extension SheetDTO.ID {
+    var viewModel: UUID {
+        value
     }
 }

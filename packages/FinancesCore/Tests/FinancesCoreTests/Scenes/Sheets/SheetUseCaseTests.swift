@@ -64,9 +64,9 @@ final class SheetUseCaseTests: XCTestCase {
             sut: sut,
             using: doubles,
             given: { doubles in
-                let dto = SheetDTO.fixture(id: UUID())
+                let dto = SheetDTO.fixture(id: .fixture(id: UUID()))
                 doubles.getSheetsResult = .success([dto])
-                let viewModel = SheetsViewModel.fixture(items: [.fixture(id: dto.id)])
+                let viewModel = SheetsViewModel.fixture(items: [dto.viewModel])
                 doubles.sheetsToTeceive = viewModel
                 doubles.configureGetSheets()
                 doubles.configureDisplaySheets()

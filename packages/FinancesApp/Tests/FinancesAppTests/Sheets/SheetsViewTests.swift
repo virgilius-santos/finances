@@ -141,7 +141,7 @@ final class SheetsViewTests: XCTestCase {
                     return try sut.getListRowsIds(numberOfRows: listMock.count)
                 },
                 then: { rows in
-                    XCTAssertEqual(rows, listMock.map(\.id.uuidString))
+                    XCTAssertEqual(rows, listMock.map(\.id.value.uuidString))
                 }
             )
         )
@@ -149,7 +149,7 @@ final class SheetsViewTests: XCTestCase {
     
     func testOnItemClick_ShouldShowDetails() throws {
         let (sut, doubles) = makeSut()
-        let listMock1 = [
+        let listMock = [
             SheetDTO.fixture(id: .init()),
             .fixture(id: .init())
         ]
@@ -158,8 +158,8 @@ final class SheetsViewTests: XCTestCase {
             sut: sut,
             using: doubles,
             given: { doubles in
-                doubles.configureGetSheetsToCompleteWith(list: listMock1)
-                doubles.configureShowSheetScene(expecting: .fixture(id: listMock1[0].id))
+                doubles.configureGetSheetsToCompleteWith(list: listMock)
+                doubles.configureShowSheetScene(expecting: .fixture(id: listMock[0].id.value))
             },
             step: .init(
                 when: { sut, doubles in
@@ -176,7 +176,7 @@ final class SheetsViewTests: XCTestCase {
             .init(
                 when: { sut, doubles in
                     doubles.cleanEvents()
-                    return try sut.tap(onID: listMock1[0].id.uuidString)
+                    return try sut.tap(onID: listMock[0].id.value.uuidString)
                 },
                 eventsExpected: ["GoToSheet"]
             )

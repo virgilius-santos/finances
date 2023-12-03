@@ -25,7 +25,7 @@ public class SheetStoreMock: AbstractDouble, SheetStore {
 }
 
 public extension SheetDTO {
-    static func fixture(id: UUID = .fixture()) -> Self {
+    static func fixture(id: ID = .fixture()) -> Self {
         .init(id: id)
     }
 }
