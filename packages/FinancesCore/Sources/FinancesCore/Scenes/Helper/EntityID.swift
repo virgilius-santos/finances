@@ -1,4 +1,3 @@
-
 import Foundation
 
 public struct EntityID<T>: Codable, Hashable, CustomStringConvertible {
