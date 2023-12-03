@@ -38,42 +38,24 @@ import SwiftData
 
 protocol AddStore {
     func addNewSheet()
-    func delete()
 }
 
 final class StoreImpl: SheetStore, AddStore {
     var modelContext: ModelContext
-    var completion: (GetSheetsResult) -> Void = { _ in }
     
     init(modelContext: ModelContext) {
-        
         self.modelContext = modelContext
     }
     
     func getSheets(completion: @escaping (GetSheetsResult) -> Void) {
-        self.completion = completion
-        sendList()
-    }
-    
-    func addNewSheet() {
-        modelContext.insert(FinancesDB.init())
-        try? modelContext.save()
-        sendList()
-    }
-    
-    func sendList() {
         let descriptor = FetchDescriptor<FinancesDB>()
         let list: [FinancesDB] = (try? modelContext.fetch(descriptor)) ?? []
         completion(.success(list.map(\.dto)))
     }
     
-    func delete() {
-        let descriptor = FetchDescriptor<FinancesDB>()
-        let list: [FinancesDB] = (try? modelContext.fetch(descriptor)) ?? []
-        for item in list {
-            modelContext.delete(item)
-        }
-        sendList()
+    func addNewSheet() {
+        modelContext.insert(FinancesDB.init())
+        try? modelContext.save()
     }
     
     func remove(sheetID: SheetDTO.ID, completion: @escaping (RemoveSheetResult) -> Void) {
@@ -90,11 +72,6 @@ final class StoreImpl: SheetStore, AddStore {
 }
 
 final class AppCoordinator: SheetCoordinator {
-    func addNewSheet(completion: (NewSheetResult) -> Void) {
-        store.addNewSheet()
-        completion(true)
-    }
-    
     let store: AddStore
     
     init(store: AddStore) {
@@ -102,6 +79,11 @@ final class AppCoordinator: SheetCoordinator {
     }
     
     func goTo(item: SheetsViewModel.Item) {
+    }
+    
+    func addNewSheet(completion: (NewSheetResult) -> Void) {
+        store.addNewSheet()
+        completion(true)
     }
 }
 
