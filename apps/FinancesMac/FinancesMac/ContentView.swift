@@ -8,11 +8,8 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            SheetsView(viewModel: SheetsView.ViewModel(modelContext: modelContext))
+            SheetsView(modelContext: modelContext)
         }
-    }
-    
-    init() {
     }
 }
 
@@ -22,17 +19,6 @@ struct ContentView: View {
         .configPreview()
 }
 #endif
-
-extension SheetsView.ViewModel {
-    convenience init(modelContext: ModelContext) {
-        let store = AppStore(modelContext: modelContext)
-        let coordinator = AppCoordinator()
-        let displayObject = SheetDisplayObject()
-        let presenter = SheetPresenter(store: store, display: displayObject.thread)
-        self.init(presenter: presenter, coordinator: coordinator)
-        displayObject.viewModel = self
-    }
-}
 
 import SwiftData
 

@@ -19,6 +19,7 @@
 		3B75D23C2B143695004BCF64 /* FinancesCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3B75D23B2B143695004BCF64 /* FinancesCore */; };
 		3BAAC4C82B1D35CB0083F532 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAAC4C72B1D35CB0083F532 /* AppCoordinator.swift */; };
 		3BAAC4CA2B1D36300083F532 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAAC4C92B1D36300083F532 /* AppStore.swift */; };
+		3BAAC4CD2B1D4CF70083F532 /* SheetsViewApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAAC4CC2B1D4CF70083F532 /* SheetsViewApp.swift */; };
 		3BB5E8662B1548540099C83C /* UTTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB5E8652B1548540099C83C /* UTTypeExtensions.swift */; };
 		3BB5E8682B1549280099C83C /* FinancesDB in Frameworks */ = {isa = PBXBuildFile; productRef = 3BB5E8672B1549280099C83C /* FinancesDB */; };
 		3BB5E86A2B15693F0099C83C /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB5E8692B15693F0099C83C /* Preview.swift */; };
@@ -57,6 +58,7 @@
 		3B75D22B2B1435A2004BCF64 /* FinancesMacUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinancesMacUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		3BAAC4C72B1D35CB0083F532 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		3BAAC4C92B1D36300083F532 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
+		3BAAC4CC2B1D4CF70083F532 /* SheetsViewApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetsViewApp.swift; sourceTree = "<group>"; };
 		3BB5E8652B1548540099C83C /* UTTypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UTTypeExtensions.swift; sourceTree = "<group>"; };
 		3BB5E8692B15693F0099C83C /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -116,6 +118,7 @@
 				3B75D20A2B1435A1004BCF64 /* FinancesMacApp.swift */,
 				3B75D20C2B1435A1004BCF64 /* FinancesMacDocument.swift */,
 				3B75D20E2B1435A1004BCF64 /* ContentView.swift */,
+				3BAAC4CB2B1D4CE60083F532 /* Scene */,
 				3BAAC4C62B1D35BE0083F532 /* MainFiles */,
 				3BB5E8642B1548420099C83C /* SupportFiles */,
 				3B75D2102B1435A2004BCF64 /* Assets.xcassets */,
@@ -165,6 +168,14 @@
 				3BAAC4C92B1D36300083F532 /* AppStore.swift */,
 			);
 			path = MainFiles;
+			sourceTree = "<group>";
+		};
+		3BAAC4CB2B1D4CE60083F532 /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				3BAAC4CC2B1D4CF70083F532 /* SheetsViewApp.swift */,
+			);
+			path = Scene;
 			sourceTree = "<group>";
 		};
 		3BB5E8642B1548420099C83C /* SupportFiles */ = {
@@ -317,6 +328,7 @@
 				3BB5E86A2B15693F0099C83C /* Preview.swift in Sources */,
 				3B75D20D2B1435A1004BCF64 /* FinancesMacDocument.swift in Sources */,
 				3BAAC4CA2B1D36300083F532 /* AppStore.swift in Sources */,
+				3BAAC4CD2B1D4CF70083F532 /* SheetsViewApp.swift in Sources */,
 				3B75D20F2B1435A1004BCF64 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
