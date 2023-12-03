@@ -153,13 +153,12 @@ final class SheetsViewTests: XCTestCase {
             SheetDTO.fixture(id: .init()),
             .fixture(id: .init())
         ]
-        
         try expect(
             sut: sut,
             using: doubles,
             given: { doubles in
                 doubles.configureGetSheetsToCompleteWith(list: listMock)
-                doubles.configureShowSheetScene(expecting: .fixture(id: listMock[0].id.value))
+                doubles.configureShowSheetScene(expecting: .fixture(id: listMock[0].id.viewModel))
             },
             step: .init(
                 when: { sut, doubles in
@@ -176,7 +175,7 @@ final class SheetsViewTests: XCTestCase {
             .init(
                 when: { sut, doubles in
                     doubles.cleanEvents()
-                    return try sut.tap(onID: listMock[0].id.value.uuidString)
+                    return try sut.tap(onID: "\(listMock[0].id)")
                 },
                 eventsExpected: ["GoToSheet"]
             )

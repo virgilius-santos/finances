@@ -35,7 +35,7 @@ public extension SheetDTO {
 }
 
 public extension SheetDTO.ID {
-    var viewModel: UUID {
-        value
+    var viewModel: SheetsViewModel.Item.ID {
+        .init(value)
     }
 }

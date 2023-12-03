@@ -2,9 +2,11 @@ import Foundation
 
 public struct SheetsViewModel: Equatable {
     public struct Item: Identifiable, Equatable {
-        public var id: UUID
+        public typealias ID = EntityID<Self>
         
-        public init(id: UUID) {
+        public var id: ID
+        
+        public init(id: ID) {
             self.id = id
         }
     }
