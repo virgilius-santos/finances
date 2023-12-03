@@ -10,10 +10,12 @@ public enum SheetSchemaV1: VersionedSchema {
     
     @Model
     public final class FinancesDBV1 {
+        public var id: UUID
         public var creationDate: Date
         
-        public init(creationDate: Date = .now) {
+        public init(creationDate: Date = .now, id: UUID = .init()) {
             self.creationDate = creationDate
+            self.id = id
         }
     }
 }
