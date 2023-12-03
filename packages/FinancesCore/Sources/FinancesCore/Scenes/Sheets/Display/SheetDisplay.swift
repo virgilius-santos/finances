@@ -9,9 +9,11 @@ public protocol SheetDisplay: AnyObject {
 public struct SheetsViewModel: Equatable {
     public struct Item: Identifiable, Equatable {
         public var id: ID
+        public var createdAt: Date
         
-        public init(id: ID) {
+        public init(id: ID, createdAt: Date) {
             self.id = id
+            self.createdAt = createdAt
         }
     }
     

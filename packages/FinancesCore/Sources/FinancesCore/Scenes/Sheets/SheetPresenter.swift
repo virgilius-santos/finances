@@ -43,7 +43,8 @@ public class SheetPresenter {
 public extension SheetDTO {
     var viewModel: SheetsViewModel.Item {
         SheetsViewModel.Item(
-            id: id.viewModel
+            id: id.viewModel,
+            createdAt: createdAt
         )
     }
 }

@@ -54,6 +54,6 @@ public extension SheetsViewModel {
 
 public extension SheetsViewModel.Item {
     static func fixture(id: ID = .fixture()) -> Self {
-        .init(id: id)
+        .init(id: id, createdAt: .fixture())
     }
 }

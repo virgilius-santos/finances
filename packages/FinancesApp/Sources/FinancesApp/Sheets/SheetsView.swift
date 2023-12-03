@@ -48,7 +48,9 @@ struct SheetsListView: View {
         List(items) { item in
             Text(item.id.value.uuidString)
                 .accessibilityIdentifier("\(item.id)")
-                .onTapGesture { selected(item) }
+                .onTapGesture {
+                    selected(item)
+                }
         }
         .accessibilityIdentifier("List.full")
     }

@@ -158,7 +158,7 @@ final class SheetsViewTests: XCTestCase {
             using: doubles,
             given: { doubles in
                 doubles.configureGetSheetsToCompleteWith(list: listMock)
-                doubles.configureShowSheetScene(expecting: .fixture(id: listMock[0].id.viewModel))
+                doubles.configureShowSheetScene(expecting: listMock[0].viewModel)
             },
             step: .init(
                 when: { sut, doubles in
