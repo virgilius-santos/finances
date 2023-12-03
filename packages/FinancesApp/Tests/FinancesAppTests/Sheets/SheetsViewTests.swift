@@ -147,6 +147,39 @@ final class SheetsViewTests: XCTestCase {
         )
     }
     
+    func testOnAppear_WhenLoadListWithErrot_ShouldAlert() throws {
+        let (sut, doubles) = makeSut()
+        
+        try expect(
+            sut: sut,
+            using: doubles,
+            given: { doubles in
+                doubles.configureGetSheetsToCompleteWithError()
+            },
+            step: .init(
+                when: { sut, doubles in
+                    try sut.callOnAppear()
+                },
+                eventsExpected: ["store data request"]
+            ),
+            .init(
+                when: { sut, doubles in
+                    doubles.receiveAsyncSheetResult()
+                },
+                eventsExpected: ["getSheets sent"]
+            ),
+            .init(
+                when: { sut, doubles in
+                    doubles.cleanEvents()
+                    return try sut.inspect().group().alert()
+                },
+                then: { alert in
+                    XCTAssertEqual(try alert.title().string(), "Deu Ruim")
+                }
+            )
+        )
+    }
+    
     func testOnItemClick_ShouldShowDetails() throws {
         let (sut, doubles) = makeSut()
         let listMock = [
@@ -233,6 +266,13 @@ private extension SheetsViewTests.Doubles {
     func configureGetSheetsToCompleteWith(list: [SheetDTO]) {
         store.configureGetSheets(
             toCompleteWith: .success(list),
+            sendMessage: { [weak self] in self?.events.append($0) }
+        )
+    }
+    
+    func configureGetSheetsToCompleteWithError() {
+        store.configureGetSheets(
+            toCompleteWith: .failure(.generic),
             sendMessage: { [weak self] in self?.events.append($0) }
         )
     }

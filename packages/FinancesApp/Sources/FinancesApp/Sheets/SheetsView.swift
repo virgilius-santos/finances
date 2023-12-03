@@ -21,7 +21,14 @@ public struct SheetsView: View {
         .onAppear {
             viewModel.load()
         }
+        .alert(
+            isPresented: $viewModel.isAlertShowing,
+            error: viewModel.error,
+            actions: {
+                Button("OK", action: {  viewModel.clearError() })
             }
+        )
+    }
     
     public init(viewModel: ViewModel) {
         self.viewModel = viewModel
@@ -87,6 +94,12 @@ extension SheetsView.ViewModel {
 public extension SheetsView {
     final class ViewModel: ObservableObject {
         @Published var state: State = .emptyState(title: "Crie sua primeira Planilha de Gastos")
+        @Published var error: ViewModelError? {
+            didSet {
+                isAlertShowing = error != nil
+            }
+        }
+        @Published var isAlertShowing = false
         
         let presenter: SheetPresenter
         let coordinator: SheetCoordinator
@@ -115,6 +128,10 @@ public extension SheetsView {
         func delete(item: SheetsViewModel.Item) {
             presenter.delete(item: item)
         }
+        
+        func clearError() {
+            error = nil
+        }
     }
 }
 
@@ -127,7 +144,10 @@ extension SheetsView.ViewModel: SheetDisplay {
         state = .list(items: sheets.items)
     }
     
+    struct ViewModelError: LocalizedError {
+        var errorDescription: String? = "Deu Ruim"
+    }
     public func showError() {
-        // TODO: pending
+        error = .init()
     }
 }
