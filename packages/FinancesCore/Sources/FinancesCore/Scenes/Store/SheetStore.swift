@@ -10,6 +10,11 @@ public protocol RemoveSheetStore: AnyObject {
     func remove(sheetID: SheetDTO.ID, completion: @escaping (RemoveSheetResult) -> Void)
 }
 
+public protocol AddSheetStore: AnyObject {
+    typealias AddSheetResult = SheetError?
+    func addSheet(_ sheet: SheetDTO, completion: @escaping (AddSheetResult) -> Void)
+}
+
 public enum SheetError: Error, Equatable {
     case generic
 }

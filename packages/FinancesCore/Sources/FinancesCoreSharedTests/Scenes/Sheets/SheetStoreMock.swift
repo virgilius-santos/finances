@@ -2,6 +2,32 @@ import XCTest
 import FinancesCore
 
 public class SheetStoreMock: AbstractDouble, GetSheetStore, RemoveSheetStore, AddSheetStore {
+    // MARK: Add
+    public lazy var addSheetImpl: (_ sheet: SheetDTO, _ completion: @escaping (AddSheetResult) -> Void) -> Void = { [file, line] _, _ in
+        XCTFail("\(Self.self).addSheet not implemented", file: file, line: line)
+    }
+    public func addSheet(_ sheet: SheetDTO, completion: @escaping (AddSheetResult) -> Void) {
+        addSheetImpl(sheet, completion)
+    }
+    
+    public var addSheetCompletion: (() -> Void)?
+    public func configureAddSheet(
+        expecting sheet: SheetDTO,
+        toCompleteWith result: AddSheetResult,
+        sendMessage: @escaping (String) -> Void,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        addSheetImpl = { [weak self] sheetReceived, completion in
+            XCTAssertEqual(sheetReceived, sheet, "invalid sheet received", file: file, line: line)
+            self?.addSheetCompletion = {
+                sendMessage("store completed")
+                completion(result)
+            }
+            sendMessage("store requested")
+        }
+    }
+    
     // MARK: Get
     public lazy var getSheetsImpl: (_ completion: @escaping (GetSheetsResult) -> Void) -> Void = { [file, line] _ in
         XCTFail("\(Self.self).getSheets not implemented", file: file, line: line)
