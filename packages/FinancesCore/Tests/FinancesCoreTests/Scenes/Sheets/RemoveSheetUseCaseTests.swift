@@ -2,7 +2,7 @@ import XCTest
 import FinancesCore
 import FinancesCoreSharedTests
 
-final class RemoveSheetUseCase: XCTestCase {
+final class RemoveSheetUseCaseTests: XCTestCase {
     func testRemove_ShouldRemoveFromStore_AndReloadData() throws {
         let (sut, doubles) = makeSut()
         
@@ -12,13 +12,13 @@ final class RemoveSheetUseCase: XCTestCase {
             given: { doubles in
                 doubles.configureRemoveSheetsToCompleteWithTrue()
             },
-            step: .init(
+            .Step(
                 when: { sut, doubles in
                     sut.delete(item: doubles.itemMock)
                 },
                 eventsExpected: ["remove data request"]
             ),
-            .init(
+            .And(
                 when: { _, doubles in
                     doubles.receiveAsyncRemoveSheetResult()
                 },
@@ -36,13 +36,13 @@ final class RemoveSheetUseCase: XCTestCase {
             given: { doubles in
                 doubles.configureRemoveSheetsToCompleteWithFalse()
             },
-            step: .init(
+            .Step(
                 when: { sut, doubles in
                     sut.delete(item: doubles.itemMock)
                 },
                 eventsExpected: ["remove data request"]
             ),
-            .init(
+            .And(
                 when: { _, doubles in
                     doubles.receiveAsyncRemoveSheetResult()
                 },
@@ -60,13 +60,13 @@ final class RemoveSheetUseCase: XCTestCase {
             given: { doubles in
                 doubles.configureRemoveSheetsToFail()
             },
-            step: .init(
+            .Step(
                 when: { sut, doubles in
                     sut.delete(item: doubles.itemMock)
                 },
                 eventsExpected: ["remove data request"]
             ),
-            .init(
+            .And(
                 when: { _, doubles in
                     doubles.receiveAsyncRemoveSheetResult()
                 },
@@ -76,7 +76,7 @@ final class RemoveSheetUseCase: XCTestCase {
     }
 }
 
-private extension RemoveSheetUseCase {
+private extension RemoveSheetUseCaseTests {
     typealias SUT = SheetsPresenter
     
     final class Doubles: AbstractDouble {
@@ -96,7 +96,7 @@ private extension RemoveSheetUseCase {
     }
 }
 
-private extension RemoveSheetUseCase.Doubles {
+private extension RemoveSheetUseCaseTests.Doubles {
     func configureRemoveSheetsToCompleteWithTrue(file: StaticString = #filePath, line: UInt = #line) {
         store.configureRemoveSheet(
             expecting: .init(itemMock.id.value),

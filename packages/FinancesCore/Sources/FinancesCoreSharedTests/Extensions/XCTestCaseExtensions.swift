@@ -20,7 +20,25 @@ public extension XCTestCase {
         fileprivate let file: StaticString
         fileprivate let line: UInt
         
-        public init<Result>(
+        public static func Step<Result>(
+            when: @escaping (SUT, Doubles) throws -> Result,
+            then: @escaping (Result) throws -> Void = { _ in },
+            eventsExpected: [String] = [],
+            file: StaticString = #filePath, line: UInt = #line
+        ) -> Step<SUT, Doubles> {
+            .init(when: when, then: then, eventsExpected: eventsExpected, file: file, line: line)
+        }
+        
+        public static func And<Result>(
+            when: @escaping (SUT, Doubles) throws -> Result,
+            then: @escaping (Result) throws -> Void = { _ in },
+            eventsExpected: [String] = [],
+            file: StaticString = #filePath, line: UInt = #line
+        ) -> Step<SUT, Doubles> {
+            .init(when: when, then: then, eventsExpected: eventsExpected, file: file, line: line)
+        }
+        
+        fileprivate init<Result>(
             when: @escaping (SUT, Doubles) throws -> Result,
             then: @escaping (Result) throws -> Void = { _ in },
             eventsExpected: [String] = [],
@@ -39,38 +57,8 @@ public extension XCTestCase {
         sut: SUT,
         using doubles: Doubles,
         given: (Doubles) -> Void = { _ in },
-        when: @escaping (SUT, Doubles) throws -> Void,
-        expectEvents: [String],
-        and actions: (
-            when: (SUT, Doubles) -> Void,
-            expectEvents: [String]
-        )...,
-        file: StaticString = #filePath, line: UInt = #line
-    ) throws {
-        try expect(
-            sut: sut,
-            using: doubles,
-            given: given,
-            step: .init(
-                when: { try when($0, $1) },
-                then: { _ in },
-                eventsExpected: expectEvents,
-                file: file, line: line
-            ),
-            and: actions.map { step in .init(
-                when: { step.when($0, $1) },
-                eventsExpected: step.expectEvents,
-                file: file, line: line
-            )}
-        )
-    }
-    
-    func expect<SUT, Doubles: EventsReceiver>(
-        sut: SUT,
-        using doubles: Doubles,
-        given: (Doubles) -> Void = { _ in },
-        step firstStep: Step<SUT, Doubles>,
-        and moreSteps: [Step<SUT, Doubles>]
+        _ firstStep: Step<SUT, Doubles>,
+        _ moreSteps: Step<SUT, Doubles>...
     ) throws {
         given(doubles)
         
@@ -79,15 +67,5 @@ public extension XCTestCase {
             try step.then()
             doubles.expectEvents(step.eventsExpected, file: step.file, line: step.line)
         }
-    }
-    
-    func expect<SUT, Doubles: EventsReceiver>(
-        sut: SUT,
-        using doubles: Doubles,
-        given: (Doubles) -> Void = { _ in },
-        step firstStep: Step<SUT, Doubles>,
-        _ moreSteps: Step<SUT, Doubles>...
-    ) throws {
-       try expect(sut: sut, using: doubles, given: given, step: firstStep, and: moreSteps)
     }
 }

@@ -12,7 +12,7 @@ final class SheetsViewTests: XCTestCase {
         try expect(
             sut: sut,
             using: doubles,
-            step: .init(
+            .Step(
                 when: { sut, doubles in
                     try sut.findValue(for: "EmptyState.Text")
                 },
@@ -37,13 +37,13 @@ final class SheetsViewTests: XCTestCase {
                 doubles.configureShowNewSheetScene(completeWith: true)
                 doubles.configureGetSheetsToCompleteWith(list: listMock)
             },
-            step: .init(
+            .Step(
                 when: { sut, doubles in
                     try sut.tap(onLabel: "Add Sheet")
                 },
                 eventsExpected: ["add new sheet request"]
             ),
-            .init(
+            .And(
                 when: { sut, doubles in
                     doubles.receiveAsyncAddNewSheetResult()
                 },
@@ -61,13 +61,13 @@ final class SheetsViewTests: XCTestCase {
             given: { doubles in
                 doubles.configureShowNewSheetScene(completeWith: false)
             },
-            step: .init(
+            .And(
                 when: { sut, doubles in
                     try sut.tap(onLabel: "Add Sheet")
                 },
                 eventsExpected: ["add new sheet request"]
             ),
-            .init(
+            .And(
                 when: { sut, doubles in
                     doubles.receiveAsyncAddNewSheetResult()
                 },
@@ -85,19 +85,19 @@ final class SheetsViewTests: XCTestCase {
             given: { doubles in
                 doubles.configureGetSheetsToCompleteWithEmptyState()
             },
-            step: .init(
+            .Step(
                 when: { sut, doubles in
                     try sut.callOnAppear()
                 },
                 eventsExpected: ["store data request"]
             ),
-            .init(
+            .And(
                 when: { sut, doubles in
                     doubles.receiveAsyncSheetResult()
                 },
                 eventsExpected: ["getSheets sent"]
             ),
-            .init(
+            .And(
                 when: { sut, doubles in
                     doubles.cleanEvents()
                     return try sut.findValue(for: "EmptyState.Text")
@@ -123,19 +123,19 @@ final class SheetsViewTests: XCTestCase {
             given: { doubles in
                 doubles.configureGetSheetsToCompleteWith(list: listMock)
             },
-            step: .init(
+            .Step(
                 when: { sut, doubles in
                     try sut.callOnAppear()
                 },
                 eventsExpected: ["store data request"]
             ),
-            .init(
+            .And(
                 when: { sut, doubles in
                     doubles.receiveAsyncSheetResult()
                 },
                 eventsExpected: ["getSheets sent"]
             ),
-            .init(
+            .And(
                 when: { sut, doubles in
                     doubles.cleanEvents()
                     return try sut.getListRowsIds(numberOfRows: listMock.count)
@@ -156,19 +156,19 @@ final class SheetsViewTests: XCTestCase {
             given: { doubles in
                 doubles.configureGetSheetsToCompleteWithError()
             },
-            step: .init(
+            .Step(
                 when: { sut, doubles in
                     try sut.callOnAppear()
                 },
                 eventsExpected: ["store data request"]
             ),
-            .init(
+            .And(
                 when: { sut, doubles in
                     doubles.receiveAsyncSheetResult()
                 },
                 eventsExpected: ["getSheets sent"]
             ),
-            .init(
+            .And(
                 when: { sut, doubles in
                     doubles.cleanEvents()
                     return try sut.inspect().group().alert()
@@ -193,19 +193,19 @@ final class SheetsViewTests: XCTestCase {
                 doubles.configureGetSheetsToCompleteWith(list: listMock)
                 doubles.configureShowSheetScene(expecting: listMock[0].viewModel)
             },
-            step: .init(
+            .Step(
                 when: { sut, doubles in
                     try sut.callOnAppear()
                 },
                 eventsExpected: ["store data request"]
             ),
-            .init(
+            .And(
                 when: { sut, doubles in
                     doubles.receiveAsyncSheetResult()
                 },
                 eventsExpected: ["getSheets sent"]
             ),
-            .init(
+            .And(
                 when: { sut, doubles in
                     doubles.cleanEvents()
                     return try sut.tap(onID: "\(listMock[0].id)")

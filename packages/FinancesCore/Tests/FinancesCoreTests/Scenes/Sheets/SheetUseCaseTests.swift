@@ -12,8 +12,10 @@ final class SheetUseCaseTests: XCTestCase {
             given: { doubles in
                 doubles.configureGetSheets()
             },
-            when: { sut, _ in sut.load() },
-            expectEvents: ["store data request"]
+            .Step(
+                when: { sut, _ in sut.load() },
+                eventsExpected: ["store data request"]
+            )
         )
     }
     
@@ -28,11 +30,13 @@ final class SheetUseCaseTests: XCTestCase {
                 doubles.configureGetSheets()
                 doubles.configureDisplayEmptyData()
             },
-            when: { sut, _ in sut.load() },
-            expectEvents: ["store data request"],
-            and: (
+            .Step(
+                when: { sut, _ in sut.load() },
+                eventsExpected: ["store data request"]
+            ),
+            .And(
                 when: { _, doubles in doubles.receiveAsyncSheetResult() },
-                expectEvents: ["getSheets sent", "display emptyData"]
+                eventsExpected: ["getSheets sent", "display emptyData"]
             )
         )
     }
@@ -48,11 +52,13 @@ final class SheetUseCaseTests: XCTestCase {
                 doubles.configureGetSheets()
                 doubles.configureDisplayError()
             },
-            when: { sut, _ in sut.load() },
-            expectEvents: ["store data request"],
-            and: (
+            .Step(
+                when: { sut, _ in sut.load() },
+                eventsExpected: ["store data request"]
+            ),
+            .And(
                 when: { _, doubles in doubles.receiveAsyncSheetResult() },
-                expectEvents: ["getSheets sent", "display error"]
+                eventsExpected: ["getSheets sent", "display error"]
             )
         )
     }
@@ -71,11 +77,13 @@ final class SheetUseCaseTests: XCTestCase {
                 doubles.configureGetSheets()
                 doubles.configureDisplaySheets()
             },
-            when: { sut, _ in sut.load() },
-            expectEvents: ["store data request"],
-            and: (
+            .Step(
+                when: { sut, _ in sut.load() },
+                eventsExpected: ["store data request"]
+            ),
+            .And(
                 when: { _, doubles in doubles.receiveAsyncSheetResult() },
-                expectEvents: ["getSheets sent", "display sheets"]
+                eventsExpected: ["getSheets sent", "display sheets"]
             )
         )
     }
@@ -86,40 +94,10 @@ private extension SheetUseCaseTests {
     
     final class Doubles: AbstractDouble {
         lazy var store = SheetStoreMock(file: file, line: line)
-        
-        var getSheetsResult = SheetStoreMock.GetSheetsResult.success([])
-        func configureGetSheets() {
-            store.configureGetSheets(
-                toCompleteWith: getSheetsResult,
-                sendMessage: { [weak self] in self?.events.append($0) }
-            )
-        }
-        
-        func receiveAsyncSheetResult() {
-            events = []
-            store.getSheetsCompletion?()
-        }
-        
         lazy var display = SheetDisplayMock(file: file, line: line)
         
-        func configureDisplayEmptyData() {
-            display.configureDisplayEmptyData { [weak self] in
-                self?.events.append($0)
-            }
-        }
-        
+        var getSheetsResult = SheetStoreMock.GetSheetsResult.success([])
         var sheetsToTeceive = SheetsViewModel.fixture()
-        func configureDisplaySheets() {
-            display.configureDisplaySheets(toReceive: sheetsToTeceive) { [weak self] in
-                self?.events.append($0)
-            }
-        }
-        
-        func configureDisplayError() {
-            display.configureDisplayError { [weak self] in
-                self?.events.append($0)
-            }
-        }
     }
     
     func makeSut(file: StaticString = #filePath, line: UInt = #line) -> (SUT, Doubles) {
@@ -129,5 +107,37 @@ private extension SheetUseCaseTests {
         verifyMemoryLeak(for: doubles.display, file: file, line: line)
         verifyMemoryLeak(for: doubles.store, file: file, line: line)
         return (sut, doubles)
+    }
+}
+
+private extension SheetUseCaseTests.Doubles {
+    func configureGetSheets() {
+        store.configureGetSheets(
+            toCompleteWith: getSheetsResult,
+            sendMessage: { [weak self] in self?.events.append($0) }
+        )
+    }
+    
+    func receiveAsyncSheetResult() {
+        events = []
+        store.getSheetsCompletion?()
+    }
+    
+    func configureDisplayEmptyData() {
+        display.configureDisplayEmptyData { [weak self] in
+            self?.events.append($0)
+        }
+    }
+    
+    func configureDisplaySheets() {
+        display.configureDisplaySheets(toReceive: sheetsToTeceive) { [weak self] in
+            self?.events.append($0)
+        }
+    }
+    
+    func configureDisplayError() {
+        display.configureDisplayError { [weak self] in
+            self?.events.append($0)
+        }
     }
 }
