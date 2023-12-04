@@ -16,7 +16,7 @@ final class AppStore {
     }
 }
 
-extension AppStore: SheetStore {
+extension AppStore: GetSheetStore {
     func getSheets(completion: @escaping (GetSheetsResult) -> Void) {
         do {
             let descriptor = FetchDescriptor<FinancesDB>()
@@ -26,7 +26,9 @@ extension AppStore: SheetStore {
             completion(.failure(.generic))
         }
     }
-    
+}
+
+extension AppStore: RemoveSheetStore {
     func remove(sheetID: SheetDTO.ID, completion: @escaping (RemoveSheetResult) -> Void) {
         do {
             try modelContext.delete(model: FinancesDB.self, where: #Predicate { sheets in

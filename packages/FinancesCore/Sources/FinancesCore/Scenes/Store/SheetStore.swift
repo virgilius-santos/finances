@@ -1,9 +1,11 @@
 import Foundation
 
-public protocol SheetStore: AnyObject {
+public protocol GetSheetStore: AnyObject {
     typealias GetSheetsResult = Result<[SheetDTO], SheetError>
     func getSheets(completion: @escaping (GetSheetsResult) -> Void)
+}
 
+public protocol RemoveSheetStore: AnyObject {
     typealias RemoveSheetResult = Result<Bool, SheetError>
     func remove(sheetID: SheetDTO.ID, completion: @escaping (RemoveSheetResult) -> Void)
 }

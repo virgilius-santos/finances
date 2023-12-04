@@ -1,7 +1,7 @@
 import XCTest
 import FinancesCore
 
-public class SheetStoreMock: AbstractDouble, SheetStore {
+public class SheetStoreMock: AbstractDouble, GetSheetStore, RemoveSheetStore, AddSheetStore {
     // MARK: Get
     public lazy var getSheetsImpl: (_ completion: @escaping (GetSheetsResult) -> Void) -> Void = { [file, line] _ in
         XCTFail("\(Self.self).getSheets not implemented", file: file, line: line)
