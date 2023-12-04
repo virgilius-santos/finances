@@ -1,15 +1,15 @@
 import Foundation
 
-public extension SheetDisplay {
-    var thread: SheetDisplay {
-        SheetDisplayThread(viewModel: self)
+public extension SheetsDisplay {
+    var thread: SheetsDisplay {
+        SheetsDisplayThread(viewModel: self)
     }
 }
 
-public final class SheetDisplayThread: SheetDisplay {
-    public let viewModel: SheetDisplay
+public final class SheetsDisplayThread: SheetsDisplay {
+    public let viewModel: SheetsDisplay
     
-    public init(viewModel: SheetDisplay) {
+    public init(viewModel: SheetsDisplay) {
         self.viewModel = viewModel
     }
     

@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol SheetDisplay: AnyObject {
+public protocol SheetsDisplay: AnyObject {
     func showEmptyData()
     func show(sheets: SheetsViewModel)
     func showError()

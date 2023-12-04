@@ -1,10 +1,10 @@
 import Foundation
 
-public class SheetPresenter {
+public class SheetsPresenter {
     let store: SheetStore
-    let display: SheetDisplay
+    let display: SheetsDisplay
     
-    public init(store: SheetStore, display: SheetDisplay) {
+    public init(store: SheetStore, display: SheetsDisplay) {
         self.store = store
         self.display = display
     }

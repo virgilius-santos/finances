@@ -101,10 +101,10 @@ public extension SheetsView {
         }
         @Published var isAlertShowing = false
         
-        let presenter: SheetPresenter
+        let presenter: SheetsPresenter
         let coordinator: SheetCoordinator
         
-        public init(presenter: SheetPresenter, coordinator: SheetCoordinator) {
+        public init(presenter: SheetsPresenter, coordinator: SheetCoordinator) {
             self.presenter = presenter
             self.coordinator = coordinator
         }
@@ -135,7 +135,7 @@ public extension SheetsView {
     }
 }
 
-extension SheetsView.ViewModel: SheetDisplay {
+extension SheetsView.ViewModel: SheetsDisplay {
     public func showEmptyData() {
         state = .emptyState(title: "Crie sua primeira Planilha de Gastos")
     }

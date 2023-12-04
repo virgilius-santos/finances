@@ -1,9 +1,9 @@
 import Foundation
 
-public final class SheetDisplayObject: SheetDisplay {
-    public weak var viewModel: SheetDisplay?
+public final class SheetsDisplayObject: SheetsDisplay {
+    public weak var viewModel: SheetsDisplay?
     
-    public init(viewModel: SheetDisplay? = nil) {
+    public init(viewModel: SheetsDisplay? = nil) {
         self.viewModel = viewModel
     }
     

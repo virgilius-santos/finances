@@ -77,7 +77,7 @@ final class RemoveSheetUseCase: XCTestCase {
 }
 
 private extension RemoveSheetUseCase {
-    typealias SUT = SheetPresenter
+    typealias SUT = SheetsPresenter
     
     final class Doubles: AbstractDouble {
         lazy var store = SheetStoreMock(file: file, line: line)

@@ -1,7 +1,7 @@
 import XCTest
 import FinancesCore
 
-public class SheetDisplayMock: AbstractDouble, SheetDisplay {
+public class SheetDisplayMock: AbstractDouble, SheetsDisplay {
     public lazy var showEmptyDataImpl: () -> Void = { [file, line] in
         XCTFail("\(Self.self).showEmptyData not implemented", file: file, line: line)
     }

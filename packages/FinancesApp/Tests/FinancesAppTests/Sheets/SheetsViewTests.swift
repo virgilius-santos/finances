@@ -224,8 +224,8 @@ private extension SheetsViewTests {
         lazy var coordinator = SheetsCoordinatorMock(file: file, line: line)
         
         lazy var viewModel: SheetsView.ViewModel = { doubles in
-            let object = SheetDisplayObject()
-            let presenter = SheetPresenter(store: doubles.store, display: object)
+            let object = SheetsDisplayObject()
+            let presenter = SheetsPresenter(store: doubles.store, display: object)
             let viewModel = SUT.ViewModel(presenter: presenter, coordinator: doubles.coordinator)
             object.viewModel = viewModel
             doubles.expectEvents([])
