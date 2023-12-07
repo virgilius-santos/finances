@@ -1,7 +1,7 @@
 import Foundation
 
 public class SheetsPresenter {
-    public typealias Store = GetSheetStore & RemoveSheetStore
+    public typealias Store = GetSheetStore & RemoveSheetStore & AddSheetStore
     
     let store: Store
     let display: SheetsDisplay
@@ -39,6 +39,17 @@ public class SheetsPresenter {
                 self.display.showError()
             }
         }
+    }
+    
+    public func add(sheet: AddSheetViewModel) {
+        store.addSheet(sheet.dto, completion: { [weak self] error in
+            guard let self else { return }
+            if error != nil {
+                self.display.showError()
+            } else {
+                self.load()
+            }
+        })
     }
 }
 

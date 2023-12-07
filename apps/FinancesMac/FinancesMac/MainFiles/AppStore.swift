@@ -42,11 +42,29 @@ extension AppStore: RemoveSheetStore {
     }
 }
 
+extension AppStore: AddSheetStore {
+    func addSheet(_ sheet: SheetDTO, completion: @escaping (AddSheetResult) -> Void) {
+        do {
+            modelContext.insert(sheet.db)
+            try modelContext.save()
+            completion(nil)
+        } catch {
+            completion(.generic)
+        }
+    }
+}
+
 extension FinancesDB {
     var dto: SheetDTO {
         .init(
             id: .init(id),
             createdAt: creationDate
         )
+    }
+}
+
+extension SheetDTO {
+    var db: FinancesDB {
+        .init(creationDate: createdAt, id: id.value)
     }
 }

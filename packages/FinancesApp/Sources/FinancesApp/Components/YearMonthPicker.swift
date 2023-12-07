@@ -1,5 +1,26 @@
 import SwiftUI
 
+public extension View {
+    func yearMonthPicker(
+        showing: Binding<Bool>,
+        dateSelect: @escaping (Date) -> Void
+    ) -> some View {
+        modifier(Watermark(
+            showing: showing,
+            dateSelect: dateSelect,
+            marking: { close in
+                YearMonthPicker(
+                    cancel: { close() },
+                    dateSelected: { date in
+                        dateSelect(date)
+                        close()
+                    }
+                )
+            }
+        ))
+    }
+}
+
 public struct YearMonthPicker: View {
     final class ViewModel: ObservableObject {
         @Published var selectedDate: Date = .now
@@ -53,15 +74,11 @@ public struct YearMonthPicker: View {
             HStack {
                 Spacer()
                 
-                Button("Done") {
-                    cancel()
-                }
-                .buttonStyle(GrowingButton())
+                Button("Done") { dateSelected(viewModel.selectedDate) }
+                    .buttonStyle(GrowingButton())
                 
-                Button("Cancel") {
-                    dateSelected(viewModel.selectedDate)
-                }
-                .buttonStyle(GrowingButton(background: .red))
+                Button("Cancel", action: cancel)
+                    .buttonStyle(GrowingButton(background: .red))
             }
             .padding(.top, 16)
             .padding(.horizontal, 24)

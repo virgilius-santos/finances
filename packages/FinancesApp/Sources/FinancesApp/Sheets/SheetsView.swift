@@ -12,7 +12,7 @@ public struct SheetsView: View {
     @ObservedObject var viewModel: ViewModel
     
     public var body: some View {
-        Group {
+        VStack {
             Button("Add Sheet") {
                 viewModel.addNewSheet()
             }
@@ -27,6 +27,10 @@ public struct SheetsView: View {
             actions: {
                 Button("OK", action: {  viewModel.clearError() })
             }
+        )
+        .yearMonthPicker(
+            showing: $viewModel.showYearMonthPicker,
+            dateSelect: { date in viewModel.add(date: date) }
         )
     }
     
@@ -100,6 +104,7 @@ public extension SheetsView {
             }
         }
         @Published var isAlertShowing = false
+        @Published var showYearMonthPicker = false
         
         let presenter: SheetsPresenter
         let coordinator: SheetCoordinator
@@ -114,11 +119,17 @@ public extension SheetsView {
         }
         
         func addNewSheet() {
-            coordinator.addNewSheet { [weak self] result in
-                if result {
-                    self?.load()
-                }
-            }
+            showYearMonthPicker = true
+//            coordinator.addNewSheet { [weak self] result in
+//                if result {
+//                    self?.load()
+//                }
+//            }
+        }
+        
+        func add(date: Date) {
+            let viewModel = AddSheetViewModel(id: .init(), date: date)
+            presenter.add(sheet: viewModel)
         }
         
         func show(item: SheetsViewModel.Item) {
