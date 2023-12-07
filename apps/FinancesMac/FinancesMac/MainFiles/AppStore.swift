@@ -19,7 +19,7 @@ final class AppStore {
 extension AppStore: GetSheetStore {
     func getSheets(completion: @escaping (GetSheetsResult) -> Void) {
         do {
-            let descriptor = FetchDescriptor<FinancesDB>()
+            let descriptor = FetchDescriptor<FinancesDB>(sortBy: [SortDescriptor(\.creationDate, order: .reverse)])
             let sheets: [FinancesDB] = try modelContext.fetch(descriptor)
             completion(.success(sheets.map(\.dto)))
         } catch {
