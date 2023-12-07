@@ -10,6 +10,9 @@ public struct SheetsViewModel: Equatable {
     public struct Item: Identifiable, Equatable {
         public var id: ID
         public var createdAt: Date
+        public var title: String {
+            "\(createdAt.formatted(.dateTime.year(.twoDigits))) - \(createdAt.formatted(.dateTime.month(.abbreviated)))"
+        }
         
         public init(id: ID, createdAt: Date) {
             self.id = id

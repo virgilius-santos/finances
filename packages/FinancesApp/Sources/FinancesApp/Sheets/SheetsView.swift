@@ -64,7 +64,7 @@ struct SheetsListView: View {
     
     var body: some View {
         List(items) { item in
-            Text(item.id.value.uuidString)
+            Text(item.title)
                 .accessibilityIdentifier("\(item.id)")
                 .onTapGesture {
                     selected(item)

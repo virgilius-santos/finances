@@ -10,11 +10,18 @@ public let previewContainer: ModelContainer = {
         )
         let modelContext = container.mainContext
         if try modelContext.fetch(FetchDescriptor<FinancesDB>()).isEmpty {
-//            SampleDeck.contents.forEach { container.mainContext.insert($0) }
+            SampleDeck.contents.forEach { container.mainContext.insert($0) }
         }
         return container
     } catch {
         fatalError("Failed to create container")
     }
 }()
+
+enum SampleDeck {
+    static let contents: [FinancesDB] = [
+        .init(),
+        .init()
+    ]
+}
 #endif
