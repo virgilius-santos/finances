@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3B75D20B2B1435A1004BCF64 /* FinancesMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B75D20A2B1435A1004BCF64 /* FinancesMacApp.swift */; };
-		3B75D20D2B1435A1004BCF64 /* FinancesMacDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B75D20C2B1435A1004BCF64 /* FinancesMacDocument.swift */; };
 		3B75D20F2B1435A1004BCF64 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B75D20E2B1435A1004BCF64 /* ContentView.swift */; };
 		3B75D2112B1435A2004BCF64 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B75D2102B1435A2004BCF64 /* Assets.xcassets */; };
 		3B75D2142B1435A2004BCF64 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B75D2132B1435A2004BCF64 /* Preview Assets.xcassets */; };
@@ -45,7 +44,6 @@
 /* Begin PBXFileReference section */
 		3B75D2072B1435A1004BCF64 /* FinancesMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinancesMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B75D20A2B1435A1004BCF64 /* FinancesMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinancesMacApp.swift; sourceTree = "<group>"; };
-		3B75D20C2B1435A1004BCF64 /* FinancesMacDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinancesMacDocument.swift; sourceTree = "<group>"; };
 		3B75D20E2B1435A1004BCF64 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3B75D2102B1435A2004BCF64 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3B75D2132B1435A2004BCF64 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -116,7 +114,6 @@
 			isa = PBXGroup;
 			children = (
 				3B75D20A2B1435A1004BCF64 /* FinancesMacApp.swift */,
-				3B75D20C2B1435A1004BCF64 /* FinancesMacDocument.swift */,
 				3B75D20E2B1435A1004BCF64 /* ContentView.swift */,
 				3BAAC4CB2B1D4CE60083F532 /* Scene */,
 				3BAAC4C62B1D35BE0083F532 /* MainFiles */,
@@ -326,7 +323,6 @@
 				3BB5E8662B1548540099C83C /* UTTypeExtensions.swift in Sources */,
 				3B75D20B2B1435A1004BCF64 /* FinancesMacApp.swift in Sources */,
 				3BB5E86A2B15693F0099C83C /* Preview.swift in Sources */,
-				3B75D20D2B1435A1004BCF64 /* FinancesMacDocument.swift in Sources */,
 				3BAAC4CA2B1D36300083F532 /* AppStore.swift in Sources */,
 				3BAAC4CD2B1D4CF70083F532 /* SheetsViewApp.swift in Sources */,
 				3B75D20F2B1435A1004BCF64 /* ContentView.swift in Sources */,

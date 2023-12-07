@@ -1,10 +1,7 @@
 import FinancesCore
 import SwiftUI
 
-public protocol SheetCoordinator {
-    typealias NewSheetResult = Bool
-    func addNewSheet(completion: @escaping (NewSheetResult) -> Void)
-    
+public protocol SheetCoordinator {    
     func goTo(item: SheetsViewModel.Item)
 }
 

@@ -5,11 +5,12 @@ import FinancesDB
 
 struct ContentView: View {
     @Environment(\.modelContext) var modelContext
+    @StateObject var coordinator = AppCoordinator()
     
     @State var picker = true
     var body: some View {
         VStack {
-            SheetsView(modelContext: modelContext)
+            SheetsView(modelContext: modelContext, coordinator: coordinator)
         }
     }
 }
