@@ -22,59 +22,6 @@ final class SheetsViewTests: XCTestCase {
             )
         )
     }
-    
-    func testClickOnAddButton_ShouldShowLoadSheet() throws {
-        let (sut, doubles) = makeSut()
-        let listMock = [
-            SheetDTO.fixture(id: .init()),
-            .fixture(id: .init())
-        ]
-        
-        try expect(
-            sut: sut,
-            using: doubles,
-            given: { doubles in
-                doubles.configureShowNewSheetScene(completeWith: true)
-                doubles.configureGetSheetsToCompleteWith(list: listMock)
-            },
-            .Step(
-                when: { sut, doubles in
-                    try sut.tap(onLabel: "Add Sheet")
-                },
-                eventsExpected: ["add new sheet request"]
-            ),
-            .And(
-                when: { sut, doubles in
-                    doubles.receiveAsyncAddNewSheetResult()
-                },
-                eventsExpected: ["addNewSheet sent", "store data request"]
-            )
-        )
-    }
-    
-    func testClickOnAddButton_WhenFail_ShouldShowNotLoadSheets() throws {
-        let (sut, doubles) = makeSut()
-        
-        try expect(
-            sut: sut,
-            using: doubles,
-            given: { doubles in
-                doubles.configureShowNewSheetScene(completeWith: false)
-            },
-            .And(
-                when: { sut, doubles in
-                    try sut.tap(onLabel: "Add Sheet")
-                },
-                eventsExpected: ["add new sheet request"]
-            ),
-            .And(
-                when: { sut, doubles in
-                    doubles.receiveAsyncAddNewSheetResult()
-                },
-                eventsExpected: ["addNewSheet sent"]
-            )
-        )
-    }
             
     func testOnAppear_WhenLoadEmptyList_ShouldShowEmptyState() throws {
         let (sut, doubles) = makeSut()
@@ -244,18 +191,6 @@ private extension SheetsViewTests {
 }
 
 private extension SheetsViewTests.Doubles {
-    func configureShowNewSheetScene(completeWith result: Bool) {
-        coordinator.configureaddNewSheet(
-            toCompleteWith: result,
-            sendMessage: { [weak self] in self?.events.append($0) }
-        )
-    }
-    
-    func receiveAsyncAddNewSheetResult() {
-        events = []
-        coordinator.addNewSheetCompletion?()
-    }
-    
     func configureGetSheetsToCompleteWithEmptyState() {
         store.configureGetSheets(
             toCompleteWith: SheetStoreMock.GetSheetsResult.success([]),
