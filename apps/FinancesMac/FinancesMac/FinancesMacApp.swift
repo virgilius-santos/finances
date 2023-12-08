@@ -6,14 +6,15 @@ import SwiftData
 @main
 struct FinancesMacApp: App {
     var body: some Scene {
-        DocumentGroup.init(
-            editing: .financesSheets,
-            migrationPlan: FinancesMigration.self,
-            editor: {
-                ContentView()
-            },
-            prepareDocument: { modelContext in
-            }
-        )
+//        DocumentGroup.init(
+//            editing: .financesSheets,
+//            migrationPlan: FinancesMigration.self,
+//            editor: {
+//                ContentView()
+//                    .contentTransition(.identity)
+//            },
+//            prepareDocument: { modelContext in
+//            }
+//        )
     }
 }
