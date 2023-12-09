@@ -21,23 +21,6 @@
 		3B0605F42B22A0D800F63EC5 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAAC4C92B1D36300083F532 /* AppStore.swift */; };
 		3B0605F52B22A0DE00F63EC5 /* UTTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB5E8652B1548540099C83C /* UTTypeExtensions.swift */; };
 		3B0605F62B22A0DE00F63EC5 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB5E8692B15693F0099C83C /* Preview.swift */; };
-		3B1027902B24E1600085F9D7 /* ExpenseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B10278E2B24E0180085F9D7 /* ExpenseTracker.swift */; };
-		3B1027912B24E1610085F9D7 /* ExpenseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B10278E2B24E0180085F9D7 /* ExpenseTracker.swift */; };
-		3B1027942B24E1AE0085F9D7 /* ExpensesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1027932B24E1AE0085F9D7 /* ExpensesViewModel.swift */; };
-		3B1027962B24E1C30085F9D7 /* ExpensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1027952B24E1C30085F9D7 /* ExpensesView.swift */; };
-		3B1027972B24E1D40085F9D7 /* ExpensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1027952B24E1C30085F9D7 /* ExpensesView.swift */; };
-		3B1027982B24E1D40085F9D7 /* ExpensesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1027932B24E1AE0085F9D7 /* ExpensesViewModel.swift */; };
-		3B10279A2B24E20C0085F9D7 /* ExpensesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1027992B24E20C0085F9D7 /* ExpensesModels.swift */; };
-		3B10279B2B24E20F0085F9D7 /* ExpensesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1027992B24E20C0085F9D7 /* ExpensesModels.swift */; };
-		3B10279E2B24E24C0085F9D7 /* CategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B10279D2B24E24C0085F9D7 /* CategoriesView.swift */; };
-		3B10279F2B24E2610085F9D7 /* CategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B10279D2B24E24C0085F9D7 /* CategoriesView.swift */; };
-		3B1027A12B24E2740085F9D7 /* AddExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1027A02B24E2740085F9D7 /* AddExpenseView.swift */; };
-		3B1027A22B24E2850085F9D7 /* AddExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1027A02B24E2740085F9D7 /* AddExpenseView.swift */; };
-		3B1027A42B24E2B90085F9D7 /* AddExpenseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1027A32B24E2B90085F9D7 /* AddExpenseViewModel.swift */; };
-		3B1027A52B24E2B90085F9D7 /* AddExpenseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1027A32B24E2B90085F9D7 /* AddExpenseViewModel.swift */; };
-		3B1027A72B24E2DF0085F9D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B75D20E2B1435A1004BCF64 /* ContentView.swift */; };
-		3B1027AA2B24E7F00085F9D7 /* ExpenseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1027A92B24E7F00085F9D7 /* ExpenseStore.swift */; };
-		3B1027AB2B24E7F00085F9D7 /* ExpenseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1027A92B24E7F00085F9D7 /* ExpenseStore.swift */; };
 		3B75D20B2B1435A1004BCF64 /* FinancesMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B75D20A2B1435A1004BCF64 /* FinancesMacApp.swift */; };
 		3B75D20F2B1435A1004BCF64 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B75D20E2B1435A1004BCF64 /* ContentView.swift */; };
 		3B75D2112B1435A2004BCF64 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B75D2102B1435A2004BCF64 /* Assets.xcassets */; };
@@ -97,14 +80,6 @@
 		3B0605D42B229C3C00F63EC5 /* FinancesIOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinancesIOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B0605D82B229C3C00F63EC5 /* FinancesIOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinancesIOSUITests.swift; sourceTree = "<group>"; };
 		3B0605DA2B229C3C00F63EC5 /* FinancesIOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinancesIOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		3B10278E2B24E0180085F9D7 /* ExpenseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTracker.swift; sourceTree = "<group>"; };
-		3B1027932B24E1AE0085F9D7 /* ExpensesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesViewModel.swift; sourceTree = "<group>"; };
-		3B1027952B24E1C30085F9D7 /* ExpensesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesView.swift; sourceTree = "<group>"; };
-		3B1027992B24E20C0085F9D7 /* ExpensesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesModels.swift; sourceTree = "<group>"; };
-		3B10279D2B24E24C0085F9D7 /* CategoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesView.swift; sourceTree = "<group>"; };
-		3B1027A02B24E2740085F9D7 /* AddExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenseView.swift; sourceTree = "<group>"; };
-		3B1027A32B24E2B90085F9D7 /* AddExpenseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenseViewModel.swift; sourceTree = "<group>"; };
-		3B1027A92B24E7F00085F9D7 /* ExpenseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseStore.swift; sourceTree = "<group>"; };
 		3B75D2072B1435A1004BCF64 /* FinancesMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinancesMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B75D20A2B1435A1004BCF64 /* FinancesMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinancesMacApp.swift; sourceTree = "<group>"; };
 		3B75D20E2B1435A1004BCF64 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -212,45 +187,6 @@
 			path = FinancesIOSUITests;
 			sourceTree = "<group>";
 		};
-		3B10278D2B24DFFD0085F9D7 /* ExpenseTracker */ = {
-			isa = PBXGroup;
-			children = (
-				3B10278E2B24E0180085F9D7 /* ExpenseTracker.swift */,
-				3B1027A92B24E7F00085F9D7 /* ExpenseStore.swift */,
-				3B1027A62B24E2CD0085F9D7 /* AddExpenseView */,
-				3B10279C2B24E23F0085F9D7 /* CategoriesView */,
-				3B1027922B24E1A40085F9D7 /* ExpensesView */,
-			);
-			path = ExpenseTracker;
-			sourceTree = "<group>";
-		};
-		3B1027922B24E1A40085F9D7 /* ExpensesView */ = {
-			isa = PBXGroup;
-			children = (
-				3B1027932B24E1AE0085F9D7 /* ExpensesViewModel.swift */,
-				3B1027952B24E1C30085F9D7 /* ExpensesView.swift */,
-				3B1027992B24E20C0085F9D7 /* ExpensesModels.swift */,
-			);
-			path = ExpensesView;
-			sourceTree = "<group>";
-		};
-		3B10279C2B24E23F0085F9D7 /* CategoriesView */ = {
-			isa = PBXGroup;
-			children = (
-				3B10279D2B24E24C0085F9D7 /* CategoriesView.swift */,
-			);
-			path = CategoriesView;
-			sourceTree = "<group>";
-		};
-		3B1027A62B24E2CD0085F9D7 /* AddExpenseView */ = {
-			isa = PBXGroup;
-			children = (
-				3B1027A02B24E2740085F9D7 /* AddExpenseView.swift */,
-				3B1027A32B24E2B90085F9D7 /* AddExpenseViewModel.swift */,
-			);
-			path = AddExpenseView;
-			sourceTree = "<group>";
-		};
 		3B75D1FE2B1435A1004BCF64 = {
 			isa = PBXGroup;
 			children = (
@@ -339,7 +275,6 @@
 			isa = PBXGroup;
 			children = (
 				3BAAC4CC2B1D4CF70083F532 /* SheetsViewApp.swift */,
-				3B10278D2B24DFFD0085F9D7 /* ExpenseTracker */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -583,21 +518,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B1027A22B24E2850085F9D7 /* AddExpenseView.swift in Sources */,
 				3B0605F32B22A0D800F63EC5 /* AppCoordinator.swift in Sources */,
-				3B1027A72B24E2DF0085F9D7 /* ContentView.swift in Sources */,
-				3B10279B2B24E20F0085F9D7 /* ExpensesModels.swift in Sources */,
-				3B1027A52B24E2B90085F9D7 /* AddExpenseViewModel.swift in Sources */,
 				3B0605F42B22A0D800F63EC5 /* AppStore.swift in Sources */,
 				3B0605F22B22A0D500F63EC5 /* SheetsViewApp.swift in Sources */,
-				3B1027912B24E1610085F9D7 /* ExpenseTracker.swift in Sources */,
-				3B1027982B24E1D40085F9D7 /* ExpensesViewModel.swift in Sources */,
 				3B0605F62B22A0DE00F63EC5 /* Preview.swift in Sources */,
-				3B10279F2B24E2610085F9D7 /* CategoriesView.swift in Sources */,
 				3B0605F52B22A0DE00F63EC5 /* UTTypeExtensions.swift in Sources */,
-				3B1027972B24E1D40085F9D7 /* ExpensesView.swift in Sources */,
 				3B0605BB2B229C3A00F63EC5 /* FinancesIOSApp.swift in Sources */,
-				3B1027AB2B24E7F00085F9D7 /* ExpenseStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -622,21 +548,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B1027A12B24E2740085F9D7 /* AddExpenseView.swift in Sources */,
 				3BAAC4C82B1D35CB0083F532 /* AppCoordinator.swift in Sources */,
-				3B10279A2B24E20C0085F9D7 /* ExpensesModels.swift in Sources */,
-				3B1027A42B24E2B90085F9D7 /* AddExpenseViewModel.swift in Sources */,
 				3BB5E8662B1548540099C83C /* UTTypeExtensions.swift in Sources */,
 				3B75D20B2B1435A1004BCF64 /* FinancesMacApp.swift in Sources */,
-				3B1027962B24E1C30085F9D7 /* ExpensesView.swift in Sources */,
-				3B1027902B24E1600085F9D7 /* ExpenseTracker.swift in Sources */,
 				3BB5E86A2B15693F0099C83C /* Preview.swift in Sources */,
 				3BAAC4CA2B1D36300083F532 /* AppStore.swift in Sources */,
-				3B10279E2B24E24C0085F9D7 /* CategoriesView.swift in Sources */,
 				3BAAC4CD2B1D4CF70083F532 /* SheetsViewApp.swift in Sources */,
 				3B75D20F2B1435A1004BCF64 /* ContentView.swift in Sources */,
-				3B1027942B24E1AE0085F9D7 /* ExpensesViewModel.swift in Sources */,
-				3B1027AA2B24E7F00085F9D7 /* ExpenseStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

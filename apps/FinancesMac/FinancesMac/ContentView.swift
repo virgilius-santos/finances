@@ -7,7 +7,6 @@ struct ContentView: View {
     @Environment(\.modelContext) var modelContext
 //    @StateObject var coordinator = AppCoordinator()
     
-    @State private var currentTab = ExpensesView.description
     var body: some View {
 //        VStack {
 //        NavigationStack(path: $coordinator.presentedNumbers) {

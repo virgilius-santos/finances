@@ -40,33 +40,34 @@ struct CategoriesView: View {
                 }
             }
             .sheet(isPresented: $addCategory, content: {
-                NavigationStack {
-                    List {
-                        Section("Title") {
-                            TextField("General", text: $viewModel.categoryName)
-                        }
-                    }
-                    .navigationTitle("Category Name")
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button("Cancel") {
-                                addCategory = false
-                            }
-                            .tint(.red)
-                        }
-                        
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button("Add") {
-                                addCategory = false
-                                viewModel.addCategory()
-                            }
-                            .disabled(!viewModel.isCompleted)
-                        }
-                    }
-                }
-                .presentationDetents([.medium])
-                .presentationCornerRadius(20)
+//                NavigationStack {
+//                    List {
+//                        Section("Title") {
+//                            TextField("General", text: $viewModel.categoryName)
+//                        }
+//                    }
+//                    .navigationTitle("Category Name")
+//                    .navigationBarTitleDisplayMode(.inline)
+//                    .toolbar {
+//                        ToolbarItem(placement: .topBarLeading) {
+//                            Button("Cancel") {
+//                                addCategory = false
+//                            }
+//                            .tint(.red)
+//                        }
+//                        
+//                        ToolbarItem(placement: .topBarTrailing) {
+//                            Button("Add") {
+//                                addCategory = false
+//                                viewModel.addCategory()
+//                            }
+//                            .disabled(!viewModel.isCompleted)
+//                        }
+//                    }
+//                }
+//                .presentationDetents([.medium])
+//                .presentationCornerRadius(20)
+                AddCategoryView(action: { viewModel.addCategory(categoryName: $0) })
             })
             .onAppear {
                 viewModel.load()
@@ -74,7 +75,7 @@ struct CategoriesView: View {
         }
     }
     
-    init(store: ExpenseStore) {
+    init(store: ExpenseTrackerStore) {
         _viewModel = .init(wrappedValue: CategoriesViewModel(store: store))
     }
 }
@@ -91,15 +92,10 @@ final class CategoriesViewModel: ObservableObject {
     }
     
     @Published var categories: [CategoryViewModel] = []
-    @Published var categoryName: String = ""
     
-    let store: ExpenseStore
+    let store: ExpenseTrackerStore
     
-    var isCompleted: Bool {
-        !categoryName.isEmpty
-    }
-    
-    init(store: ExpenseStore) {
+    init(store: ExpenseTrackerStore) {
         self.store = store
     }
     
@@ -116,9 +112,8 @@ final class CategoriesViewModel: ObservableObject {
             .sorted(by: { $0.name < $1.name })
     }
     
-    func addCategory() {
+    func addCategory(categoryName: String) {
         store.categories.append(.init(name: categoryName))
-        categoryName = ""
         load()
     }
 }

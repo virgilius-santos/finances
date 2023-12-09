@@ -1,16 +1,16 @@
 import SwiftUI
 
-extension WindowGroup where Content == ExpenseTracker {
+public extension WindowGroup where Content == ExpenseTracker {
     static var expenseTracker: some Scene {
         WindowGroup(content: { ExpenseTracker() })
     }
 }
 
-struct ExpenseTracker: View {
+public struct ExpenseTracker: View {
     @State private var currentTab = ExpensesView.description
-    @StateObject private var store = ExpenseStore()
+    @StateObject private var store = ExpenseTrackerStore()
     
-    var body: some View {
+    public var body: some View {
         TabView(selection: $currentTab) {
             ExpensesView(store: store)
                 .tag(ExpensesView.description)
@@ -27,6 +27,8 @@ struct ExpenseTracker: View {
                 }
         }
     }
+    
+    public init() {}
 }
 
 #Preview {

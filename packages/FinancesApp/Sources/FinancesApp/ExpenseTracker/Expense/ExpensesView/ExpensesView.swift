@@ -42,7 +42,7 @@ struct ExpensesView: View {
         }
     }
     
-    init(store: ExpenseStore) {
+    init(store: ExpenseTrackerStore) {
         _viewModel = .init(wrappedValue: ExpensesViewModel(store: store))
     }
 }

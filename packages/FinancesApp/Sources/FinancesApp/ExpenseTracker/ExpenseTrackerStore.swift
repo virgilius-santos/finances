@@ -29,7 +29,7 @@ extension Expense {
     ]
 }
 
-final class ExpenseStore: ObservableObject {
+final class ExpenseTrackerStore: ObservableObject {
     @Published var allExpenses = Expense.mocks
     @Published var categories = Category.allCategories
 }

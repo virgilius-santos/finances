@@ -4,16 +4,16 @@ final class ExpensesViewModel: ObservableObject {
     @Published var groupedExpenses: [GroupedExpenses] = []
     
     var categories: [Category] {
-        store.categories
+        store.categories.sorted(by: { $0.name < $1.name })
     }
     
     var emptyContent: Bool {
         store.allExpenses.isEmpty || groupedExpenses.isEmpty
     }
     
-    @Published var store: ExpenseStore
+    @Published var store: ExpenseTrackerStore
     
-    init(store: ExpenseStore) {
+    init(store: ExpenseTrackerStore) {
         self.store = store
     }
     
