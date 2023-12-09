@@ -1,5 +1,11 @@
 import SwiftUI
 
+public extension IconButton {
+    static func addButton(action: @escaping () -> Void) -> some View {
+        IconButton(imageName: "plus.circle.fill", action: action)
+    }
+}
+
 public struct IconButton: View {
     let imageName: String
     let action: () -> Void
@@ -14,6 +20,7 @@ public struct IconButton: View {
             action: action,
             label: {
                 Image(systemName: imageName)
+                    .font(.title3)
                     .frame(minWidth: 44, minHeight: 44)
             }
         )

@@ -5,24 +5,19 @@ import FinancesDB
 
 struct ContentView: View {
     @Environment(\.modelContext) var modelContext
-    @StateObject var coordinator = AppCoordinator()
+//    @StateObject var coordinator = AppCoordinator()
     
-    @State private var presentedNumbers = [1, 4, 8]
+    @State private var currentTab = ExpensesView.description
     var body: some View {
-        VStack {
+//        VStack {
+//        NavigationStack(path: $coordinator.presentedNumbers) {
 //            SheetsView(modelContext: modelContext, coordinator: coordinator)
-            NavigationStack(path: $presentedNumbers) {
-                List(1..<50) { i in
-                    NavigationLink(value: i) {
-                        Label("Row \(i)", systemImage: "\(i).circle")
-                    }
-                }
-                .navigationDestination(for: Int.self) { i in
-                    Text("Detail \(i)")
-                }
-                .navigationTitle("Navigation")
-            }
-        }
+//                .navigationDestination(for: Int.self) { i in
+//                    Text("Detail \(i)")
+//                }
+//                .navigationTitle("Navigation")
+//        }
+        EmptyView()
     }
 }
 
@@ -32,9 +27,3 @@ struct ContentView: View {
         .configPreview()
 }
 #endif
-
-import SwiftData
-
-protocol AddStore {
-    func addNewSheet()
-}

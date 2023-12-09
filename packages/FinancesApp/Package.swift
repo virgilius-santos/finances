@@ -18,7 +18,9 @@ let package = Package(
     targets: [
         .target(
             name: "FinancesApp",
-            dependencies: []),
+            dependencies: [
+                .productItem(name: "FinancesCore", package: "FinancesCoreSharedTests", moduleAliases: nil, condition: .when(platforms: [.iOS, .macOS]))
+            ]),
         .testTarget(
             name: "FinancesAppTests",
             dependencies: [
