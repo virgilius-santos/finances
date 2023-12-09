@@ -13,6 +13,7 @@ struct FinancesIOSApp: App {
     }
 }
 
+
 #Preview {
     ExpenseTracker()
 }
