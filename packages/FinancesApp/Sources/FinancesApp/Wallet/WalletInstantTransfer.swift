@@ -9,11 +9,7 @@ struct WalletInstantTransfer: View {
             ScrollView(.horizontal) {
                 HStack(spacing: 16) {
                     ForEach(1...10, id: \.self) { index in
-                        WalletImage(
-                            named: "pic\(index)",
-                            contentMode: .fill,
-                            size: .init(width: 50, height: 50)
-                        )
+                        Image.makePic(index)
                         .clipShape(Circle())
                         
                     }

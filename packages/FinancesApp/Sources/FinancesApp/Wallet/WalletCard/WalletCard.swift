@@ -13,11 +13,7 @@ struct WalletCard: View {
                     .overlay(alignment: .top) {
                         VStack {
                             HStack {
-                                WalletImage(
-                                    named: "sim",
-                                    contentMode: .fit,
-                                    size: .init(width: 55, height: 55)
-                                )
+                                Image.sim
                                 
                                 Spacer(minLength: 0)
                                 
@@ -55,7 +51,7 @@ struct WalletCard: View {
                         .padding(16)
                     }
             }
-            .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         }
         .frame(height: 200)
     }

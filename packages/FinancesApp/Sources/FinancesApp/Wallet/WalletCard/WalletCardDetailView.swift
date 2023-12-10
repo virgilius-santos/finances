@@ -87,7 +87,7 @@ struct WalletCardDetailView: View {
         .frame(maxHeight: .infinity, alignment: .top)
         .background {
             Rectangle()
-                .fill(Color.init("bg", bundle: Bundle.module))
+                .fill(Color.bg)
                 .ignoresSafeArea()
                 .opacity(viewModel.showDetailContent ? 1 : 0)
         }
