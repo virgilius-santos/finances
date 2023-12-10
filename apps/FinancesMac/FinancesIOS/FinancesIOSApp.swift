@@ -9,15 +9,17 @@ import UniformTypeIdentifiers
 @main
 struct FinancesIOSApp: App {
     var body: some Scene {
-        WindowGroup.cloudApp
+//        WindowGroup.cloudApp
 //        WindowGroup.expenseTracker
 //        WindowGroup.wallet
+        WindowGroup.appPromo
     }
 }
 
 
 #Preview {
-    CloudAppView()
+//    CloudAppView()
 //    ExpenseTracker()
 //    WalletView()
+    AppPromo()
 }
