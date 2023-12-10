@@ -34,6 +34,6 @@ struct Expense: Equatable, Hashable, Identifiable {
 }
 
 struct Category: Equatable, Hashable, Identifiable {
-    var id: String { name }
+    var id: UUID = .init()
     var name: String
 }

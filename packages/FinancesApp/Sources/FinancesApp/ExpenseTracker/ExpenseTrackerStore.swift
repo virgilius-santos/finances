@@ -23,13 +23,13 @@ extension Category {
 }
 
 extension Expense {
-    static let mocks: [Self] = [
+    static let sample: [Self] = [
         .init(title: "Mercado", amount: 500, date: Date(), category: Category.allCategories[9]),
         .init(title: "Panetone", amount: 100, date: Date(), category: Category.allCategories[2])
     ]
 }
 
 final class ExpenseTrackerStore: ObservableObject {
-    @Published var allExpenses = Expense.mocks
+    @Published var allExpenses = Expense.sample
     @Published var categories = Category.allCategories
 }

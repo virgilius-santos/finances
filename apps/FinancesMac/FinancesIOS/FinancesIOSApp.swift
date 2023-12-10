@@ -9,11 +9,12 @@ import UniformTypeIdentifiers
 @main
 struct FinancesIOSApp: App {
     var body: some Scene {
-        WindowGroup.expenseTracker
+        WindowGroup.wallet
     }
 }
 
 
 #Preview {
     ExpenseTracker()
+//    WalletView()
 }

@@ -13,7 +13,7 @@ public struct YearPicker: View {
     
     public var body: some View {
         HStack {
-            IconButton(imageName: "chevron.left", action: decrease)
+            IconButton.backButton(action: decrease)
             
             Text(selectedDate.formatted(.dateTime.year()))
                 .fontWeight(.bold)

@@ -1,5 +1,4 @@
 import SwiftUI
-import FinancesApp
 
 struct CategoriesView: View {
     static var description = "\(Self.self)"
