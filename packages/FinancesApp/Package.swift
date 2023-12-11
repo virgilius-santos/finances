@@ -12,21 +12,28 @@ let package = Package(
             targets: ["FinancesApp"]),
     ],
     dependencies: [
-         .package(url: "https://github.com/nalexn/ViewInspector", from: "0.9.8"),
-         .package(name: "FinancesCoreSharedTests", path: "FinancesCore"),
+        .package(name: "FinancesCore", path: "FinancesCore"),
+        .package(url: "https://github.com/nalexn/ViewInspector", from: "0.9.8"),
+        .package(url: "https://github.com/huybuidac/SwiftUIFontIcon", from: "2.1.0"),
+        .package(url: "https://github.com/apple/swift-collections", branch: "release/1.1"),
+        
+            
     ],
     targets: [
         .target(
             name: "FinancesApp",
             dependencies: [
-                .productItem(name: "FinancesCore", package: "FinancesCoreSharedTests", moduleAliases: nil, condition: .when(platforms: [.iOS, .macOS]))
+                .product(name: "Collections", package: "swift-collections"),
+                .product(name: "FinancesCore", package: "FinancesCore"),
+                "SwiftUIFontIcon",
+                
             ]),
         .testTarget(
             name: "FinancesAppTests",
             dependencies: [
                 "FinancesApp",
                 "ViewInspector",
-                "FinancesCoreSharedTests",
+                .product(name: "FinancesCoreSharedTests", package: "FinancesCore"),
             ]
         ),
     ]

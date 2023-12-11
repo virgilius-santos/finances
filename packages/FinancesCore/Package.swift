@@ -13,7 +13,7 @@ let package = Package(
             targets: ["FinancesCore"]),
         .library(
             name: "FinancesCoreSharedTests",
-            targets: ["FinancesCoreSharedTests"]
+            targets: ["FinancesCoreSharedTests", "FinancesCore"]
         ),
     ],
     dependencies: [
@@ -26,7 +26,7 @@ let package = Package(
             dependencies: []),
         .target(
             name: "FinancesCoreSharedTests",
-            dependencies: ["FinancesCore"]),
+            dependencies: []),
         .testTarget(
             name: "FinancesCoreTests",
             dependencies: ["FinancesCore", "FinancesCoreSharedTests"]),

@@ -1,12 +1,30 @@
 {
   "pins" : [
     {
+      "identity" : "swift-collections",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-collections",
+      "state" : {
+        "branch" : "release/1.1",
+        "revision" : "a8d1434540b03e3509225cdbfd7b5c6293d0c8bb"
+      }
+    },
+    {
+      "identity" : "swiftuifonticon",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/huybuidac/SwiftUIFontIcon",
+      "state" : {
+        "revision" : "4f170fbf443d985ae518a14a12ec8194ec6b08eb",
+        "version" : "2.1.0"
+      }
+    },
+    {
       "identity" : "viewinspector",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nalexn/ViewInspector",
       "state" : {
-        "revision" : "07c090d73e0169c342a4ed46e9010be2781eca1e",
-        "version" : "0.9.8"
+        "revision" : "a1422d4749ccf7f32b1d14a9ec19ec9a0b0fd337",
+        "version" : "0.9.9"
       }
     }
   ],

@@ -14,13 +14,12 @@
 		3B0605D92B229C3C00F63EC5 /* FinancesIOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0605D82B229C3C00F63EC5 /* FinancesIOSUITests.swift */; };
 		3B0605DB2B229C3C00F63EC5 /* FinancesIOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0605DA2B229C3C00F63EC5 /* FinancesIOSUITestsLaunchTests.swift */; };
 		3B0605EC2B22A04600F63EC5 /* FinancesApp in Frameworks */ = {isa = PBXBuildFile; productRef = 3B0605EB2B22A04600F63EC5 /* FinancesApp */; };
-		3B0605EE2B22A04600F63EC5 /* FinancesCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3B0605ED2B22A04600F63EC5 /* FinancesCore */; };
-		3B0605F02B22A04600F63EC5 /* FinancesDB in Frameworks */ = {isa = PBXBuildFile; productRef = 3B0605EF2B22A04600F63EC5 /* FinancesDB */; };
 		3B0605F22B22A0D500F63EC5 /* SheetsViewApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAAC4CC2B1D4CF70083F532 /* SheetsViewApp.swift */; };
 		3B0605F32B22A0D800F63EC5 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAAC4C72B1D35CB0083F532 /* AppCoordinator.swift */; };
 		3B0605F42B22A0D800F63EC5 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAAC4C92B1D36300083F532 /* AppStore.swift */; };
 		3B0605F52B22A0DE00F63EC5 /* UTTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB5E8652B1548540099C83C /* UTTypeExtensions.swift */; };
 		3B0605F62B22A0DE00F63EC5 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB5E8692B15693F0099C83C /* Preview.swift */; };
+		3B1211D12B26C23500274A20 /* FinancesDB in Frameworks */ = {isa = PBXBuildFile; productRef = 3B1211D02B26C23500274A20 /* FinancesDB */; };
 		3B75D20B2B1435A1004BCF64 /* FinancesMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B75D20A2B1435A1004BCF64 /* FinancesMacApp.swift */; };
 		3B75D20F2B1435A1004BCF64 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B75D20E2B1435A1004BCF64 /* ContentView.swift */; };
 		3B75D2112B1435A2004BCF64 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B75D2102B1435A2004BCF64 /* Assets.xcassets */; };
@@ -36,6 +35,7 @@
 		3BB5E8662B1548540099C83C /* UTTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB5E8652B1548540099C83C /* UTTypeExtensions.swift */; };
 		3BB5E8682B1549280099C83C /* FinancesDB in Frameworks */ = {isa = PBXBuildFile; productRef = 3BB5E8672B1549280099C83C /* FinancesDB */; };
 		3BB5E86A2B15693F0099C83C /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB5E8692B15693F0099C83C /* Preview.swift */; };
+		3BE790DC2B26C1720068B8C5 /* FinancesCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3BE790DB2B26C1720068B8C5 /* FinancesCore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,8 +104,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B0605F02B22A04600F63EC5 /* FinancesDB in Frameworks */,
-				3B0605EE2B22A04600F63EC5 /* FinancesCore in Frameworks */,
+				3B1211D12B26C23500274A20 /* FinancesDB in Frameworks */,
+				3BE790DC2B26C1720068B8C5 /* FinancesCore in Frameworks */,
 				3B0605EC2B22A04600F63EC5 /* FinancesApp in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -306,8 +306,8 @@
 			name = FinancesIOS;
 			packageProductDependencies = (
 				3B0605EB2B22A04600F63EC5 /* FinancesApp */,
-				3B0605ED2B22A04600F63EC5 /* FinancesCore */,
-				3B0605EF2B22A04600F63EC5 /* FinancesDB */,
+				3BE790DB2B26C1720068B8C5 /* FinancesCore */,
+				3B1211D02B26C23500274A20 /* FinancesDB */,
 			);
 			productName = FinancesIOS;
 			productReference = 3B0605B82B229C3A00F63EC5 /* FinancesIOS.app */;
@@ -1081,11 +1081,7 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = FinancesApp;
 		};
-		3B0605ED2B22A04600F63EC5 /* FinancesCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = FinancesCore;
-		};
-		3B0605EF2B22A04600F63EC5 /* FinancesDB */ = {
+		3B1211D02B26C23500274A20 /* FinancesDB */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FinancesDB;
 		};
@@ -1100,6 +1096,10 @@
 		3BB5E8672B1549280099C83C /* FinancesDB */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FinancesDB;
+		};
+		3BE790DB2B26C1720068B8C5 /* FinancesCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FinancesCore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

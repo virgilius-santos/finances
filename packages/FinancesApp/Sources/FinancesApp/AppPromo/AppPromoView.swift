@@ -11,6 +11,28 @@ public extension WindowGroup where Content == AppPromo {
     }
 }
 
+public struct AppPromo: View {
+    @AppStorage("isFirstTime") private var isFirstTime = true
+    @State private var activeTab = Tab.recents
+    
+    public var body: some View {
+        TabView(selection: $activeTab) {
+            ForEach(Tab.allCases, id: \.self) { tab in
+                Text(tab.model.title)
+                    .tag(tab)
+                    .tabItem { tab.model.tabContent }
+            }
+        }
+        .tint(Color.appTint)
+        .sheet(isPresented: $isFirstTime, content: {
+            AppPromoIntroScreen()
+                .interactiveDismissDisabled()
+        })
+    }
+    
+    public init() {}
+}
+
 struct TabModel {
     let title: String
     let image: String
@@ -61,28 +83,6 @@ enum Tab: CaseIterable {
         }
         return model
     }
-}
-
-public struct AppPromo: View {
-    @AppStorage("isFirstTime") private var isFirstTime = true
-    @State private var activeTab = Tab.recents
-    
-    public var body: some View {
-        TabView(selection: $activeTab) {
-            ForEach(Tab.allCases, id: \.self) { tab in
-                Text(tab.model.title)
-                    .tag(tab)
-                    .tabItem { tab.model.tabContent }
-            }
-        }
-        .tint(Color.appTint)
-        .sheet(isPresented: $isFirstTime, content: {
-            AppPromoIntroScreen()
-                .interactiveDismissDisabled()
-        })
-    }
-    
-    public init() {}
 }
 
 struct AppPromoIntroScreen: View {

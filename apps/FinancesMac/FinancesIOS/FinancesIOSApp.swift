@@ -12,14 +12,23 @@ struct FinancesIOSApp: App {
 //        WindowGroup.cloudApp
 //        WindowGroup.expenseTracker
 //        WindowGroup.wallet
-        WindowGroup.appPromo
+//        WindowGroup.appPromo
+        WindowGroup.designCodeApp
     }
 }
 
 
-#Preview {
+#Preview("light") {
 //    CloudAppView()
 //    ExpenseTracker()
 //    WalletView()
-    AppPromo()
+    DesignCodeApp.MainView()
+}
+
+#Preview("dark") {
+    //    CloudAppView()
+    //    ExpenseTracker()
+    //    WalletView()
+    DesignCodeApp.MainView()
+        .preferredColorScheme(.dark)
 }
