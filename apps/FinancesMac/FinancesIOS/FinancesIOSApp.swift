@@ -24,11 +24,3 @@ struct FinancesIOSApp: App {
 //    WalletView()
     DesignCodeApp.MainView()
 }
-
-#Preview("dark") {
-    //    CloudAppView()
-    //    ExpenseTracker()
-    //    WalletView()
-    DesignCodeApp.MainView()
-        .preferredColorScheme(.dark)
-}

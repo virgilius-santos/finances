@@ -25,8 +25,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Collections", package: "swift-collections"),
                 .product(name: "FinancesCore", package: "FinancesCore"),
-                "SwiftUIFontIcon",
-                
+                .product(name: "SwiftUIFontIcon", package: "SwiftUIFontIcon"),
             ]),
         .testTarget(
             name: "FinancesAppTests",
