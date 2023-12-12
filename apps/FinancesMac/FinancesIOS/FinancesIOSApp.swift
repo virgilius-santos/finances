@@ -13,7 +13,7 @@ struct FinancesIOSApp: App {
 //        WindowGroup.expenseTracker
 //        WindowGroup.wallet
 //        WindowGroup.appPromo
-        WindowGroup.designCodeApp
+        WindowGroup.appPromo
     }
 }
 
@@ -22,5 +22,6 @@ struct FinancesIOSApp: App {
 //    CloudAppView()
 //    ExpenseTracker()
 //    WalletView()
-    DesignCodeApp.MainView()
+//    DesignCodeApp.MainView()
+    AppPromo()
 }

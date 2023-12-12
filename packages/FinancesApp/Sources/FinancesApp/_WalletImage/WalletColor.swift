@@ -11,5 +11,5 @@ extension Color {
     
     static let systemBackground = Color(uiColor: .systemBackground)
     
-    static let appTint = Color.red
+    static let appTint = Color.blueApp
 }

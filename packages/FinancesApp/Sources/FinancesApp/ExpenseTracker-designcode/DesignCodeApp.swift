@@ -49,19 +49,6 @@ extension DesignCodeApp {
         public init() {}
     }
     
-    struct TransactionSection: Hashable {
-        let date: Date
-        let month: String
-        
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(month)
-        }
-        
-        static func == (lhs: TransactionSection, rhs: TransactionSection) -> Bool {
-            lhs.month == rhs.month
-        }
-    }
-    
     typealias TransactionGroup = OrderedDictionary<String, [Transaction]>
     
     final class TransactionListViewModel: ObservableObject {
