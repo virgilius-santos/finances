@@ -235,7 +235,7 @@ extension AppPromo {
         @Namespace private var animation
         
         var dateFilterButton: String {
-            "\(format(date: startDate, format: "dd MMM yy")) to \(format(date: endDate, format: "dd MMM yy"))"
+            "\(startDate.shortDate) to \(endDate.shortDate)"
         }
         var body: some View {
             GeometryReader {
@@ -367,7 +367,7 @@ extension AppPromo {
                 
                 VStack(spacing: 0) {
                     HStack(spacing: 12) {
-                        Text("\(currencyString(expense - income))")
+                        Text("\((expense - income).currencyString)")
                             .font(.title.bold())
                         
                         Image(systemName: expense > income ? "chart.line.downtrend.xyaxis" : "chart.line.uptrend.xyaxis")
@@ -405,7 +405,7 @@ extension AppPromo {
                         .font(.caption2)
                         .foregroundStyle(.gray)
                     
-                    Text(currencyString(value, allowedDigits: 0))
+                    Text(value.shortCurrencyString)
                         .font(.callout)
                         .fontWeight(.semibold)
                         .foregroundStyle(.primary)
@@ -463,13 +463,13 @@ extension AppPromo {
                         .font(.caption)
                         .foregroundStyle(.primary.secondary)
                     
-                    Text(format(date: transaction.dateAdded, format: "dd MMM yyyy"))
+                    Text(transaction.dateAdded.shortDate)
                         .font(.caption2)
                         .foregroundStyle(.gray)
                 }
                 .hSpacing(.leading)
                 
-                Text(currencyString(transaction.amount))
+                Text(transaction.amount.currencyString)
                     .fontWeight(.semibold)
             }
             .padding(.horizontal, 16)

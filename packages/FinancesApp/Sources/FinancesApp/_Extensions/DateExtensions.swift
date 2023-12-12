@@ -11,4 +11,8 @@ extension Date {
         let calendar = Calendar.current
         return calendar.date(byAdding: .init(month: 1, minute: -1), to: startOfMonth) ?? self
     }
+    
+    var shortDate: String {
+        DateFormatter.shortFormatter.string(from: self)
+    }
 }

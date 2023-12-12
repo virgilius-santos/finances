@@ -93,11 +93,4 @@ struct WalletCardDetailView: View {
         }
         .transition(.asymmetric(insertion: .identity, removal: .offset(y: 5)))
     }
-    
-    let formatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 2
-        return formatter
-    }()
 }

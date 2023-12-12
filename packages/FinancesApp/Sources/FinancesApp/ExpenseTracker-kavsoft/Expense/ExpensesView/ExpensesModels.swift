@@ -27,9 +27,7 @@ struct Expense: Equatable, Hashable, Identifiable {
     var category: Category
     
     var currencyString: String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        return formatter.string(for: amount) ?? ""
+        amount.currencyString
     }
 }
 

@@ -8,13 +8,6 @@ final class AddExpenseViewModel: ObservableObject {
     
     var allCategories: [Category]
     
-    let formatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 2
-        return formatter
-    }()
-    
     var isCompleted: Bool {
         !(title.isEmpty || amount.isZero || category == nil)
     }
