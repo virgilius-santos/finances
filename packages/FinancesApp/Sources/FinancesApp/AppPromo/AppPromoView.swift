@@ -41,6 +41,9 @@ public struct AppPromo: View {
     public enum Tab {}
     public enum IntroScreen{}
     public enum Recents {}
+    public enum Search {}
+    public enum Chart {}
+    public enum Settings {}
 }
 
 extension AppPromo.Recents {
@@ -348,24 +351,24 @@ extension AppPromo.Recents {
     }
 }
 
-extension AppPromo {
-    struct Search: View {
+extension AppPromo.Search {
+    struct SearchView: View {
         var body: some View {
             Text("Search")
         }
     }
 }
 
-extension AppPromo {
-    struct Chart: View {
+extension AppPromo.Chart {
+    struct ChartView: View {
         var body: some View {
             Text("Chart")
         }
     }
 }
 
-extension AppPromo {
-    struct Settings: View {
+extension AppPromo.Settings {
+    struct SettingsView: View {
         @AppStorage("userName") var userName = ""
         @AppStorage("isAppLockEnabled") var isAppLockEnabled = false
         @AppStorage("lockWhenApppGoesBackground") var lockWhenApppGoesBackground = false
@@ -534,11 +537,11 @@ extension AppPromo.Tab.Item {
         case .recents:
             AppPromo.Recents.RecentsView()
         case .search:
-            AppPromo.Search()
+            AppPromo.Search.SearchView()
         case .charts:
-            AppPromo.Chart()
+            AppPromo.Chart.ChartView()
         case .settings:
-            AppPromo.Settings()
+            AppPromo.Settings.SettingsView()
         }
     }
 }
