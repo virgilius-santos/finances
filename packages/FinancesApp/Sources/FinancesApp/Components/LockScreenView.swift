@@ -12,11 +12,10 @@ public extension WindowGroup where Content == LockScreenView {
     }
 }
 
-
 public struct LockScreenView: View {
     public var body: some View {
         LockView(
-            lockType: .both, lockPin: "1234", isEnabled: true, lockWenAppGoesBackground: true,
+            lockType: .both, lockPin: "1234", isEnabled: true, lockWhenAppGoesBackground: true,
             content: {
                 VStack(spacing: 12, content: {
                     Image(systemName: "globe")
@@ -38,18 +37,39 @@ struct LockView<Content: View>: View {
         case both = "First Preference will be biometric, and if it's not available, it will ho for number Lock"
     }
     
+    enum ViewState {
+        case disabled, locked(LockState)
+    }
+    
+    enum LockState {
+        case numberPad(showBackButton: Bool), biometric(pinEnabled: Bool), noBiometric
+    }
+    
     var lockType: LockType
     var lockPin: String
     var isEnabled: Bool
-    var lockWenAppGoesBackground = true
+    var lockWhenAppGoesBackground = true
     
     @ViewBuilder var content: Content
     var forgotPin: () -> Void
     
-    @State private var pin = ""
+    private var state: ViewState {
+        if isEnabled, !isUnlocked {
+            if (lockType == .both && !noBiometricAccess) || lockType == .biometric {
+                let pinEnabled = lockType == .both
+                return .locked(noBiometricAccess ? .noBiometric : .biometric(pinEnabled: pinEnabled))
+            }
+            let showBackButton = lockType == .both && isBiometricAvailable
+            return .locked(.numberPad(showBackButton: showBackButton))
+        }
+        return .disabled
+    }
+    
+    @State private var pin = [Int]()
     @State private var animateFiled = false
     @State private var isUnlocked = false
     @State private var noBiometricAccess = false
+    @State private var biometricFail = false
     
     @Environment(\.scenePhase) var phase
         
@@ -58,51 +78,52 @@ struct LockView<Content: View>: View {
             content
                 .frame(width: proxy.size.width, height: proxy.size.height)
             
-            if isEnabled, !isUnlocked {
+            switch state {
+            case .disabled:
+                EmptyView()
+                
+            case .locked(let state):
                 ZStack {
                     Rectangle()
                         .fill(.blue)
                         .ignoresSafeArea()
                     
-                    if (lockType == .both && !noBiometricAccess) || lockType == .biometric {
-                        Group {
-                            if noBiometricAccess {
-                                Text("Enable biometric authentication in settings to unlock the view")
-                                    .font(.callout)
-                                    .multilineTextAlignment(.center)
-                                    .padding(52)
-                            } else {
-                                VStack(spacing: 12) {
-                                    VStack(spacing: 8) {
-                                        Image(systemName: "lock")
-                                            .font(.largeTitle)
-                                        
-                                        Text("Tap to Unlock")
-                                            .font(.caption2)
-                                            .foregroundStyle(.gray)
-                                        
-                                    }
-                                    .frame(width: 100, height: 100)
+                    switch state {
+                    case .noBiometric:
+                        Text("Enable biometric authentication in settings to unlock the view")
+                            .font(.callout)
+                            .multilineTextAlignment(.center)
+                            .padding(52)
+                    case let .biometric(pinEnabled):
+                        VStack(spacing: 12) {
+                            VStack(spacing: 8) {
+                                Image(systemName: "lock")
+                                    .font(.largeTitle)
+                                
+                                Text("Tap to Unlock")
+                                    .font(.caption2)
+                                    .foregroundStyle(.gray)
+                                
+                            }
+                            .frame(width: 100, height: 100)
+                            .background(.ultraThinMaterial, in: .rect(cornerRadius: 12))
+                            .contentShape(.rect)
+                            .onTapGesture {
+                                unlockView()
+                            }
+                            
+                            if pinEnabled {
+                                Text("Enter Pin")
+                                    .frame(width: 100, height: 44)
                                     .background(.ultraThinMaterial, in: .rect(cornerRadius: 12))
                                     .contentShape(.rect)
                                     .onTapGesture {
-                                        unlockView()
+                                       showNumberPad()
                                     }
-                                    
-                                    if lockType == .both {
-                                        Text("Enter Pin")
-                                            .frame(width: 100, height: 44)
-                                            .background(.ultraThinMaterial, in: .rect(cornerRadius: 12))
-                                            .contentShape(.rect)
-                                            .onTapGesture {
-                                                noBiometricAccess = true
-                                            }
-                                    }
-                                }
                             }
                         }
-                    } else {
-                        NumberPadPinView()
+                    case let .numberPad(showBackButton):
+                        NumberPadPinView(showBackButton: showBackButton)
                     }
                 }
                 .environment(\.colorScheme, .dark)
@@ -111,15 +132,14 @@ struct LockView<Content: View>: View {
         }
         .onChange(of: isEnabled, initial: true) { oldValue, newValue in
             if newValue {
-                unlockView()
+                tryUnlock()
             }
         }
         .onChange(of: phase) { oldValue, newValue in
-            if newValue != .active, lockWenAppGoesBackground {
-                isUnlocked = false
-                pin = ""
-            } else if !isUnlocked, lockType != .both {
-                unlockView()
+            if newValue != .active {
+                lockViewIfNeeded()
+            } else {
+                tryUnlock()
             }
         }
     }
@@ -128,19 +148,49 @@ struct LockView<Content: View>: View {
         LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
     }
     
+    func lockViewIfNeeded() {
+        biometricFail = false
+        guard lockWhenAppGoesBackground else { return }
+        lockView()
+    }
+    
+    func lockView() {
+        noBiometricAccess = false
+        isUnlocked = false
+        pin = .init()
+    }
+    
+    func tryUnlock() {
+        guard !isUnlocked else { return }
+        if lockType == .biometric {
+            unlockView()
+            return
+        }
+        if !biometricFail {
+            unlockView()
+        }
+    }
+    
     func unlockView() {
         Task {
             if isBiometricAvailable && lockType != .number {
-                if let result = try? await  LAContext().evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "Unlock the view"), result {
-                    withAnimation(
-                        .snappy, completionCriteria: .logicallyComplete,
-                        {
-                            isUnlocked = true
-                        },
-                        completion: {
-                            pin = ""
-                        }
-                    )
+                do {
+                    let result = try await LAContext().evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "Unlock the view")
+                    biometricFail = !result
+                    if result {
+                        withAnimation(
+                            .snappy, completionCriteria: .logicallyComplete,
+                            {
+                                isUnlocked = true
+                            },
+                            completion: {
+                                pin = .init()
+                            }
+                        )
+                    }
+                } catch {
+                    biometricFail = true
+                    lockView()
                 }
             }
             
@@ -148,18 +198,41 @@ struct LockView<Content: View>: View {
         }
     }
     
+    func showNumberPad() {
+        noBiometricAccess = true
+    }
+    
+    func unlockViewByPin() {
+        if pin.count == 4 {
+            if lockPin == pin.map(String.init).reduce("", +) {
+                withAnimation(
+                    .snappy, completionCriteria: .logicallyComplete,
+                    {
+                        isUnlocked = true
+                    },
+                    completion: {
+                        pin = .init()
+                        noBiometricAccess = !isBiometricAvailable
+                    }
+                )
+            } else {
+                pin = .init()
+                animateFiled.toggle()
+            }
+        }
+    }
+    
     @ViewBuilder
-    func NumberPadPinView() -> some View {
+    func NumberPadPinView(showBackButton: Bool) -> some View {
         VStack(spacing: 16) {
             Text("Enter Pin")
                 .font(.title.bold())
                 .frame(maxWidth: .infinity)
                 .overlay(alignment: .leading) {
-                    if lockType == .both, isBiometricAvailable {
+                    if showBackButton {
                         Button(
                             action: {
-                                pin = ""
-                                noBiometricAccess = false
+                                lockView()
                             },
                             label: {
                                 Image(systemName: "arrow.left")
@@ -179,10 +252,7 @@ struct LockView<Content: View>: View {
                         .frame(width: 52, height: 56)
                         .overlay {
                             if pin.count > index {
-                                let index = pin.index(pin.startIndex, offsetBy: index)
-                                let string = String(pin[index])
-                                
-                                Text(string)
+                                Text("\(pin[index])")
                                     .font(.title.bold())
                                     .foregroundStyle(.black)
                             }
@@ -240,24 +310,7 @@ struct LockView<Content: View>: View {
                 .frame(maxHeight: .infinity, alignment: .bottom)
             })
             .onChange(of: pin) { oldValue, newValue in
-                if newValue.count == 4 {
-                    if lockPin == pin {
-                        
-                        withAnimation(
-                            .snappy, completionCriteria: .logicallyComplete,
-                            {
-                                isUnlocked = true
-                            },
-                            completion: {
-                                pin = ""
-                                noBiometricAccess = !isBiometricAvailable
-                            }
-                        )
-                    } else {
-                        pin = ""
-                        animateFiled.toggle()
-                    }
-                }
+                unlockViewByPin()
             }
         }
         .padding()
@@ -279,7 +332,7 @@ struct LockView<Content: View>: View {
     
     func add(number: Int) {
         if pin.count <= 4 {
-            pin.append("\(number)")
+            pin.append(number)
         }
     }
 }
