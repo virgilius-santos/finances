@@ -13,7 +13,7 @@ struct FinancesIOSApp: App {
 //        WindowGroup.expenseTracker
 //        WindowGroup.wallet
 //        WindowGroup.appPromo
-        WindowGroup.appPromo
+        WindowGroup.lockScreen
     }
 }
 
