@@ -12,13 +12,15 @@ struct SwipeScrollView: View {
                         content: {
                             CardView(color)
                         },
-                        actions: [
-                            SwipeAction(tint: .yellow, icon: "star.fill", isEnabled: false, action: { print("Bookmarked") }),
-                            SwipeAction(tint: .blue, icon: "star.fill", action: { print("Bookmarked") }),
+                        actions: {
+                            SwipeAction(tint: .yellow, icon: "star.fill", isEnabled: false, action: { print("Bookmarked") })
+                         
+                            SwipeAction(tint: .blue, icon: "star.fill", action: { print("Bookmarked") })
+                            
                             SwipeAction(tint: .red, icon: "trash.fill", action: {
                                 withAnimation(.easeInOut, { colors.removeAll(where: { $0 == color })})
                             })
-                        ]
+                        }
                     )
                 }
             }
@@ -71,7 +73,6 @@ struct ActionBuilder {
     }
 }
 
-
 typealias CustomSwipeView<T: View> = CustomSwipe.SwipeView<T>
 typealias SwipeAction = CustomSwipe.Action
 
@@ -118,6 +119,18 @@ enum CustomSwipe {
         
         @State private var isEnabled = true
         @State private var strollOffset = CGFloat.zero
+        
+        init(
+            cornerRadius: CGFloat = 4,
+            direction: Direction = .trailing,
+            @ViewBuilder content: @escaping () -> Content,
+            @ActionBuilder actions: () -> [Action]
+        ) {
+            self.cornerRadius = cornerRadius
+            self.direction = direction
+            self.content = content
+            self.actions = actions()
+        }
         
         var body: some View {
             ScrollViewReader { scrollProxy in

@@ -305,9 +305,9 @@ extension AppPromo.Recents {
                     .padding(.vertical, 12)
                     .background(.background, in: .rect(cornerRadius: 12))
                 },
-                actions: [
-                    .init(tint: .red, icon: "trash", action: { })
-                ]
+                actions: {
+                    SwipeAction(tint: .red, icon: "trash", action: { })
+                }
             )
         }
         
