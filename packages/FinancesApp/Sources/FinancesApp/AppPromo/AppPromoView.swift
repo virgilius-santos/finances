@@ -40,196 +40,18 @@ public struct AppPromo: View {
     
     public enum Tab {}
     public enum IntroScreen{}
+    public enum Recents {}
 }
 
-extension AppPromo.Tab {
-    enum Item: CaseIterable {
-        case recents
-        case search
-        case charts
-        case settings
-    }
-    
-    struct Model {
-        let title: String
-        let image: String
-    }
-}
-
-extension AppPromo.Tab.Model {
-    static let recents = Self(
-        title: "Recents",
-        image: "calendar"
-    )
-    static let search = Self(
-        title: "Search",
-        image: "magnifyingglass"
-    )
-    static let charts = Self(
-        title: "Charts",
-        image: "chart.bar.xaxis"
-    )
-    static let settings = Self(
-        title: "Settings",
-        image: "gearshape"
-    )
-}
-
-extension AppPromo.Tab.Item {
-    var model: AppPromo.Tab.Model {
-        let model: AppPromo.Tab.Model
-        switch self {
-        case .recents:
-            model = .recents
-        case .search:
-            model = .search
-        case .charts:
-            model = .charts
-        case .settings:
-            model = .settings
-        }
-        return model
-    }
-    
-    @ViewBuilder
-    var content: some View {
-        Image(systemName: model.image)
-        Text(model.title)
-    }
-    
-    @ViewBuilder
-    var view: some View {
-        switch self {
-        case .recents:
-            AppPromo.Recents()
-        case .search:
-            AppPromo.Search()
-        case .charts:
-            AppPromo.Chart()
-        case .settings:
-            AppPromo.Settings()
-        }
-    }
-}
-
-extension AppPromo.IntroScreen {
-    struct Home: View {
-        @AppStorage("isFirstTime") var isFirstTime = true
-        
-        var body: some View {
-            VStack(spacing: 16) {
-                Text("What's New in the Expense Tracker")
-                    .font(.largeTitle.bold())
-                    .multilineTextAlignment(.center)
-                    .padding(.top, 64)
-                    .padding(.bottom, 36)
-                
-                VStack(alignment: .leading, spacing: 24) {
-                    PointView(
-                        symbol: "dollarsign",
-                        title: "Transactions",
-                        subtitle: "Keep track of your earnings and expenses."
-                    )
-                    PointView(
-                        symbol: "chart.bar.fill",
-                        title: "Virtual Charts",
-                        subtitle: "View your transactions using eye-catching graphic representations."
-                    )
-                    PointView(
-                        symbol: "magnifyingglass",
-                        title: "Advance Filters",
-                        subtitle: "Find the expenses you want by advance search and filtering."
-                    )
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 16)
-                
-                Spacer(minLength: 12)
-                
-                Button(action: { isFirstTime = false }, label: {
-                    Text("Continue")
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color.white)
-                        .frame(maxWidth: .infinity, minHeight: 44)
-                        .padding(.vertical, 16)
-                        .background(Color.appTint, in: .rect(cornerRadius: 12))
-                        .contentShape(.rect)
-                    
-                })
-            }
-            .padding(16)
-        }
-    }
-    
-    struct PointView: View {
-        let symbol: String
-        let title: String
-        let subtitle: String
-        
-        var body: some View {
-            HStack(spacing: 20) {
-                Image(systemName: symbol)
-                    .font(.largeTitle)
-                    .foregroundStyle(Color.appTint.gradient)
-                    .frame(width: 44)
-                
-                
-                VStack(alignment: .leading, spacing: 24) {
-                    Text(title)
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                    
-                    Text(subtitle)
-                        .foregroundStyle(Color.gray)
-                }
-                
-                
-            }
-        }
-    }
-}
-
-extension AppPromo {
-    enum Category: String, CaseIterable {
-        case income = "Income"
-        case expense = "Expense"
-    }
-    
-    struct TintColor: Identifiable {
-        let id = UUID()
-        var color: String
-        var value: Color
-        
-        static var tints: [Self] = [
-            .init(color: "Red", value: .red),
-            .init(color: "Blue", value: .blue),
-            .init(color: "Pink", value: .pink),
-            .init(color: "Purple", value: .purple),
-            .init(color: "Brown", value: .brown),
-            .init(color: "Orange", value: .orange)
-        ]
-    }
-    
-    struct Transaction: Identifiable {
-        let id = UUID()
-        var title: String
-        var remarks: String
-        var amount: Double
-        var dateAdded: Date
-        var category: Category
-        var tintColor: TintColor
-    }
-}
-
-extension AppPromo {
-    struct Recents: View {
+extension AppPromo.Recents {
+    struct RecentsView: View {
         
         @AppStorage("userName") var userName = ""
         
         @State private var startDate = Date.now.startOfMonth
         @State private var endDate = Date.now.endOfMonth
-        @State private var selectedCategory = Category.expense
-        @State private var transactions = Transaction.sample
+        @State private var selectedCategory = AppPromo.Category.expense
+        @State private var transactions = AppPromo.Transaction.sample
         @State private var showFilterView = false
         
         @Namespace private var animation
@@ -237,6 +59,7 @@ extension AppPromo {
         var dateFilterButton: String {
             "\(startDate.shortDate) to \(endDate.shortDate)"
         }
+        
         var body: some View {
             GeometryReader {
                 let size = $0.size
@@ -389,7 +212,7 @@ extension AppPromo {
             }
         }
         
-        func CategoryIndicator(image: String, tint: Color, category: Category, value: Double) -> some View {
+        func CategoryIndicator(image: String, tint: Color, category: AppPromo.Category, value: Double) -> some View {
             HStack(spacing: 12) {
                 Image(systemName: image)
                     .font(.callout.bold())
@@ -426,7 +249,7 @@ extension AppPromo {
         }
         
         @ViewBuilder
-        func SegmentedControl(category: Category) -> some View {
+        func SegmentedControl(category: AppPromo.Category) -> some View {
             Text(category.rawValue)
                 .hSpacing()
                 .padding(.vertical, 12)
@@ -446,73 +269,81 @@ extension AppPromo {
         }
         
         @ViewBuilder
-        func TransactionCard(transaction: Transaction) -> some View {
-            HStack(spacing: 12) {
-                Text("\(String(transaction.title.prefix(1)))")
-                    .font(.title)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.white)
-                    .frame(width: 44, height: 44)
-                    .background(transaction.tintColor.value.gradient, in: .circle)
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(transaction.title)
-                        .foregroundStyle(.primary)
-                    
-                    Text(transaction.remarks)
-                        .font(.caption)
-                        .foregroundStyle(.primary.secondary)
-                    
-                    Text(transaction.dateAdded.shortDate)
-                        .font(.caption2)
-                        .foregroundStyle(.gray)
-                }
-                .hSpacing(.leading)
-                
-                Text(transaction.amount.currencyString)
-                    .fontWeight(.semibold)
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
-            .background(.background, in: .rect(cornerRadius: 12))
+        func TransactionCard(transaction: AppPromo.Transaction) -> some View {
+            CustomSwipeView(
+                cornerRadius: 12,
+                content: {
+                    HStack(spacing: 12) {
+                        Text("\(String(transaction.title.prefix(1)))")
+                            .font(.title)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.white)
+                            .frame(width: 44, height: 44)
+                            .background(transaction.tintColor.value.gradient, in: .circle)
+                        
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(transaction.title)
+                                .foregroundStyle(.primary)
+                            
+                            Text(transaction.remarks)
+                                .font(.caption)
+                                .foregroundStyle(.primary.secondary)
+                            
+                            Text(transaction.dateAdded.shortDate)
+                                .font(.caption2)
+                                .foregroundStyle(.gray)
+                        }
+                        .hSpacing(.leading)
+                        
+                        Text(transaction.amount.currencyString)
+                            .fontWeight(.semibold)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .background(.background, in: .rect(cornerRadius: 12))
+                },
+                actions: [
+                    .init(tint: .red, icon: "trash", action: { })
+                ]
+            )
         }
-    }
-    
-    struct DateFilterView: View {
-        @State var startDate: Date
-        @State var endDate: Date
         
-        var onSubmit: (Date, Date) -> Void
-        var onClose: () -> Void
-        
-        var body: some View {
-            VStack(spacing: 16) {
-                DatePicker("Start Date", selection: $startDate, displayedComponents: [.date])
-                    .id(startDate)
-                
-                DatePicker("End Date", selection: $endDate, displayedComponents: [.date])
-                    .id(startDate)
-                
-                HStack(spacing: 16) {
-                    Button("Cancel") {
-                        onClose()
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .buttonBorderShape(.roundedRectangle(radius: 4))
-                    .tint(.red)
+        struct DateFilterView: View {
+            @State var startDate: Date
+            @State var endDate: Date
+            
+            var onSubmit: (Date, Date) -> Void
+            var onClose: () -> Void
+            
+            var body: some View {
+                VStack(spacing: 16) {
+                    DatePicker("Start Date", selection: $startDate, displayedComponents: [.date])
+                        .id(startDate)
                     
-                    Button("Filter") {
-                        onSubmit(startDate, endDate)
+                    DatePicker("End Date", selection: $endDate, displayedComponents: [.date])
+                        .id(startDate)
+                    
+                    HStack(spacing: 16) {
+                        Button("Cancel") {
+                            onClose()
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .buttonBorderShape(.roundedRectangle(radius: 4))
+                        .tint(.red)
+                        
+                        Button("Filter") {
+                            onSubmit(startDate, endDate)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .buttonBorderShape(.roundedRectangle(radius: 4))
+                        .tint(.appTint)
                     }
-                    .buttonStyle(.borderedProminent)
-                    .buttonBorderShape(.roundedRectangle(radius: 4))
-                    .tint(.appTint)
+                    .padding(.top, 12)
                 }
-                .padding(.top, 12)
+                .padding(16)
+                .background(.bar, in: .rect(cornerRadius: 12))
+                .padding(.horizontal, 32)
             }
-            .padding(16)
-            .background(.bar, in: .rect(cornerRadius: 12))
-            .padding(.horizontal, 32)
         }
     }
 }
@@ -523,17 +354,226 @@ extension AppPromo {
             Text("Search")
         }
     }
-    
+}
+
+extension AppPromo {
     struct Chart: View {
         var body: some View {
             Text("Chart")
         }
     }
-    
+}
+
+extension AppPromo {
     struct Settings: View {
+        @AppStorage("userName") var userName = ""
+        @AppStorage("isAppLockEnabled") var isAppLockEnabled = false
+        @AppStorage("lockWhenApppGoesBackground") var lockWhenApppGoesBackground = false
+        
         var body: some View {
-            Text("Settings")
+            NavigationStack {
+                List {
+                    Section("User Name") {
+                        TextField("iJustine", text: $userName)
+                    }
+                    
+                    Section("App Lock") {
+                        Toggle("Enable App Lock", isOn: $isAppLockEnabled)
+                        
+                        if isAppLockEnabled {
+                            Toggle("Lock When App Goes Background", isOn: $lockWhenApppGoesBackground)
+                        }
+                    }
+                }
+            }
         }
+    }
+}
+
+// MARK: IntroScreen
+
+extension AppPromo.IntroScreen {
+    struct Home: View {
+        @AppStorage("isFirstTime") var isFirstTime = true
+        
+        var body: some View {
+            VStack(spacing: 16) {
+                Text("What's New in the Expense Tracker")
+                    .font(.largeTitle.bold())
+                    .multilineTextAlignment(.center)
+                    .padding(.top, 64)
+                    .padding(.bottom, 36)
+                
+                VStack(alignment: .leading, spacing: 24) {
+                    PointView(
+                        symbol: "dollarsign",
+                        title: "Transactions",
+                        subtitle: "Keep track of your earnings and expenses."
+                    )
+                    PointView(
+                        symbol: "chart.bar.fill",
+                        title: "Virtual Charts",
+                        subtitle: "View your transactions using eye-catching graphic representations."
+                    )
+                    PointView(
+                        symbol: "magnifyingglass",
+                        title: "Advance Filters",
+                        subtitle: "Find the expenses you want by advance search and filtering."
+                    )
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 16)
+                
+                Spacer(minLength: 12)
+                
+                Button(action: { isFirstTime = false }, label: {
+                    Text("Continue")
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color.white)
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                        .padding(.vertical, 16)
+                        .background(Color.appTint, in: .rect(cornerRadius: 12))
+                        .contentShape(.rect)
+                    
+                })
+            }
+            .padding(16)
+        }
+    }
+    
+    struct PointView: View {
+        let symbol: String
+        let title: String
+        let subtitle: String
+        
+        var body: some View {
+            HStack(spacing: 20) {
+                Image(systemName: symbol)
+                    .font(.largeTitle)
+                    .foregroundStyle(Color.appTint.gradient)
+                    .frame(width: 44)
+                
+                
+                VStack(alignment: .leading, spacing: 24) {
+                    Text(title)
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                    
+                    Text(subtitle)
+                        .foregroundStyle(Color.gray)
+                }
+                
+                
+            }
+        }
+    }
+}
+
+// MARK: Tab
+
+extension AppPromo.Tab {
+    enum Item: CaseIterable {
+        case recents
+        case search
+        case charts
+        case settings
+    }
+    
+    struct Model {
+        let title: String
+        let image: String
+    }
+}
+
+// MARK: Tab Models
+
+extension AppPromo.Tab.Model {
+    static let recents = Self(
+        title: "Recents",
+        image: "calendar"
+    )
+    static let search = Self(
+        title: "Search",
+        image: "magnifyingglass"
+    )
+    static let charts = Self(
+        title: "Charts",
+        image: "chart.bar.xaxis"
+    )
+    static let settings = Self(
+        title: "Settings",
+        image: "gearshape"
+    )
+}
+
+extension AppPromo.Tab.Item {
+    var model: AppPromo.Tab.Model {
+        let model: AppPromo.Tab.Model
+        switch self {
+        case .recents:
+            model = .recents
+        case .search:
+            model = .search
+        case .charts:
+            model = .charts
+        case .settings:
+            model = .settings
+        }
+        return model
+    }
+    
+    @ViewBuilder
+    var content: some View {
+        Image(systemName: model.image)
+        Text(model.title)
+    }
+    
+    @ViewBuilder
+    var view: some View {
+        switch self {
+        case .recents:
+            AppPromo.Recents.RecentsView()
+        case .search:
+            AppPromo.Search()
+        case .charts:
+            AppPromo.Chart()
+        case .settings:
+            AppPromo.Settings()
+        }
+    }
+}
+
+// MARK: General Models
+
+extension AppPromo {
+    enum Category: String, CaseIterable {
+        case income = "Income"
+        case expense = "Expense"
+    }
+    
+    struct TintColor: Identifiable {
+        let id = UUID()
+        var color: String
+        var value: Color
+        
+        static var tints: [Self] = [
+            .init(color: "Red", value: .red),
+            .init(color: "Blue", value: .blue),
+            .init(color: "Pink", value: .pink),
+            .init(color: "Purple", value: .purple),
+            .init(color: "Brown", value: .brown),
+            .init(color: "Orange", value: .orange)
+        ]
+    }
+    
+    struct Transaction: Identifiable {
+        let id = UUID()
+        var title: String
+        var remarks: String
+        var amount: Double
+        var dateAdded: Date
+        var category: Category
+        var tintColor: TintColor
     }
 }
 
