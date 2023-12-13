@@ -64,12 +64,12 @@ extension SwipeScrollView {
 }
 
 
-//@resultBuilder
-//struct ActionBuilder {
-//    static func buildBlock(_ components: Action...) -> [Action] {
-//        components
-//    }
-//}
+@resultBuilder
+struct ActionBuilder {
+    static func buildBlock(_ components: SwipeAction...) -> [SwipeAction] {
+        components
+    }
+}
 
 
 typealias CustomSwipeView<T: View> = CustomSwipe.SwipeView<T>
