@@ -1,5 +1,14 @@
 import SwiftUI
 
+struct Card: Identifiable, Equatable, Hashable {
+    var id: UUID = .init()
+    var name: String
+    var position: Int
+    var color: Color
+    var logo: String = "visa"
+    var balance: String
+}
+
 struct WalletCard: View {
     var card: Card
     

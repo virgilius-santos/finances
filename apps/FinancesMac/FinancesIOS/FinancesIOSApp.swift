@@ -20,9 +20,9 @@ struct FinancesIOSApp: App {
 
 #Preview("light") {
     Group {
-//        CloudAppView()
+        CloudAppView()
 //        ExpenseTracker()
-        WalletView()
+//        WalletView()
 //        DesignCodeApp.MainView()
 //        AppPromo()
     }

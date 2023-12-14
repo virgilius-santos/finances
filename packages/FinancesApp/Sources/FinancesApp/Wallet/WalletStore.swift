@@ -18,15 +18,6 @@ struct Overview: Identifiable, Equatable, Hashable {
     var values: [Value]
 }
 
-struct Card: Identifiable, Equatable, Hashable {
-    var id: UUID = .init()
-    var name: String
-    var position: Int
-    var color: Color
-    var logo: String = "visa"
-    var balance: String
-}
-
 extension Overview {
     static var sample: [Overview] = [
         .init(category: .income, values: [
