@@ -31,8 +31,8 @@ struct CardBackground: ViewModifier {
             .vSpacing()
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
-            .background(Color.background)
+            .background(Color.systemBackground)
             .clipShape(.rect(cornerRadius: 24))
-            .shadow(color: .black.opacity(0.2), radius: 4, x: 4, y: 4)
+            .shadow(color: .black.opacity(0.2), radius: 4, x: 2, y: 2)
     }
 }

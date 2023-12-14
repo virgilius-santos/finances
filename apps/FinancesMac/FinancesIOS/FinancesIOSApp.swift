@@ -17,7 +17,15 @@ struct FinancesIOSApp: App {
             ScrollView(.vertical) {
                 LazyVStack(spacing: 12) {
                     ForEach(0...9, id: \.self) { _ in
-                        ExpenseRow.RowView(viewModel: ExpenseRow.ViewModel())
+                        ExpenseRow.RowView(viewModel: ExpenseRow.ViewModel(
+                            title: "Versus Card",
+                            category: .init(
+                                name: "Mercado",
+                                image: "cart.fill",
+                                style: .market
+                            ),
+                            amount: .init(value: 234.88, style: .expense, code: "BRL")
+                        ))
                     }
                 }
             }

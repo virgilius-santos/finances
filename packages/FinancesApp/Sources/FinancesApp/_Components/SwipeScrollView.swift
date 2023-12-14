@@ -251,6 +251,8 @@ enum CustomSwipe {
                 .mask {
                     GeometryReader(content: { geometry in
                         Rectangle()
+                            .frame(width: geometry.size.width+12, height: geometry.size.height+12)
+                            .offset(.init(width: -6, height: -4))
                             .offset(y: phase == .identity ? 0 : -geometry.size.height)
                     })
                 }
