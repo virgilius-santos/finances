@@ -19,9 +19,11 @@ struct FinancesIOSApp: App {
 
 
 #Preview("light") {
-//    CloudAppView()
-//    ExpenseTracker()
-//    WalletView()
-//    DesignCodeApp.MainView()
-    AppPromo()
+    Group {
+//        CloudAppView()
+//        ExpenseTracker()
+        WalletView()
+//        DesignCodeApp.MainView()
+//        AppPromo()
+    }
 }
