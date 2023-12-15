@@ -6,7 +6,7 @@ extension ExpenseRow {
     struct RowView: View {
         let viewModel: ViewModel
         var tapAction: () -> Void = {}
-        var deleteAction: (ViewModel) -> Void = { _ in }
+        var deleteAction: () -> Void = {}
         
         var body: some View {
             CustomSwipeView(
@@ -45,13 +45,10 @@ extension ExpenseRow {
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
                     .contentShape(Rectangle())
-                    .onTapGesture {
-                        tapAction()
-                        print("ta[ ta[\(viewModel.id)")
-                    }
+                    .onTapGesture { tapAction() }
                 },
                 actions: {
-                    SwipeAction(tint: .red, icon: "trash", action: { })
+                    SwipeAction(tint: .red, icon: "trash", action: { deleteAction() })
                 }
             )
             .background(Color.systemBackground)
@@ -64,7 +61,7 @@ extension ExpenseRow {
 }
 
 extension ExpenseRow {
-    struct ViewModel {
+    struct ViewModel: Equatable, Identifiable {
         var id = UUID()
         var title: String
         var category: Category
@@ -73,28 +70,10 @@ extension ExpenseRow {
 }
 
 extension ExpenseRow.ViewModel {
-    struct Category {
+    struct Category: Equatable, Hashable, Identifiable {
+        var id = UUID()
         var name: String
         var image: String
         var style: CategoryStyle
     }
-}
-
-#Preview("ExpenseRow.Row") {
-        ScrollView(.vertical) {
-            LazyVStack(spacing: 12) {
-                ForEach(0...9, id: \.self) { _ in
-                    ExpenseRow.RowView(viewModel: ExpenseRow.ViewModel(
-                        title: "Versus Card",
-                        category: .init(
-                            name: "Mercado",
-                            image: "cart.fill",
-                            style: .market
-                        ),
-                        amount: .init(value: 234.88, style: .expense, code: "BRL")
-                    ))
-                }
-            }
-        }
-//    }
 }

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct CurrencyStyle {
+struct CurrencyStyle: Equatable {
     static let expense = Self(color: .red)
     static let income = Self(color: .blue)
     
@@ -8,7 +8,7 @@ struct CurrencyStyle {
     let color: Color
 }
 
-struct CategoryStyle {
+struct CategoryStyle: Equatable, Hashable {
     static let market = Self(color: .blue)
     static let shop = Self(color: .yellow)
     

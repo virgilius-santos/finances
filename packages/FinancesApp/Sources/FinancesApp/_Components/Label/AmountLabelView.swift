@@ -1,9 +1,9 @@
 import SwiftUI
 
-struct Amount {
+struct Amount: Equatable {
     let value: Double
     let style: CurrencyStyle
-    let code: String
+    var code: String = "BRL"
 }
 
 struct AmountLabelView: View {
