@@ -41,11 +41,11 @@ extension ExpenseRow {
                         }
                     )
                     .frame(minWidth: 44, minHeight: 44)
+                    .contentShape(.rect)
+                    .onTapGesture { tapAction() }
                     .vSpacing()
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .contentShape(Rectangle())
-                    .onTapGesture { tapAction() }
                 },
                 actions: {
                     SwipeAction(tint: .red, icon: "trash", action: { deleteAction() })

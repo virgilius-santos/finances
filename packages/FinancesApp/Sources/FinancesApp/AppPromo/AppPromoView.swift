@@ -16,7 +16,7 @@ public struct AppPromo: View {
     @AppStorage("isAppLockEnabled") var isAppLockEnabled = false
     @AppStorage("lockWhenApppGoesBackground") var lockWhenApppGoesBackground = false
     
-    @State private var activeTab = Tab.Item.search
+    @State private var activeTab = Tab.Item.recents
     
     public var body: some View {
         LockView(
@@ -53,6 +53,7 @@ public struct AppPromo: View {
     public enum Search {}
     public enum Chart {}
     public enum Settings {}
+    public enum AddExpense {}
 }
 
 extension AppPromo.Recents {
@@ -150,7 +151,7 @@ extension AppPromo.Recents {
                 Spacer(minLength: 0)
                 
                 NavigationLink(
-                    destination: {},
+                    destination: { AppPromo.AddExpense.NewExpenseView { print("save") }},
                     label: {
                         Image(systemName: "plus")
                             .font(.title3)
@@ -356,6 +357,139 @@ extension AppPromo.Recents {
                 .background(.bar, in: .rect(cornerRadius: 12))
                 .padding(.horizontal, 32)
             }
+        }
+    }
+}
+
+extension AppPromo.AddExpense {
+    struct NewExpenseView: View {
+        var save: () -> Void
+        
+        @State private var title = ""
+        @State private var remarks = ""
+        @State private var amount = Double.zero
+        @State private var dateAdded = Date.now
+        @State private var category = AppPromo.Category.expense
+        
+        var tint = AppPromo.TintColor.tints.randomElement()!
+        
+        var body: some View {
+            ScrollView(.vertical) {
+                VStack(spacing: 16) {
+                    Text("Preview")
+                        .font(.caption)
+                        .foregroundStyle(.gray)
+                        .hSpacing(.leading)
+                    
+                    AppPromo.Recents.RecentsView().TransactionCard(transaction: .init(
+                        title: title.isEmpty ? "Title" : title,
+                        remarks: remarks.isEmpty ? "Remarks" : remarks,
+                        amount: amount,
+                        dateAdded: dateAdded,
+                        category: category,
+                        tintColor: tint
+                    ))
+                    
+                    CustomSection(title: "Title", hint: "Margic Keyboard", text: $title)
+                    
+                    CustomSection(title: "Remarks", hint: "Apple Products!", text: $remarks)
+                    
+                    VStack(spacing: 12) {
+                        Text("Amount & Category")
+                            .font(.caption)
+                            .foregroundStyle(.gray)
+                            .hSpacing(.leading)
+                        
+                        HStack(spacing: 16) {
+                            TextField("0.0", value: $amount, formatter: NumberFormatter.twoFractionDigits)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 12)
+                                .background(.background, in: .rect(cornerRadius: 12))
+                                .frame(maxWidth: 130)
+                                .keyboardType(.decimalPad)
+                            
+                            CategoryCheckBox(category: $category)
+                        }
+                    }
+                    
+                    VStack(spacing: 12) {
+                        Text("Date")
+                            .font(.caption)
+                            .foregroundStyle(.gray)
+                            .hSpacing(.leading)
+                        
+                        DatePicker("", selection: $dateAdded, displayedComponents: [.date])
+                            .datePickerStyle(.graphical)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                            .background(.background, in: .rect(cornerRadius: 12))
+                    }
+                }
+                .padding(16)
+            }
+            .navigationTitle("Add Transaction")
+            .background(tint.value.opacity(0.16))
+            .toolbar(content: {
+                ToolbarItem {
+                    Button("Save", action: save)
+                }
+            })
+            
+        }
+    }
+    
+    struct CustomSection: View {
+        var title: String
+        var hint: String
+        @Binding var text: String
+        
+        var body: some View {
+            VStack(alignment: .leading, spacing: 12) {
+                Text(title)
+                    .font(.caption)
+                    .foregroundStyle(.gray)
+                    .hSpacing(.leading)
+                
+                TextField(hint, text: $text)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .background(.background, in: .rect(cornerRadius: 12))
+            }
+        }
+    }
+    
+    struct CategoryCheckBox: View {
+        @Binding var category: AppPromo.Category
+        
+        var body: some View {
+            HStack(spacing: 12) {
+                ForEach(AppPromo.Category.allCases, id: \.rawValue) { category in
+                    HStack(spacing: 4) {
+                        ZStack {
+                            Image(systemName: "circle")
+                                .font(.title3)
+                                .foregroundStyle(Color.appTint)
+                            
+                            if self.category == category {
+                                Image(systemName: "circle.fill")
+                                    .font(.caption)
+                                    .foregroundStyle(Color.appTint)
+                            }
+                        }
+                        
+                        Text(category.rawValue)
+                            .font(.caption)
+                    }
+                    .contentShape(.rect)
+                    .onTapGesture {
+                        self.category = category
+                    }
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .hSpacing(.leading)
+            .background(.background, in: .rect(cornerRadius: 8))
         }
     }
 }
