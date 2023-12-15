@@ -64,7 +64,7 @@ extension AppPromo.Recents {
         @State private var startDate = Date.now.startOfMonth
         @State private var endDate = Date.now.endOfMonth
         @State private var selectedCategory = AppPromo.Category.expense
-        @State private var transactions = [AppPromo.Transaction]()
+        @Query private var transactions: [AppPromo.Transaction]
         @State private var showFilterView = false
         
         @Namespace private var animation
@@ -151,7 +151,7 @@ extension AppPromo.Recents {
                 Spacer(minLength: 0)
                 
                 NavigationLink(
-                    destination: { AppPromo.AddExpense.NewExpenseView { print("save") }},
+                    destination: { AppPromo.AddExpense.NewExpenseView() },
                     label: {
                         Image(systemName: "plus")
                             .font(.title3)
@@ -363,15 +363,16 @@ extension AppPromo.Recents {
 
 extension AppPromo.AddExpense {
     struct NewExpenseView: View {
-        var save: () -> Void
-        
+        @Environment(\.dismiss) var dismiss
+        @Environment(\.modelContext) var modelContext
+                
         @State private var title = ""
         @State private var remarks = ""
         @State private var amount = Double.zero
         @State private var dateAdded = Date.now
         @State private var category = AppPromo.Category.expense
         
-        var tint = AppPromo.TintColor.tints.randomElement()!
+        var tintColor = AppPromo.TintColor.tints.randomElement()!
         
         var body: some View {
             ScrollView(.vertical) {
@@ -387,7 +388,7 @@ extension AppPromo.AddExpense {
                         amount: amount,
                         dateAdded: dateAdded,
                         category: category,
-                        tintColor: tint
+                        tintColor: tintColor
                     ))
                     
                     CustomSection(title: "Title", hint: "Margic Keyboard", text: $title)
@@ -428,13 +429,25 @@ extension AppPromo.AddExpense {
                 .padding(16)
             }
             .navigationTitle("Add Transaction")
-            .background(tint.value.opacity(0.16))
+            .background(tintColor.value.opacity(0.16))
             .toolbar(content: {
                 ToolbarItem {
                     Button("Save", action: save)
                 }
             })
-            
+        }
+        
+        func save() {
+            let transaction = AppPromo.Transaction(
+                title: title,
+                remarks: remarks,
+                amount: amount,
+                dateAdded: dateAdded,
+                category: category,
+                tintColor: tintColor
+            )
+            modelContext.insert(transaction)
+            dismiss()
         }
     }
     
@@ -750,8 +763,8 @@ extension AppPromo {
         ]
     }
     
-    struct Transaction: Identifiable {
-        let id = UUID()
+    @Model
+    class Transaction {
         var title: String
         var remarks: String
         var amount: Double

@@ -40,6 +40,8 @@ struct FinancesIOSApp: App {
 //        ExpenseTracker()
 //        WalletView()
 //        DesignCodeApp.MainView()
-        AppPromo.AddExpense.NewExpenseView {} 
+        AppPromo()
+//        AppPromo.AddExpense.NewExpenseView()
+            .modelContainer(for: [AppPromo.Transaction.self])
     }
 }
