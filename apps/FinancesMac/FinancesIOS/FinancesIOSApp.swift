@@ -12,24 +12,26 @@ struct FinancesIOSApp: App {
 //        WindowGroup.cloudApp
 //        WindowGroup.expenseTracker
 //        WindowGroup.wallet
-//        WindowGroup.appPromo
-        WindowGroup {
-            ScrollView(.vertical) {
-                LazyVStack(spacing: 12) {
-                    ForEach(0...9, id: \.self) { _ in
-                        ExpenseRow.RowView(viewModel: ExpenseRow.ViewModel(
-                            title: "Versus Card",
-                            category: .init(
-                                name: "Mercado",
-                                image: "cart.fill",
-                                style: .market
-                            ),
-                            amount: .init(value: 234.88, style: .expense, code: "BRL")
-                        ))
-                    }
-                }
-            }
-        }
+        WindowGroup.appPromo
+            .modelContainer(for: [AppPromo.Transaction.self], inMemory: true, isAutosaveEnabled: true)
+        
+//        WindowGroup {
+//            ScrollView(.vertical) {
+//                LazyVStack(spacing: 12) {
+//                    ForEach(0...9, id: \.self) { _ in
+//                        ExpenseRow.RowView(viewModel: ExpenseRow.ViewModel(
+//                            title: "Versus Card",
+//                            category: .init(
+//                                name: "Mercado",
+//                                image: "cart.fill",
+//                                style: .market
+//                            ),
+//                            amount: .init(value: 234.88, style: .expense, code: "BRL")
+//                        ))
+//                    }
+//                }
+//            }
+//        }
     }
 }
 
@@ -42,6 +44,6 @@ struct FinancesIOSApp: App {
 //        DesignCodeApp.MainView()
         AppPromo()
 //        AppPromo.AddExpense.NewExpenseView()
-            .modelContainer(for: [AppPromo.Transaction.self])
+            .modelContainer(for: [AppPromo.Transaction.self], inMemory: true, isAutosaveEnabled: true)
     }
 }

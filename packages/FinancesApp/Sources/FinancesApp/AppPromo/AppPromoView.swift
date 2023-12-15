@@ -59,6 +59,8 @@ public struct AppPromo: View {
 extension AppPromo.Recents {
     struct RecentsView: View {
         
+        @Environment(\.modelContext) var modelContext
+        
         @AppStorage("userName") var userName = ""
         
         @State private var startDate = Date.now.startOfMonth
@@ -95,7 +97,10 @@ extension AppPromo.Recents {
                                         .padding(.bottom, 12)
                                     
                                     ForEach(transactions.filter({ $0.category == selectedCategory.rawValue })) { transaction in
-                                        TransactionCard(transaction: transaction)
+                                        NavigationLink(
+                                            destination: { AppPromo.AddExpense.NewExpenseView(editTransaction: transaction) },
+                                            label: { TransactionCard(transaction: transaction) }
+                                        )
                                     }
                                 },
                                 header: {
@@ -316,7 +321,9 @@ extension AppPromo.Recents {
                     .background(.background, in: .rect(cornerRadius: 12))
                 },
                 actions: {
-                    SwipeAction(tint: .red, icon: "trash", action: { })
+                    SwipeAction(tint: .red, icon: "trash", action: {
+                        modelContext.delete(transaction)
+                    })
                 }
             )
         }
@@ -365,14 +372,15 @@ extension AppPromo.AddExpense {
     struct NewExpenseView: View {
         @Environment(\.dismiss) var dismiss
         @Environment(\.modelContext) var modelContext
-                
+        
+        var editTransaction: AppPromo.Transaction?
+        
         @State private var title = ""
         @State private var remarks = ""
         @State private var amount = Double.zero
         @State private var dateAdded = Date.now
         @State private var category = AppPromo.Category.expense
-        
-        var tintColor = AppPromo.TintColor.tints.randomElement()!
+        @State private var tintColor = AppPromo.TintColor.tints.randomElement()!
         
         var body: some View {
             ScrollView(.vertical) {
@@ -428,25 +436,44 @@ extension AppPromo.AddExpense {
                 }
                 .padding(16)
             }
-            .navigationTitle("Add Transaction")
+            .navigationTitle("\(editTransaction == nil ? "Add" : "Edit") Transaction")
             .background(tintColor.value.opacity(0.16))
             .toolbar(content: {
                 ToolbarItem {
                     Button("Save", action: save)
                 }
             })
+            .onAppear(perform: {
+                if let editTransaction {
+                    title = editTransaction.title
+                    remarks = editTransaction.remarks
+                    amount = editTransaction.amount
+                    dateAdded = editTransaction.dateAdded
+                    category = .init(rawValue: editTransaction.category) ?? .expense
+                    tintColor = AppPromo.TintColor.get(color: editTransaction.tintColor)
+                }
+            })
         }
         
         func save() {
-            let transaction = AppPromo.Transaction(
-                title: title,
-                remarks: remarks,
-                amount: amount,
-                dateAdded: dateAdded,
-                category: category,
-                tintColor: tintColor
-            )
-            modelContext.insert(transaction)
+            if let editTransaction {
+                editTransaction.title = title
+                editTransaction.remarks = remarks
+                editTransaction.amount = amount
+                editTransaction.dateAdded = dateAdded
+                editTransaction.category = category.rawValue
+                editTransaction.tintColor = tintColor.color
+            } else {
+                let transaction = AppPromo.Transaction(
+                    title: title,
+                    remarks: remarks,
+                    amount: amount,
+                    dateAdded: dateAdded,
+                    category: category,
+                    tintColor: tintColor
+                )
+                modelContext.insert(transaction)
+            }
             dismiss()
         }
     }
