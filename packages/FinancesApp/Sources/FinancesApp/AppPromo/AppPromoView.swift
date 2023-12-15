@@ -64,7 +64,7 @@ extension AppPromo.Recents {
         @State private var startDate = Date.now.startOfMonth
         @State private var endDate = Date.now.endOfMonth
         @State private var selectedCategory = AppPromo.Category.expense
-        @State private var transactions = AppPromo.Transaction.sample
+        @State private var transactions = [AppPromo.Transaction]()
         @State private var showFilterView = false
         
         @Namespace private var animation
@@ -94,7 +94,7 @@ extension AppPromo.Recents {
                                     CustomSegmentedControl()
                                         .padding(.bottom, 12)
                                     
-                                    ForEach(transactions.filter({ $0.category == selectedCategory })) { transaction in
+                                    ForEach(transactions.filter({ $0.category == selectedCategory.rawValue })) { transaction in
                                         TransactionCard(transaction: transaction)
                                     }
                                 },
@@ -292,7 +292,7 @@ extension AppPromo.Recents {
                             .fontWeight(.semibold)
                             .foregroundStyle(.white)
                             .frame(width: 44, height: 44)
-                            .background(transaction.tintColor.value.gradient, in: .circle)
+                            .background(AppPromo.TintColor.get(color: transaction.tintColor).value.gradient, in: .circle)
                         
                         VStack(alignment: .leading, spacing: 4) {
                             Text(transaction.title)
@@ -717,7 +717,10 @@ extension AppPromo.Tab.Item {
 
 // MARK: General Models
 
+import SwiftData
+
 extension AppPromo {
+    
     enum Category: String, CaseIterable {
         case income = "Income"
         case expense = "Expense"
@@ -727,6 +730,15 @@ extension AppPromo {
         let id = UUID()
         var color: String
         var value: Color
+        
+        init(color: String, value: Color) {
+            self.color = color
+            self.value = value
+        }
+        
+        static func get(color: String) -> Self {
+            tints.first(where: { $0.color == color }) ?? tints[0]
+        }
         
         static var tints: [Self] = [
             .init(color: "Red", value: .red),
@@ -744,29 +756,38 @@ extension AppPromo {
         var remarks: String
         var amount: Double
         var dateAdded: Date
-        var category: Category
-        var tintColor: TintColor
+        var category: String
+        var tintColor: String
+        
+        init(title: String, remarks: String, amount: Double, dateAdded: Date, category: Category, tintColor: TintColor) {
+            self.title = title
+            self.remarks = remarks
+            self.amount = amount
+            self.dateAdded = dateAdded
+            self.category = category.rawValue
+            self.tintColor = tintColor.color
+        }
     }
 }
 
-extension AppPromo.Transaction {
-    static let sample: [Self] = {
-        var transactions = [AppPromo.Transaction]()
-        for i in 0...12 {
-            transactions.append( .init(
-                title: "Magic",
-                remarks: "Apple",
-                amount: Double.random(in: 0...2000),
-                dateAdded: {
-                    var d = Calendar.current.dateComponents([.year, .month, .day], from: .now)
-                    d.month = Int.random(in: 1...12)
-                    return Calendar.current.date(from: d) ?? .now
-                }(),
-                category: AppPromo.Category.allCases.randomElement() ?? .income,
-                tintColor: AppPromo.TintColor.tints.randomElement() ?? AppPromo.TintColor.tints[0]
-            )
-            )
-        }
-        return transactions.sorted(by: { $1.dateAdded < $0.dateAdded })
-    }()
-}
+//extension AppPromo.Transaction {
+//    static let sample: [Self] = {
+//        var transactions = [AppPromo.Transaction]()
+//        for i in 0...12 {
+//            transactions.append( .init(
+//                title: "Magic",
+//                remarks: "Apple",
+//                amount: Double.random(in: 0...2000),
+//                dateAdded: {
+//                    var d = Calendar.current.dateComponents([.year, .month, .day], from: .now)
+//                    d.month = Int.random(in: 1...12)
+//                    return Calendar.current.date(from: d) ?? .now
+//                }(),
+//                category: AppPromo.Category.allCases.randomElement() ?? .income,
+//                tintColor: AppPromo.TintColor.tints.randomElement() ?? AppPromo.TintColor.tints[0]
+//            )
+//            )
+//        }
+//        return transactions.sorted(by: { $1.dateAdded < $0.dateAdded })
+//    }()
+//}
