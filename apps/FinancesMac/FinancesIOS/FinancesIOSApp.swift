@@ -78,7 +78,7 @@ struct Content: View {
                 }
             }
         case .designCode:
-            DesignCodeApp.MainView()
+            DesignCodeApp()
         case .expenseList:
             ExpenseList()
         }
