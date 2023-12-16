@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftUIComponents
 
 struct Amount: Equatable {
     let value: Double

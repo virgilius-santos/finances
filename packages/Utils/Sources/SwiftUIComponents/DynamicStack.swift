@@ -1,12 +1,12 @@
 import SwiftUI
 
-struct DynamicStack<L: View, T: View>: View {
+public struct DynamicStack<L: View, T: View>: View {
     @ViewBuilder let leadingContent: L
     @ViewBuilder let trailingContent: T
     
     @Environment(\.sizeCategory) private var sizeCategory
     
-    var body: some View {
+    public var body: some View {
         if sizeCategory > .large {
             VStack(alignment: .leading, spacing: 0) {
                 leadingContent
@@ -22,5 +22,13 @@ struct DynamicStack<L: View, T: View>: View {
                 trailingContent
             }
         }
+    }
+    
+    public init(
+        @ViewBuilder leadingContent: () -> L,
+        @ViewBuilder trailingContent: () -> T
+    ) {
+        self.leadingContent = leadingContent()
+        self.trailingContent = trailingContent()
     }
 }

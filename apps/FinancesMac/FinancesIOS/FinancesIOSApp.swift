@@ -1,9 +1,11 @@
-import SwiftUI
-@testable import FinancesApp
+import AppPromo
+import CloudApp
 import ExpenseTrackerKavsoft
 import ExpenseTrackerDesignCode
+@testable import FinancesApp
+import SwiftUI
+import SwiftUIComponents
 import Wallet
-import AppPromo
 
 @main
 struct FinancesIOSApp: App {

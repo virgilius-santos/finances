@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftUIComponents
 
 public extension View {
     func yearMonthPicker(

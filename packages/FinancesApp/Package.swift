@@ -14,18 +14,15 @@ let package = Package(
     dependencies: [
         .package(name: "FinancesCore", path: "FinancesCore"),
         .package(url: "https://github.com/nalexn/ViewInspector", from: "0.9.8"),
-        .package(url: "https://github.com/huybuidac/SwiftUIFontIcon", from: "2.1.0"),
-        .package(url: "https://github.com/apple/swift-collections", branch: "release/1.1"),
-        
-            
+        .package(name: "Utils", path: "Utils"),
     ],
     targets: [
         .target(
             name: "FinancesApp",
             dependencies: [
                 .product(name: "FinancesCore", package: "FinancesCore"),
-                .product(name: "Collections", package: "swift-collections"),
-                .product(name: "SwiftUIFontIcon", package: "SwiftUIFontIcon"),
+                .product(name: "SwiftUIComponents", package: "Utils"),
+                .product(name: "FoundationUtils", package: "Utils"),
             ]),
         .testTarget(
             name: "FinancesAppTests",
