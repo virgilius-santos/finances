@@ -28,7 +28,7 @@ public struct AppPromo: View {
             },
             forgotPin: {}
         )
-        .modelContainer(for: [AppPromo.Transaction.self], inMemory: true, isAutosaveEnabled: true)
+        .modelContainer(previewContainer)
     }
     
     public init() {}
