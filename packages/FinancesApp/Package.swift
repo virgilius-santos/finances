@@ -23,8 +23,8 @@ let package = Package(
         .target(
             name: "FinancesApp",
             dependencies: [
-                .product(name: "Collections", package: "swift-collections"),
                 .product(name: "FinancesCore", package: "FinancesCore"),
+                .product(name: "Collections", package: "swift-collections"),
                 .product(name: "SwiftUIFontIcon", package: "SwiftUIFontIcon"),
             ]),
         .testTarget(

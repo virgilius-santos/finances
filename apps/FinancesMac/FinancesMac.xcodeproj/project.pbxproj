@@ -35,6 +35,11 @@
 		3BB5E8662B1548540099C83C /* UTTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB5E8652B1548540099C83C /* UTTypeExtensions.swift */; };
 		3BB5E8682B1549280099C83C /* FinancesDB in Frameworks */ = {isa = PBXBuildFile; productRef = 3BB5E8672B1549280099C83C /* FinancesDB */; };
 		3BB5E86A2B15693F0099C83C /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB5E8692B15693F0099C83C /* Preview.swift */; };
+		3BE0D7F42B2DC85500F518D7 /* AppPromo in Frameworks */ = {isa = PBXBuildFile; productRef = 3BE0D7F32B2DC85500F518D7 /* AppPromo */; };
+		3BE0D7F62B2DC85500F518D7 /* CloudApp in Frameworks */ = {isa = PBXBuildFile; productRef = 3BE0D7F52B2DC85500F518D7 /* CloudApp */; };
+		3BE0D7F82B2DC85500F518D7 /* ExpenseTrackerDesignCode in Frameworks */ = {isa = PBXBuildFile; productRef = 3BE0D7F72B2DC85500F518D7 /* ExpenseTrackerDesignCode */; };
+		3BE0D7FA2B2DC85500F518D7 /* ExpenseTrackerKavsoft in Frameworks */ = {isa = PBXBuildFile; productRef = 3BE0D7F92B2DC85500F518D7 /* ExpenseTrackerKavsoft */; };
+		3BE0D7FC2B2DC85500F518D7 /* Wallet in Frameworks */ = {isa = PBXBuildFile; productRef = 3BE0D7FB2B2DC85500F518D7 /* Wallet */; };
 		3BE790DC2B26C1720068B8C5 /* FinancesCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3BE790DB2B26C1720068B8C5 /* FinancesCore */; };
 /* End PBXBuildFile section */
 
@@ -104,9 +109,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BE0D7FA2B2DC85500F518D7 /* ExpenseTrackerKavsoft in Frameworks */,
 				3B1211D12B26C23500274A20 /* FinancesDB in Frameworks */,
+				3BE0D7F62B2DC85500F518D7 /* CloudApp in Frameworks */,
 				3BE790DC2B26C1720068B8C5 /* FinancesCore in Frameworks */,
+				3BE0D7F82B2DC85500F518D7 /* ExpenseTrackerDesignCode in Frameworks */,
+				3BE0D7F42B2DC85500F518D7 /* AppPromo in Frameworks */,
 				3B0605EC2B22A04600F63EC5 /* FinancesApp in Frameworks */,
+				3BE0D7FC2B2DC85500F518D7 /* Wallet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +318,11 @@
 				3B0605EB2B22A04600F63EC5 /* FinancesApp */,
 				3BE790DB2B26C1720068B8C5 /* FinancesCore */,
 				3B1211D02B26C23500274A20 /* FinancesDB */,
+				3BE0D7F32B2DC85500F518D7 /* AppPromo */,
+				3BE0D7F52B2DC85500F518D7 /* CloudApp */,
+				3BE0D7F72B2DC85500F518D7 /* ExpenseTrackerDesignCode */,
+				3BE0D7F92B2DC85500F518D7 /* ExpenseTrackerKavsoft */,
+				3BE0D7FB2B2DC85500F518D7 /* Wallet */,
 			);
 			productName = FinancesIOS;
 			productReference = 3B0605B82B229C3A00F63EC5 /* FinancesIOS.app */;
@@ -1098,6 +1113,26 @@
 		3BB5E8672B1549280099C83C /* FinancesDB */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FinancesDB;
+		};
+		3BE0D7F32B2DC85500F518D7 /* AppPromo */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppPromo;
+		};
+		3BE0D7F52B2DC85500F518D7 /* CloudApp */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CloudApp;
+		};
+		3BE0D7F72B2DC85500F518D7 /* ExpenseTrackerDesignCode */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ExpenseTrackerDesignCode;
+		};
+		3BE0D7F92B2DC85500F518D7 /* ExpenseTrackerKavsoft */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ExpenseTrackerKavsoft;
+		};
+		3BE0D7FB2B2DC85500F518D7 /* Wallet */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Wallet;
 		};
 		3BE790DB2B26C1720068B8C5 /* FinancesCore */ = {
 			isa = XCSwiftPackageProductDependency;

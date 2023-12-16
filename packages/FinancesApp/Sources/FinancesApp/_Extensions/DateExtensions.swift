@@ -15,4 +15,9 @@ extension Date {
     var shortDate: String {
         DateFormatter.shortFormatter.string(from: self)
     }
+    
+    static func addMonth(from value: Int) -> Date {
+        Calendar.current
+            .date(byAdding: .month, value: value, to: .now) ?? .now
+    }
 }

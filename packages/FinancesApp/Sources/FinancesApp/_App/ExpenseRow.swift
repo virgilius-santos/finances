@@ -1,10 +1,25 @@
 import SwiftUI
 
-enum ExpenseRow {}
+struct ExpenseRow: View {
+    let viewModel: ViewModel
+    var isSwipeEnabled = false
+    var tapAction: () -> Void = {}
+    var deleteAction: () -> Void = {}
+    
+    var body: some View {
+        CardView(
+            viewModel: viewModel,
+            isSwipeEnabled: isSwipeEnabled,
+            tapAction: tapAction,
+            deleteAction: deleteAction
+        )
+    }
+}
 
 extension ExpenseRow {
-    struct RowView: View {
+    struct CardView: View {
         let viewModel: ViewModel
+        var isSwipeEnabled = false
         var tapAction: () -> Void = {}
         var deleteAction: () -> Void = {}
         
@@ -44,17 +59,21 @@ extension ExpenseRow {
                     .contentShape(.rect)
                     .onTapGesture { tapAction() }
                     .vSpacing()
-                    .padding(.horizontal, 8)
+                    .padding(.horizontal, 12)
                     .padding(.vertical, 4)
                 },
                 actions: {
-                    SwipeAction(tint: .red, icon: "trash", action: { deleteAction() })
+                    SwipeAction(
+                        tint: .red,
+                        icon: "trash",
+                        isEnabled: isSwipeEnabled,
+                        action: { deleteAction() }
+                    )
                 }
             )
             .background(Color.systemBackground)
             .clipShape(.rect(cornerRadius: 24))
             .shadow(color: .black.opacity(0.2), radius: 4, x: 2, y: 2)
-            .padding(.horizontal, 16)
             .accessibilityElement(children: .combine)
         }
     }
@@ -69,8 +88,13 @@ extension ExpenseRow {
     }
 }
 
-extension ExpenseRow.ViewModel {
+extension ExpenseRow {
     struct Category: Equatable, Hashable, Identifiable {
+        static let undefined = Self.init(
+            name: "categoria",
+            image: "bag",
+            style: .init(color: .blueApp)
+        )
         var id = UUID()
         var name: String
         var image: String

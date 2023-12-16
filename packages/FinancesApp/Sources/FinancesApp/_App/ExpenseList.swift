@@ -1,11 +1,20 @@
 import SwiftUI
 
-enum ExpenseList {}
+public struct ExpenseList: View {
+    public var body: some View {
+//        HomeView(viewModel: .init())
+        Add.FormView(result: { _ in })
+    }
+    
+    public init() {}
+    
+    enum Add {}
+}
 
 extension ExpenseList {
     struct HomeView: View {
         @StateObject var viewModel: ViewModel
-        @State private var addExpense = true
+        @State private var addExpense = false
         
         var body: some View {
             NavigationStack {
@@ -46,7 +55,7 @@ extension ExpenseList {
                     viewModel.createGroupedExpenses(newValue)
                 }
                 .sheet(isPresented: $addExpense, content: {
-                    AddView(result: { viewModel.add(expense: $0) })
+//                    AddView(result: { viewModel.add(expense: $0) })
                 })
                 .onAppear {
                     viewModel.load()
@@ -71,6 +80,7 @@ extension ExpenseList {
                                     tapAction: { selectAction(expense, group) },
                                     deleteAction: { deleteAction(expense, group) }
                                 )
+                                .padding(.horizontal, 16)
                             }
                         }
                     }
@@ -80,64 +90,101 @@ extension ExpenseList {
     }
 }
 
-extension ExpenseList {
-    struct AddView: View {
+extension ExpenseList.Add {
+    struct FormView: View {
         static var description = "\(Self.self)"
-        
-        var result: (Expense) -> Void
+                
+        var result: (ExpenseList.Expense) -> Void
         @StateObject private var viewModel: AddViewModel = .init()
         
         @Environment(\.dismiss) private var dismiss
         
         var body: some View {
             NavigationStack {
-                Form {
-                    Picker("", selection: $viewModel.type) {
-                        Text(ExpenseType.income.rawValue)
-                            .tag(ExpenseType.income)
+                ScrollView(.vertical) {
+                    VStack(alignment: .leading, spacing: 16) {
+                        CustomSection(title: "Preview") {
+                            ExpenseRow(
+                                viewModel: viewModel.preview,
+                                isSwipeEnabled: false
+                            )
+                        }
                         
-                        Text(ExpenseType.expense.rawValue)
-                            .tag(ExpenseType.expense)
-                        
-                    }
-                    .pickerStyle(.segmented)
-                    .labelsHidden()
-                    
-                    Section("Title") {
-                        TextField("Magic Keyboard", text: $viewModel.title)
-                    }
-                    
-                    Section("Amount Spent") {
-                        HStack(spacing: 4) {
-                            Text("R$")
-                            TextField("0.0", value: $viewModel.amount, formatter: NumberFormatter.twoFractionDigits)
-                                .keyboardType(.numberPad)
+                        CustomSection(title: "Title") {
+                            TextField("Magic Keyboard", text: $viewModel.model.title)
+                        }
+              
+                        CustomSection(title: "Title") {
+                            HStack(spacing: 0) {
+                                Picker("", selection: $viewModel.model.category) {
+                                    Text("<Nothing>").tag(nil as Category?)
+                                    ForEach(viewModel.allCategories) { category in
+                                        Text(category.name)
+                                            .tag(Optional(category))
+                                    }
+                                }
+                                .pickerStyle(.menu)
+                                .labelsHidden()
                                 
-                        }
-                        .foregroundStyle(viewModel.type.style.color)
-                    }
-                    
-                    HStack {
-                        Text("Category")
-                        
-                        Spacer()
-                        
-                        Picker("", selection: $viewModel.category) {
-                            Text("<Nothing selected>").tag(nil as Category?)
-                            ForEach(viewModel.allCategories) { category in
-                                Text(category.name)
-                                    .tag(Optional(category))
+                                
+                                Spacer(minLength: 0)
+                                
+                                HStack(spacing: 4) {
+                                    switch viewModel.model.type {
+                                    case .expense:
+                                        IconButton(
+                                            imageName: "plusminus.circle",
+                                            action: { viewModel.model.type = .income }
+                                        )
+                                        .foregroundStyle(viewModel.model.type.style.color)
+                                    case .income:
+                                        IconButton(
+                                            imageName: "plusminus.circle.fill",
+                                            action: { viewModel.model.type = .expense }
+                                        )
+                                        .foregroundStyle(viewModel.model.type.style.color)
+                                    }
+                                    
+                                    Text("\(viewModel.model.type.sign)R$")
+                                    TextField("", value: $viewModel.model.amount, formatter: NumberFormatter.maxFractionDigits)
+                                        .keyboardType(.decimalPad)
+                                        .fixedSize()
+                                }
+                                .foregroundStyle(viewModel.model.type.style.color)
+                                .hSpacing(.trailing)
                             }
+                            .hSpacing()
                         }
-                        .pickerStyle(.menu)
-                        .labelsHidden()
+                        
+                        CustomSection(title: "Category") {
+                            Picker("", selection: $viewModel.model.category) {
+                                Text("<Nothing selected>").tag(nil as Category?)
+                                ForEach(viewModel.allCategories) { category in
+                                    Text(category.name)
+                                        .tag(Optional(category))
+                                }
+                            }
+                            .pickerStyle(.menu)
+                            .labelsHidden()
+                        }
+                        
+                        CustomSection(title: "Card") {
+                            Picker("", selection: $viewModel.model.category) {
+                                Text("<Nothing selected>").tag(nil as Category?)
+                                ForEach(viewModel.allCategories) { category in
+                                    Text(category.name)
+                                        .tag(Optional(category))
+                                }
+                            }
+                            .pickerStyle(.menu)
+                            .labelsHidden()
+                        }
+                        
+                        CustomSection(title: "Date") {
+                            DatePicker("", selection: $viewModel.model.date, displayedComponents: [.date])
+                                .datePickerStyle(.graphical)
+                        }
                     }
-                    
-                    Section("Date") {
-                        DatePicker("", selection: $viewModel.date, displayedComponents: [.date])
-                            .datePickerStyle(.graphical)
-                    }
-                    
                 }
                 .navigationTitle("Add Expense")
                 .navigationBarTitleDisplayMode(.inline)
@@ -151,42 +198,49 @@ extension ExpenseList {
                     
                     ToolbarItem(placement: .topBarTrailing) {
                         Button("Add", action: addExpense)
-                            .disabled(!viewModel.isCompleted)
+                            .disabled(!viewModel.model.isCompleted)
                     }
                 }
             }
         }
         
-        init(result: @escaping (Expense) -> Void) {
+        init(result: @escaping (ExpenseList.Expense) -> Void) {
             self.result = result
         }
         
         func addExpense() {
-            guard let category = viewModel.category else {
-                return
-            }
-            result(.init(
-                type: .income,
-                date: viewModel.date,
-                model: .init(
-                    title: viewModel.title,
-                    category: category,
-                    amount: .init(value: viewModel.amount, style: .income)
-                )
-            )
-            )
+//            guard let category = viewModel.category else {
+//                return
+//            }
+//            result(.init(
+//                type: .income,
+//                date: viewModel.date,
+//                model: .init(
+//                    title: viewModel.title,
+//                    category: category,
+//                    amount: .init(value: viewModel.amount, style: .income)
+//                )
+//            )
+//            )
             dismiss()
         }
     }
     
     final class AddViewModel: ObservableObject {
-        @Published var type = ExpenseType.income
-        @Published var title = ""
-        @Published var date = Date()
-        @Published var amount = CGFloat.zero
-        @Published var category: Category?
+        @Published var model = Model()
         
-        var allCategories: [Category] = [
+        var preview: ExpenseRow.ViewModel {
+            .init(
+                title: model.title.isEmpty ? "Título" : model.title,
+                category: model.category ?? .undefined,
+                amount: Amount(
+                    value: model.amount,
+                    style: model.type.style
+                )
+            )
+        }
+        
+        var allCategories: [ExpenseRow.Category] = [
             .init(
                 name: "Mercado",
                 image: "cart.fill",
@@ -194,8 +248,73 @@ extension ExpenseList {
             )
         ]
         
+        
+    }
+    
+    struct Model {
+        var type = ExpenseList.ExpenseType.income
+        var title: String = ""
+        var amount: Double = .init()
+        var date: Date = .init()
+        var category: ExpenseRow.Category?
+        
         var isCompleted: Bool {
             !(title.isEmpty || amount.isZero || category == nil)
+        }
+    }
+    
+    struct CheckBox<S: Equatable & RawRepresentable>: View where S.RawValue: Hashable & StringProtocol {
+        var list: [S]
+        @Binding var selected: S
+        
+        var body: some View {
+            HStack(spacing: 12) {
+                ForEach(list, id: \.rawValue) { category in
+                    HStack(spacing: 4) {
+                        ZStack {
+                            Image(systemName: "circle")
+                                .font(.title3)
+                                .foregroundStyle(Color.appTint)
+                            
+                            if self.selected == category {
+                                Image(systemName: "circle.fill")
+                                    .font(.caption)
+                                    .foregroundStyle(Color.appTint)
+                            }
+                        }
+                        
+                        Text(category.rawValue)
+                            .font(.caption)
+                    }
+                    .contentShape(.rect)
+                    .onTapGesture {
+                        self.selected = category
+                    }
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .hSpacing(.leading)
+            .background(.background, in: .rect(cornerRadius: 8))
+        }
+    }
+    
+    struct CustomSection<Content: View>: View {
+        var title: String
+        @ViewBuilder var content: Content
+        
+        var body: some View {
+            VStack(alignment: .leading, spacing: 8) {
+                Text(title)
+                    .font(.caption)
+                    .foregroundStyle(.gray)
+                    .hSpacing(.leading)
+                    .padding(.horizontal, 16)
+                
+                content
+                    .padding(.horizontal, 16)
+                    .background(.background, in: .rect(cornerRadius: 12))
+            }
         }
     }
 }
@@ -257,8 +376,8 @@ extension ExpenseList {
 // MARK: Models
 
 extension ExpenseList {
-    typealias ExpenseCard = ExpenseRow.RowView
-    typealias Category = ExpenseRow.ViewModel.Category
+    typealias ExpenseCard = ExpenseRow
+    typealias Category = ExpenseRow.Category
     
     enum HomeState: Equatable {
         case empty(EmptyContent)
@@ -392,9 +511,18 @@ extension ExpenseList {
         let model: Model
     }
     
-    enum ExpenseType: String, Equatable {
+    enum ExpenseType: String, Equatable, CaseIterable {
         case income = "Income"
         case expense = "Expense"
+        
+        var sign: String {
+            switch self {
+            case .income:
+                return ""
+            case .expense:
+                return "-"
+            }
+        }
         
         var style: CurrencyStyle {
             switch self {
@@ -405,8 +533,4 @@ extension ExpenseList {
             }
         }
     }
-}
-
-#Preview("ExpenseRow.Row") {
-    ExpenseList.HomeView.init(viewModel: .init())
 }
