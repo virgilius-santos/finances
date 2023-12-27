@@ -7,107 +7,6 @@ public enum NumberPadAction {
     case separator(String)
 }
 
-public final class NumberPadViewModel: ObservableObject {
-    let accounts: [AccountCard]
-    @Published var selectedIndex: Int = 0
-    
-    var selectedAccount: AccountCard {
-        accounts[selectedIndex]
-    }
-    
-    var isLastIndex: Bool {
-        selectedIndex + 1 == accounts.count
-    }
-    
-    var isValueEmpty: Bool {
-        numbers.isEmpty && fractionals.isEmpty
-    }
-    
-    var adjustedFractionals: [Int] {
-        switch fractionals.count {
-        case 1:
-            return [0] + fractionals
-        case 2:
-            return fractionals
-        default:
-            return [0,0]
-        }
-    }
-    
-    var signal: String {
-        guard !numbers.isEmpty || !fractionals.isEmpty else {
-            return ""
-        }
-        return " \(positive ? "" : "-")"
-    }
-    
-    var value: String {
-        var result = "R$ "
-        guard !isValueEmpty else {
-            result += separator ? "0,00" : "0"
-            return result
-        }
-        
-        var value = ""
-        let number = numbers.isEmpty ? "0" : numbers.map(String.init).joined()
-        value += number
-        guard separator else {
-            return result + signal + value
-        }
-        value += ","
-        value += adjustedFractionals.map(String.init).joined()
-        return result + signal + value
-    }
-    
-    @Published var numbers = [Int]()
-    @Published var fractionals = [Int]()
-    @Published var separator = false
-    @Published var positive = true
-    
-    init() {
-        accounts = [
-            .init(name: "Nubank", color: .white, textColor: .purple, balance: 200),
-            .init(name: "Itau", color: .white, textColor: .red, balance: -400),
-            .init(name: "Inter", color: .white, textColor: .orange, balance: 234.12)
-        ]
-    }
-    
-    func updateAccount() {
-        selectedIndex = isLastIndex ? 0 : selectedIndex + 1
-    }
-    
-    func update(digit: Int) {
-        guard separator else {
-            numbers.append(digit)
-            return
-        }
-        guard fractionals.count < 2 else {
-            return
-        }
-        fractionals.append(digit)
-    }
-    
-    func activeSeparator() {
-        separator = true
-    }
-    
-    func delete() {
-        guard separator else {
-            numbers.removeLast()
-            return
-        }
-        if fractionals.isEmpty {
-            separator = false
-            return
-        }
-        fractionals.removeLast()
-    }
-    
-    func changeSignal() {
-        positive.toggle()
-    }
-}
-
 public struct NumberPadView: View {
     @ObservedObject var viewModel = NumberPadViewModel()
     @State private var digits: [NumberPadAction] = []
@@ -131,7 +30,7 @@ public struct NumberPadView: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text("Conta")
-                                Text(viewModel.selectedAccount.name)
+                                Text(viewModel.selected.name)
                                     .font(.title2.bold())
                             }
                             
@@ -139,9 +38,9 @@ public struct NumberPadView: View {
                             
                             VStack(alignment: .trailing) {
                                 Text("Saldo")
-                                Text(viewModel.selectedAccount.balance, format: .currency(code: "BRL"))
+                                Text(viewModel.selected.balance, format: .currency(code: "BRL"))
                                     .font(.title2.bold())
-                                    .foregroundStyle(viewModel.selectedAccount.positive ? Color.blue : .red)
+                                    .foregroundStyle(viewModel.selected.positive ? Color.blue : .red)
                             }
                         }
                         Divider()
@@ -163,15 +62,25 @@ public struct NumberPadView: View {
                         Grid {
                             GridRow {
                                 Button(
-                                    action: { viewModel.updateAccount() },
+                                    action: { viewModel.accountManager.updateAccount() },
                                     label: {
-                                        AccountCardView(card: viewModel.selectedAccount)
+                                        AccountCardView(card: viewModel.selected.major)
                                     }
                                 )
                                 .padding(.bottom, 8)
                                 
-                                Color.clear
-                                    .gridCellUnsizedAxes([.horizontal, .vertical])
+                                if let child = viewModel.selected.child {
+                                    Button(
+                                        action: { viewModel.accountManager.updateChildAccount() },
+                                        label: {
+                                            AccountCardView(card: child)
+                                        }
+                                    )
+                                    .padding(.bottom, 8)
+                                } else {
+                                    Color.clear
+                                        .gridCellUnsizedAxes([.horizontal, .vertical])
+                                }
                                 
                                 Button(
                                     action: { viewModel.changeSignal() },
