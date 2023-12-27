@@ -12,8 +12,14 @@ public struct LockView<Content: View>: View {
         case disabled, locked(LockState)
     }
     
+    struct NumberPad {
+        let showBackButton: Bool
+    }
+    
     enum LockState {
-        case numberPad(showBackButton: Bool), biometric(pinEnabled: Bool), noBiometric
+        case numberPad(NumberPad)
+        case biometric(pinEnabled: Bool)
+        case noBiometric
     }
     
     var lockType: LockType
@@ -31,7 +37,9 @@ public struct LockView<Content: View>: View {
                 return .locked(noBiometricAccess ? .noBiometric : .biometric(pinEnabled: pinEnabled))
             }
             let showBackButton = lockType == .both && isBiometricAvailable
-            return .locked(.numberPad(showBackButton: showBackButton))
+            return .locked(.numberPad(.init(
+                showBackButton: showBackButton
+            )))
         }
         return .disabled
     }
@@ -93,8 +101,8 @@ public struct LockView<Content: View>: View {
                                     }
                             }
                         }
-                    case let .numberPad(showBackButton):
-                        NumberPadPinView(showBackButton: showBackButton)
+                    case let .numberPad(model):
+                        NumberPadPinView(model: model)
                     }
                 }
                 .environment(\.colorScheme, .dark)
@@ -115,6 +123,10 @@ public struct LockView<Content: View>: View {
         }
     }
     
+    var isBiometricAvailable: Bool {
+        LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
+    }
+    
     public init(
         lockType: LockType,
         lockPin: String,
@@ -129,9 +141,6 @@ public struct LockView<Content: View>: View {
         self.lockWhenAppGoesBackground = lockWhenAppGoesBackground
         self.content = content()
         self.forgotPin = forgotPin
-    }
-    var isBiometricAvailable: Bool {
-        LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
     }
     
     func lockViewIfNeeded() {
@@ -209,13 +218,13 @@ public struct LockView<Content: View>: View {
     }
     
     @ViewBuilder
-    func NumberPadPinView(showBackButton: Bool) -> some View {
+    func NumberPadPinView(model: NumberPad) -> some View {
         VStack(spacing: 16) {
             Text("Enter Pin")
                 .font(.title.bold())
                 .frame(maxWidth: .infinity)
                 .overlay(alignment: .leading) {
-                    if showBackButton {
+                    if model.showBackButton {
                         Button(
                             action: {
                                 lockView()
