@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftUIComponents
 
 extension AppPromo {
-    struct TransactionView: View {
+    struct TransactionCardView: View {
         @Environment(\.modelContext) var modelContext
         
         let transaction: Transaction

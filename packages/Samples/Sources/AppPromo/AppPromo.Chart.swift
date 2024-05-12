@@ -143,8 +143,8 @@ extension AppPromo {
                     FilterTransactions(startDate: month.startOfMonth, endDate: month.endOfMonth, category: category) { transactions in
                         ForEach(transactions) { transaction in
                             NavigationLink(
-                                destination: { NewExpenseView(editTransaction: transaction) },
-                                label: { TransactionView(transaction: transaction) }
+                                destination: { TransactionView(editTransaction: transaction) },
+                                label: { TransactionCardView(transaction: transaction) }
                             )
                             .buttonStyle(.plain)
                         }

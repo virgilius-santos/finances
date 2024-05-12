@@ -1,7 +1,7 @@
 import SwiftUI
 
 extension AppPromo {
-    struct NewExpenseView: View {
+    struct TransactionView: View {
         @Environment(\.dismiss) var dismiss
         @Environment(\.modelContext) var modelContext
         
@@ -22,7 +22,7 @@ extension AppPromo {
                         .foregroundStyle(.gray)
                         .hSpacing(.leading)
                     
-                    TransactionView(transaction: .init(
+                    TransactionCardView(transaction: .init(
                         title: title.isEmpty ? "Title" : title,
                         remarks: remarks.isEmpty ? "Remarks" : remarks,
                         amount: amount,

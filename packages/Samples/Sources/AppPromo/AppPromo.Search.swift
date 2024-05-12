@@ -17,8 +17,8 @@ extension AppPromo {
                         FilterTransactions(category: selectedCategory, searchText: filterText) { transactions in
                             ForEach(transactions) { transaction in
                                 NavigationLink(
-                                    destination: { NewExpenseView(editTransaction: transaction) },
-                                    label: { TransactionView(transaction: transaction, showCategory: true) }
+                                    destination: { TransactionView(editTransaction: transaction) },
+                                    label: { TransactionCardView(transaction: transaction, showCategory: true) }
                                 )
                             }
                         }
