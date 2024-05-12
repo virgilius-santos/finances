@@ -80,6 +80,7 @@ extension AppPromo.Transaction {
                 dateAdded: {
                     var d = Calendar.current.dateComponents([.year, .month, .day], from: .now)
                     d.day = Int.random(in: 1...28)
+                    d.month = Int.random(in: 1...12)
                     return Calendar.current.date(from: d) ?? .now
                 }(),
                 category: AppPromo.Category.allCases.randomElement() ?? .income,
