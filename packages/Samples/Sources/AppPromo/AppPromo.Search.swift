@@ -17,8 +17,8 @@ extension AppPromo {
                         FilterTransactions(category: selectedCategory, searchText: filterText) { transactions in
                             ForEach(transactions) { transaction in
                                 NavigationLink(
-                                    destination: { AppPromo.NewExpenseView(editTransaction: transaction) },
-                                    label: { AppPromo.TransactionView(transaction: transaction) }
+                                    destination: { NewExpenseView(editTransaction: transaction) },
+                                    label: { TransactionView(transaction: transaction, showCategory: true) }
                                 )
                             }
                         }
@@ -88,7 +88,7 @@ extension AppPromo {
         
         var content: ([Transaction]) -> Content
         
-        @Query(animation: .snappy) private var transactions: [AppPromo.Transaction]
+        @Query(animation: .snappy) private var transactions: [Transaction]
         
         init(
             category: Category?,
