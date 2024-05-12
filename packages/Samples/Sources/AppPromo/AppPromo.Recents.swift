@@ -12,7 +12,7 @@ extension AppPromo {
         @State private var startDate = Date.now.startOfMonth
         @State private var endDate = Date.now.endOfMonth
         @State private var selectedCategory = Category.expense
-        @Query private var transactions: [Transaction]
+//        @Query private var transactions: [Transaction]
         @State private var showFilterView = false
         
         @Namespace private var animation
@@ -37,16 +37,18 @@ extension AppPromo {
                                     })
                                     .hSpacing(.leading)
                                     
-                                    CardView(income: 200, expense: 200)
-                                    
-                                    CustomSegmentedControl()
-                                        .padding(.bottom, 12)
-                                    
-                                    ForEach(transactions.filter({ $0.category == selectedCategory.rawValue })) { transaction in
-                                        NavigationLink(
-                                            destination: { NewExpenseView(editTransaction: transaction) },
-                                            label: { TransactionView(transaction: transaction) }
-                                        )
+                                    FilterTransactions(startDate: startDate, endDate: endDate) { transactions in
+                                        CardView(income: 200, expense: 200)
+                                        
+                                        CustomSegmentedControl()
+                                            .padding(.bottom, 12)
+                                        
+                                        ForEach(transactions.filter({ $0.category == selectedCategory.rawValue })) { transaction in
+                                            NavigationLink(
+                                                destination: { NewExpenseView(editTransaction: transaction) },
+                                                label: { TransactionView(transaction: transaction) }
+                                            )
+                                        }
                                     }
                                 },
                                 header: {
