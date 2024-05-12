@@ -38,7 +38,10 @@ extension AppPromo {
                                     .hSpacing(.leading)
                                     
                                     FilterTransactions(startDate: startDate, endDate: endDate) { transactions in
-                                        CardView(income: 200, expense: 200)
+                                        CardView(
+                                            income: total(transactions: transactions, category: .income),
+                                            expense: total(transactions: transactions, category: .expense)
+                                        )
                                         
                                         CustomSegmentedControl()
                                             .padding(.bottom, 12)
@@ -81,6 +84,13 @@ extension AppPromo {
                 }
                 .animation(.snappy, value: showFilterView)
             }
+        }
+        
+        func total(transactions: [Transaction], category: Category) -> Double {
+            transactions
+                .filter({ $0.category == category.rawValue })
+                .map(\.amount)
+                .reduce(Double.zero, +)
         }
         
         @ViewBuilder
