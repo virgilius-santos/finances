@@ -1,18 +1,18 @@
 import SwiftUI
 
-extension AppPromo.AddExpense {
+extension AppPromo {
     struct NewExpenseView: View {
         @Environment(\.dismiss) var dismiss
         @Environment(\.modelContext) var modelContext
         
-        var editTransaction: AppPromo.Transaction?
+        var editTransaction: Transaction?
         
         @State private var title = ""
         @State private var remarks = ""
         @State private var amount = Double.zero
         @State private var dateAdded = Date.now
-        @State private var category = AppPromo.Category.expense
-        @State private var tintColor = AppPromo.TintColor.tints.randomElement()!
+        @State private var category = Category.expense
+        @State private var tintColor = TintColor.tints.randomElement()!
         
         var body: some View {
             ScrollView(.vertical) {
@@ -22,7 +22,7 @@ extension AppPromo.AddExpense {
                         .foregroundStyle(.gray)
                         .hSpacing(.leading)
                     
-                    AppPromo.Recents.RecentsView().TransactionCard(transaction: .init(
+                    TransactionView(transaction: .init(
                         title: title.isEmpty ? "Title" : title,
                         remarks: remarks.isEmpty ? "Remarks" : remarks,
                         amount: amount,
@@ -82,7 +82,7 @@ extension AppPromo.AddExpense {
                     amount = editTransaction.amount
                     dateAdded = editTransaction.dateAdded
                     category = .init(rawValue: editTransaction.category) ?? .expense
-                    tintColor = AppPromo.TintColor.get(color: editTransaction.tintColor)
+                    tintColor = TintColor.get(color: editTransaction.tintColor)
                 }
             })
         }
@@ -96,7 +96,7 @@ extension AppPromo.AddExpense {
                 editTransaction.category = category.rawValue
                 editTransaction.tintColor = tintColor.color
             } else {
-                let transaction = AppPromo.Transaction(
+                let transaction = Transaction(
                     title: title,
                     remarks: remarks,
                     amount: amount,
@@ -131,11 +131,11 @@ extension AppPromo.AddExpense {
     }
     
     struct CategoryCheckBox: View {
-        @Binding var category: AppPromo.Category
+        @Binding var category: Category
         
         var body: some View {
             HStack(spacing: 12) {
-                ForEach(AppPromo.Category.allCases, id: \.rawValue) { category in
+                ForEach(Category.allCases, id: \.rawValue) { category in
                     HStack(spacing: 4) {
                         ZStack {
                             Image(systemName: "circle")

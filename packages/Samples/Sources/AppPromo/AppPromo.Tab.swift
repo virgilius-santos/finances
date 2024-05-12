@@ -63,13 +63,13 @@ extension AppPromo.Tab.Item {
     var view: some View {
         switch self {
         case .recents:
-            AppPromo.Recents.RecentsView()
+            AppPromo.RecentsView()
         case .search:
-            AppPromo.Search.SearchView()
+            AppPromo.SearchView()
         case .charts:
-            AppPromo.Chart.ChartView()
+            AppPromo.ChartView()
         case .settings:
-            AppPromo.Settings.SettingsView()
+            AppPromo.SettingsView()
         }
     }
 }

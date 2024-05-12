@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 import SwiftUIComponents
 
-extension AppPromo.Recents {
+extension AppPromo {
     struct RecentsView: View {
         
         @Environment(\.modelContext) var modelContext
@@ -11,8 +11,8 @@ extension AppPromo.Recents {
         
         @State private var startDate = Date.now.startOfMonth
         @State private var endDate = Date.now.endOfMonth
-        @State private var selectedCategory = AppPromo.Category.expense
-        @Query private var transactions: [AppPromo.Transaction]
+        @State private var selectedCategory = Category.expense
+        @Query private var transactions: [Transaction]
         @State private var showFilterView = false
         
         @Namespace private var animation
@@ -44,8 +44,8 @@ extension AppPromo.Recents {
                                     
                                     ForEach(transactions.filter({ $0.category == selectedCategory.rawValue })) { transaction in
                                         NavigationLink(
-                                            destination: { AppPromo.AddExpense.NewExpenseView(editTransaction: transaction) },
-                                            label: { TransactionCard(transaction: transaction) }
+                                            destination: { NewExpenseView(editTransaction: transaction) },
+                                            label: { TransactionView(transaction: transaction) }
                                         )
                                     }
                                 },
@@ -102,7 +102,7 @@ extension AppPromo.Recents {
                 Spacer(minLength: 0)
                 
                 NavigationLink(
-                    destination: { AppPromo.AddExpense.NewExpenseView() },
+                    destination: { NewExpenseView() },
                     label: {
                         Image(systemName: "plus")
                             .font(.title3)
@@ -176,7 +176,7 @@ extension AppPromo.Recents {
             }
         }
         
-        func CategoryIndicator(image: String, tint: Color, category: AppPromo.Category, value: Double) -> some View {
+        func CategoryIndicator(image: String, tint: Color, category: Category, value: Double) -> some View {
             HStack(spacing: 12) {
                 Image(systemName: image)
                     .font(.callout.bold())
@@ -213,7 +213,7 @@ extension AppPromo.Recents {
         }
         
         @ViewBuilder
-        func SegmentedControl(category: AppPromo.Category) -> some View {
+        func SegmentedControl(category: Category) -> some View {
             Text(category.rawValue)
                 .hSpacing()
                 .padding(.vertical, 12)
@@ -230,48 +230,6 @@ extension AppPromo.Recents {
                         selectedCategory = category
                     }
                 }
-        }
-        
-        @ViewBuilder
-        func TransactionCard(transaction: AppPromo.Transaction) -> some View {
-            CustomSwipeView(
-                cornerRadius: 12,
-                content: {
-                    HStack(spacing: 12) {
-                        Text("\(String(transaction.title.prefix(1)))")
-                            .font(.title)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.white)
-                            .frame(width: 44, height: 44)
-                            .background(AppPromo.TintColor.get(color: transaction.tintColor).value.gradient, in: .circle)
-                        
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(transaction.title)
-                                .foregroundStyle(.primary)
-                            
-                            Text(transaction.remarks)
-                                .font(.caption)
-                                .foregroundStyle(.primary.secondary)
-                            
-                            Text(transaction.dateAdded.shortDate)
-                                .font(.caption2)
-                                .foregroundStyle(.gray)
-                        }
-                        .hSpacing(.leading)
-                        
-                        Text(transaction.amount.currencyString)
-                            .fontWeight(.semibold)
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 12)
-                    .background(.background, in: .rect(cornerRadius: 12))
-                },
-                actions: {
-                    SwipeAction(tint: .red, icon: "trash", action: {
-                        modelContext.delete(transaction)
-                    })
-                }
-            )
         }
         
         struct DateFilterView: View {
@@ -310,6 +268,55 @@ extension AppPromo.Recents {
                 .background(.bar, in: .rect(cornerRadius: 12))
                 .padding(.horizontal, 32)
             }
+        }
+    }
+}
+
+extension AppPromo {
+    struct TransactionView: View {
+        @Environment(\.modelContext) var modelContext
+        
+        let transaction: Transaction
+        
+        var body: some View {
+            CustomSwipeView(
+                cornerRadius: 12,
+                content: {
+                    HStack(spacing: 12) {
+                        Text("\(String(transaction.title.prefix(1)))")
+                            .font(.title)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.white)
+                            .frame(width: 44, height: 44)
+                            .background(TintColor.get(color: transaction.tintColor).value.gradient, in: .circle)
+                        
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(transaction.title)
+                                .foregroundStyle(.primary)
+                            
+                            Text(transaction.remarks)
+                                .font(.caption)
+                                .foregroundStyle(.primary.secondary)
+                            
+                            Text(transaction.dateAdded.shortDate)
+                                .font(.caption2)
+                                .foregroundStyle(.gray)
+                        }
+                        .hSpacing(.leading)
+                        
+                        Text(transaction.amount.currencyString)
+                            .fontWeight(.semibold)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .background(.background, in: .rect(cornerRadius: 12))
+                },
+                actions: {
+                    SwipeAction(tint: .red, icon: "trash", action: {
+                        modelContext.delete(transaction)
+                    })
+                }
+            )
         }
     }
 }

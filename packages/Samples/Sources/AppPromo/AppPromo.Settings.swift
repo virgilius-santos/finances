@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension AppPromo.Settings {
+extension AppPromo {
     struct SettingsView: View {
         @AppStorage("userName") var userName = ""
         @AppStorage("isAppLockEnabled") var isAppLockEnabled = false

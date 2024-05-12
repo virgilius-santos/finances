@@ -35,9 +35,5 @@ public struct AppPromo: View {
 
     public enum Tab {}
     public enum IntroScreen{}
-    public enum Recents {}
-    public enum Search {}
-    public enum Chart {}
-    public enum Settings {}
     public enum AddExpense {}
 }

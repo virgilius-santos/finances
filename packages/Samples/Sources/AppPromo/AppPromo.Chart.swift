@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension AppPromo.Chart {
+extension AppPromo {
     struct ChartView: View {
         var body: some View {
             Text("Chart")

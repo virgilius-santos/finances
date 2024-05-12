@@ -1,10 +1,12 @@
 import Combine
 import SwiftUI
+import SwiftData
 
-extension AppPromo.Search {
+extension AppPromo {
     struct SearchView: View {
         @State private var searchText = ""
         @State private var filterText = ""
+        @State private var selectedCategory: Category?
         
         private let searchPublisher = PassthroughSubject<String, Never>()
         
@@ -12,8 +14,16 @@ extension AppPromo.Search {
             NavigationStack {
                 ScrollView(.vertical) {
                     LazyVStack(spacing: 12) {
-                        
+                        FilterTransactions(category: selectedCategory, searchText: filterText) { transactions in
+                            ForEach(transactions) { transaction in
+                                NavigationLink(
+                                    destination: { AppPromo.NewExpenseView(editTransaction: transaction) },
+                                    label: { AppPromo.TransactionView(transaction: transaction) }
+                                )
+                            }
+                        }
                     }
+                    .padding(15)
                 }
                 .overlay(content: {
                     ContentUnavailableView("Search Transactions", systemImage: "magnifyingglass")
@@ -29,6 +39,37 @@ extension AppPromo.Search {
                 .navigationTitle("Search")
                 .background(.gray.opacity(0.15))
             }
+        }
+    }
+    
+    struct FilterTransactions<Content: View>: View {
+        
+        var content: ([Transaction]) -> Content
+        
+        @Query(animation: .snappy) private var transactions: [AppPromo.Transaction]
+        
+        init(
+            category: Category?,
+            searchText: String,
+            @ViewBuilder content: @escaping ([Transaction]) -> Content
+        ) {
+            let categoryValue = category?.rawValue ?? ""
+            let predicate = #Predicate<Transaction> { transaction in
+                (
+                    transaction.title.localizedStandardContains(searchText) || transaction.remarks.localizedStandardContains(searchText)
+                ) && (
+                    categoryValue.isEmpty ? true : transaction.category == categoryValue
+                )
+            }
+            _transactions = Query(
+                filter: predicate,
+                sort: [SortDescriptor(\Transaction.dateAdded, order: .reverse)],
+                animation: .snappy)
+            self.content = content
+        }
+        
+        var body: some View {
+            content(transactions)
         }
     }
 }
