@@ -48,7 +48,7 @@ extension AppPromo {
                                         
                                         ForEach(transactions.filter({ $0.category == selectedCategory.rawValue })) { transaction in
                                             NavigationLink(
-                                                destination: { NewExpenseView(editTransaction: transaction) },
+                                                value: transaction,
                                                 label: { TransactionView(transaction: transaction) }
                                             )
                                         }
@@ -64,6 +64,9 @@ extension AppPromo {
                     .background(.gray.opacity(0.16))
                     .blur(radius: showFilterView ? 8 : 0)
                     .disabled(showFilterView)
+                    .navigationDestination(for: Transaction.self) { transaction in
+                        NewExpenseView(editTransaction: transaction)
+                    }
                 }
                 .overlay {
                     if showFilterView {
