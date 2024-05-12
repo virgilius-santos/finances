@@ -38,7 +38,49 @@ extension AppPromo {
                 .searchable(text: $searchText)
                 .navigationTitle("Search")
                 .background(.gray.opacity(0.15))
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        ToolbarContent()
+                    }
+                }
             }
+        }
+        
+        @ViewBuilder
+        func ToolbarContent() -> some View {
+            Menu(
+                content: {
+                    Button(
+                        action: { selectedCategory = nil },
+                        label: {
+                            HStack {
+                                Text("Both")
+                                
+                                if selectedCategory == nil {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                        }
+                    )
+                    
+                    ForEach(Category.allCases, id: \.rawValue) { category in
+                        Button(
+                            action: { selectedCategory = category },
+                            label: {
+                                HStack {
+                                    Text(category.rawValue)
+                                    
+                                    if selectedCategory == category {
+                                        Image(systemName: "checkmark")
+                                    }
+                                }
+                            }
+                        )
+                    }
+                },
+                label: {
+                    Image(systemName: "slider.vertical.3")
+                })
         }
     }
     
