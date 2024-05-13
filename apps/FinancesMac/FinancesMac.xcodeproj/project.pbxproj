@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		184520672BF180AA00F64285 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 184520662BF180AA00F64285 /* WidgetKit.framework */; };
+		184520692BF180AA00F64285 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 184520682BF180AA00F64285 /* SwiftUI.framework */; };
+		1845206C2BF180AA00F64285 /* AppPromoStatsCardViewBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845206B2BF180AA00F64285 /* AppPromoStatsCardViewBundle.swift */; };
+		1845206E2BF180AA00F64285 /* AppPromoStatsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845206D2BF180AA00F64285 /* AppPromoStatsCardView.swift */; };
+		184520702BF180AB00F64285 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1845206F2BF180AB00F64285 /* Assets.xcassets */; };
+		184520742BF180AB00F64285 /* AppPromoStatsCardViewExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 184520652BF180AA00F64285 /* AppPromoStatsCardViewExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1845207A2BF1847900F64285 /* AppPromo in Frameworks */ = {isa = PBXBuildFile; productRef = 184520792BF1847900F64285 /* AppPromo */; };
+		1845207C2BF1847900F64285 /* FoundationUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 1845207B2BF1847900F64285 /* FoundationUtils */; };
+		1845207E2BF1847900F64285 /* SwiftUIComponents in Frameworks */ = {isa = PBXBuildFile; productRef = 1845207D2BF1847900F64285 /* SwiftUIComponents */; };
 		3B0605BB2B229C3A00F63EC5 /* FinancesIOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0605BA2B229C3A00F63EC5 /* FinancesIOSApp.swift */; };
 		3B0605C12B229C3B00F63EC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B0605C02B229C3B00F63EC5 /* Assets.xcassets */; };
 		3B0605C42B229C3C00F63EC5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B0605C32B229C3C00F63EC5 /* Preview Assets.xcassets */; };
@@ -44,6 +53,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		184520722BF180AB00F64285 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3B75D1FF2B1435A1004BCF64 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 184520642BF180AA00F64285;
+			remoteInfo = AppPromoStatsCardViewExtension;
+		};
 		3B0605CB2B229C3C00F63EC5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3B75D1FF2B1435A1004BCF64 /* Project object */;
@@ -74,7 +90,30 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		184520752BF180AB00F64285 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				184520742BF180AB00F64285 /* AppPromoStatsCardViewExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		184520652BF180AA00F64285 /* AppPromoStatsCardViewExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AppPromoStatsCardViewExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		184520662BF180AA00F64285 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		184520682BF180AA00F64285 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		1845206B2BF180AA00F64285 /* AppPromoStatsCardViewBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPromoStatsCardViewBundle.swift; sourceTree = "<group>"; };
+		1845206D2BF180AA00F64285 /* AppPromoStatsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPromoStatsCardView.swift; sourceTree = "<group>"; };
+		1845206F2BF180AB00F64285 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		184520712BF180AB00F64285 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1845207F2BF18AAE00F64285 /* AppPromoStatsCardViewExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AppPromoStatsCardViewExtension.entitlements; sourceTree = "<group>"; };
+		184520802BF18ADF00F64285 /* FinancesIOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FinancesIOS.entitlements; sourceTree = "<group>"; };
 		3B0605B82B229C3A00F63EC5 /* FinancesIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinancesIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B0605BA2B229C3A00F63EC5 /* FinancesIOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinancesIOSApp.swift; sourceTree = "<group>"; };
 		3B0605C02B229C3B00F63EC5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -105,6 +144,18 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		184520622BF180AA00F64285 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1845207A2BF1847900F64285 /* AppPromo in Frameworks */,
+				184520692BF180AA00F64285 /* SwiftUI.framework in Frameworks */,
+				1845207E2BF1847900F64285 /* SwiftUIComponents in Frameworks */,
+				184520672BF180AA00F64285 /* WidgetKit.framework in Frameworks */,
+				1845207C2BF1847900F64285 /* FoundationUtils in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3B0605B52B229C3A00F63EC5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -161,9 +212,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1845206A2BF180AA00F64285 /* AppPromoStatsCardView */ = {
+			isa = PBXGroup;
+			children = (
+				1845206B2BF180AA00F64285 /* AppPromoStatsCardViewBundle.swift */,
+				1845206D2BF180AA00F64285 /* AppPromoStatsCardView.swift */,
+				1845206F2BF180AB00F64285 /* Assets.xcassets */,
+				184520712BF180AB00F64285 /* Info.plist */,
+			);
+			path = AppPromoStatsCardView;
+			sourceTree = "<group>";
+		};
 		3B0605B92B229C3A00F63EC5 /* FinancesIOS */ = {
 			isa = PBXGroup;
 			children = (
+				184520802BF18ADF00F64285 /* FinancesIOS.entitlements */,
 				3B0605BA2B229C3A00F63EC5 /* FinancesIOSApp.swift */,
 				3B0605C02B229C3B00F63EC5 /* Assets.xcassets */,
 				3B0605C52B229C3C00F63EC5 /* Info.plist */,
@@ -200,12 +263,14 @@
 		3B75D1FE2B1435A1004BCF64 = {
 			isa = PBXGroup;
 			children = (
+				1845207F2BF18AAE00F64285 /* AppPromoStatsCardViewExtension.entitlements */,
 				3B75D2092B1435A1004BCF64 /* FinancesMac */,
 				3B75D21E2B1435A2004BCF64 /* FinancesMacTests */,
 				3B75D2282B1435A2004BCF64 /* FinancesMacUITests */,
 				3B0605B92B229C3A00F63EC5 /* FinancesIOS */,
 				3B0605CD2B229C3C00F63EC5 /* FinancesIOSTests */,
 				3B0605D72B229C3C00F63EC5 /* FinancesIOSUITests */,
+				1845206A2BF180AA00F64285 /* AppPromoStatsCardView */,
 				3B75D2082B1435A1004BCF64 /* Products */,
 				3B75D2382B143695004BCF64 /* Frameworks */,
 			);
@@ -220,6 +285,7 @@
 				3B0605B82B229C3A00F63EC5 /* FinancesIOS.app */,
 				3B0605CA2B229C3C00F63EC5 /* FinancesIOSTests.xctest */,
 				3B0605D42B229C3C00F63EC5 /* FinancesIOSUITests.xctest */,
+				184520652BF180AA00F64285 /* AppPromoStatsCardViewExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -268,6 +334,8 @@
 		3B75D2382B143695004BCF64 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				184520662BF180AA00F64285 /* WidgetKit.framework */,
+				184520682BF180AA00F64285 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -301,6 +369,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		184520642BF180AA00F64285 /* AppPromoStatsCardViewExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 184520782BF180AB00F64285 /* Build configuration list for PBXNativeTarget "AppPromoStatsCardViewExtension" */;
+			buildPhases = (
+				184520612BF180AA00F64285 /* Sources */,
+				184520622BF180AA00F64285 /* Frameworks */,
+				184520632BF180AA00F64285 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AppPromoStatsCardViewExtension;
+			packageProductDependencies = (
+				184520792BF1847900F64285 /* AppPromo */,
+				1845207B2BF1847900F64285 /* FoundationUtils */,
+				1845207D2BF1847900F64285 /* SwiftUIComponents */,
+			);
+			productName = AppPromoStatsCardViewExtension;
+			productReference = 184520652BF180AA00F64285 /* AppPromoStatsCardViewExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		3B0605B72B229C3A00F63EC5 /* FinancesIOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3B0605DC2B229C3C00F63EC5 /* Build configuration list for PBXNativeTarget "FinancesIOS" */;
@@ -308,10 +398,12 @@
 				3B0605B42B229C3A00F63EC5 /* Sources */,
 				3B0605B52B229C3A00F63EC5 /* Frameworks */,
 				3B0605B62B229C3A00F63EC5 /* Resources */,
+				184520752BF180AB00F64285 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				184520732BF180AB00F64285 /* PBXTargetDependency */,
 			);
 			name = FinancesIOS;
 			packageProductDependencies = (
@@ -429,9 +521,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1510;
+				LastSwiftUpdateCheck = 1530;
 				LastUpgradeCheck = 1510;
 				TargetAttributes = {
+					184520642BF180AA00F64285 = {
+						CreatedOnToolsVersion = 15.3;
+					};
 					3B0605B72B229C3A00F63EC5 = {
 						CreatedOnToolsVersion = 15.1;
 					};
@@ -475,11 +570,20 @@
 				3B0605B72B229C3A00F63EC5 /* FinancesIOS */,
 				3B0605C92B229C3C00F63EC5 /* FinancesIOSTests */,
 				3B0605D32B229C3C00F63EC5 /* FinancesIOSUITests */,
+				184520642BF180AA00F64285 /* AppPromoStatsCardViewExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		184520632BF180AA00F64285 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				184520702BF180AB00F64285 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3B0605B62B229C3A00F63EC5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -529,6 +633,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		184520612BF180AA00F64285 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1845206E2BF180AA00F64285 /* AppPromoStatsCardView.swift in Sources */,
+				1845206C2BF180AA00F64285 /* AppPromoStatsCardViewBundle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3B0605B42B229C3A00F63EC5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -593,6 +706,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		184520732BF180AB00F64285 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 184520642BF180AA00F64285 /* AppPromoStatsCardViewExtension */;
+			targetProxy = 184520722BF180AB00F64285 /* PBXContainerItemProxy */;
+		};
 		3B0605CC2B229C3C00F63EC5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 3B0605B72B229C3A00F63EC5 /* FinancesIOS */;
@@ -616,11 +734,77 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		184520762BF180AB00F64285 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = AppPromoStatsCardViewExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KR99UBUHUT;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AppPromoStatsCardView/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AppPromoStatsCardView;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.versiculos.FinancesIOS.AppPromoStatsCardView;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		184520772BF180AB00F64285 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = AppPromoStatsCardViewExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KR99UBUHUT;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AppPromoStatsCardView/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AppPromoStatsCardView;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.versiculos.FinancesIOS.AppPromoStatsCardView;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		3B0605DD2B229C3C00F63EC5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FinancesIOS/FinancesIOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FinancesIOS/Preview Content\"";
@@ -654,8 +838,10 @@
 		3B0605DE2B229C3C00F63EC5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FinancesIOS/FinancesIOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FinancesIOS/Preview Content\"";
@@ -1028,6 +1214,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		184520782BF180AB00F64285 /* Build configuration list for PBXNativeTarget "AppPromoStatsCardViewExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				184520762BF180AB00F64285 /* Debug */,
+				184520772BF180AB00F64285 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3B0605DC2B229C3C00F63EC5 /* Build configuration list for PBXNativeTarget "FinancesIOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1094,6 +1289,18 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		184520792BF1847900F64285 /* AppPromo */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppPromo;
+		};
+		1845207B2BF1847900F64285 /* FoundationUtils */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FoundationUtils;
+		};
+		1845207D2BF1847900F64285 /* SwiftUIComponents */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftUIComponents;
+		};
 		3B0605EB2B22A04600F63EC5 /* FinancesApp */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FinancesApp;

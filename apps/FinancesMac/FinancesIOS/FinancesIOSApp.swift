@@ -6,12 +6,19 @@ import ExpenseTrackerDesignCode
 import SwiftUI
 import SwiftUIComponents
 import Wallet
+import WidgetKit
 
 @main
 struct FinancesIOSApp: App {
     var body: some Scene {
         WindowGroup {
             Content()
+                .onAppear {
+                    WidgetCenter.shared.reloadAllTimelines()
+                }
+                .onDisappear(perform: {
+                    WidgetCenter.shared.reloadAllTimelines()
+                })
         }
     }
 }
